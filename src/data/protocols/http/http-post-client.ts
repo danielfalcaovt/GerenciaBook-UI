@@ -1,3 +1,10 @@
+import { HttpResponse } from './http-protocol'
+
 export interface IHttpPostClient {
-    post(url: string): Promise<void>
+    post(params: IHttpClientParams): Promise<HttpResponse>
+}
+
+export interface IHttpClientParams {
+    url: string
+    body?: object
 }

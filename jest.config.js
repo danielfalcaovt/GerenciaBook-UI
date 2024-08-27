@@ -7,7 +7,6 @@ export default {
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
-  globals: { 'ts-jest': { diagnostics: false } },
   transform: {
     '.+\\.ts$': 'ts-jest'
   },

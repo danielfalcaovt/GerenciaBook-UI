@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
+import { InvalidCredentialsError } from '../../../domain/errors/invalid-credentials-error';
 import { AccountModel } from '../../../domain/protocols/login/account-model';
 import { Authentication, AuthParams } from '../../../domain/usecases/login/authentication'
 import { IHttpPostClient } from '../../protocols/http/http-post-client'
@@ -9,7 +10,17 @@ export class RemoteAuthentication implements Authentication {
         private readonly httpPostClient: IHttpPostClient
     ) {}
     async auth(account: AuthParams): Promise<AccountModel> {
-        await this.httpPostClient.post(this.url)
+        const httpResponse = await this.httpPostClient.post({
+            url: this.url,
+            body: account
+        })
+        switch (httpResponse.statusCode) {
+            case 401:
+                throw new InvalidCredentialsError()
+                break
+            default:
+                break
+        }
         return new Promise(resolve => resolve({ token: 'any' }))
     }
 }
