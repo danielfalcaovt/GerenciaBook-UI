@@ -4,6 +4,7 @@ import { RemoteAuthentication } from "./remote-authentication"
 import { AuthParams } from '../../../domain/usecases/login/authentication'
 import { HttpResponse } from "../../protocols/http/http-protocol"
 import { InvalidCredentialsError } from '../../../domain/errors/invalid-credentials-error'
+import { UnexpectedError } from '../../../domain/errors/unexpected-error'
 
 interface SutTypes {
     sut: RemoteAuthentication
@@ -51,5 +52,11 @@ describe('RemoteAuthentication', () => {
         jest.spyOn(httpPostClient, 'post').mockReturnValueOnce(Promise.resolve({ statusCode: 401 }))
         const promise = sut.auth(makeFakeRequest())
         expect(promise).rejects.toThrow(new InvalidCredentialsError())
+    })
+    it('Should throw UnexpectedError if HttpPostClient returns 400', async () => {
+        const { sut, httpPostClient } = makeSut()
+        jest.spyOn(httpPostClient, 'post').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
+        const promise = sut.auth(makeFakeRequest())
+        expect(promise).rejects.toThrow(new UnexpectedError())
     })
 })
