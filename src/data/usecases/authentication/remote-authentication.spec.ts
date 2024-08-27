@@ -67,4 +67,12 @@ describe('RemoteAuthentication', () => {
         const response = await sut.auth(makeFakeRequest())
         expect(response.token).toBe('any_token')
     })
+    it('Should throw if HttpPostClient throws', async () => {
+        const { sut, httpPostClient } = makeSut()
+        jest.spyOn(httpPostClient, 'post').mockImplementationOnce(() => {
+            throw new Error()
+        })
+        const promise = sut.auth(makeFakeRequest())
+        expect(promise).rejects.toThrow()
+    })
 })

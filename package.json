@@ -11,7 +11,8 @@
   },
   "lint-staged": {
     "*.{ts, tsx}": [
-      "eslint './src/**/*.ts' --fix"
+      "eslint './src/**/*.ts' --fix",
+      "npm run test:staged"
     ]
   },
   "dependencies": {
