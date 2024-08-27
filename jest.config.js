@@ -1,13 +1,15 @@
-module.exports = {
-    roots: ['<rootDir>/src'],
-    collectCoverageFrom: [
-      '<rootDir>/src/**/*.{ts, tsx}',
-      '!<rootDir>/src/main/**'
-    ],
-    coverageDirectory: 'coverage',
-    testEnvironment: 'node',
-    transform: {
-      '.+\\.ts$': 'ts-jest'
-    },
-    testTimeout: 20000
-}
+/** @type {import('ts-jest').JestConfigWithTsJest} **/
+export default {
+  roots: ['<rootDir>/src'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/**'
+  ],
+  coverageDirectory: 'coverage',
+  testEnvironment: 'node',
+  globals: { 'ts-jest': { diagnostics: false } },
+  transform: {
+    '.+\\.ts$': 'ts-jest'
+  },
+  testTimeout: 20000
+};

@@ -1,6 +1,6 @@
 import { AccountModel } from '../../protocols/login/account-model'
 
-interface AuthParams {
+export interface AuthParams {
     email: string
     password: string
 }
