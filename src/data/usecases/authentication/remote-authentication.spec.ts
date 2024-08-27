@@ -25,7 +25,10 @@ const makeHttpPostClientStub = (): IHttpPostClient => {
     class HttpPostClientStub implements IHttpPostClient {
         post(params: IHttpClientParams): Promise<HttpResponse> {
             return new Promise(resolve => resolve({
-                statusCode: 200
+                statusCode: 200,
+                body: {
+                    token: 'any_token'
+                }
             }))
         }
     }
@@ -58,5 +61,10 @@ describe('RemoteAuthentication', () => {
         jest.spyOn(httpPostClient, 'post').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
         const promise = sut.auth(makeFakeRequest())
         expect(promise).rejects.toThrow(new UnexpectedError())
+    })
+    it('Should return a token if HttpPostClient succeed', async () => {
+        const { sut } = makeSut()
+        const response = await sut.auth(makeFakeRequest())
+        expect(response.token).toBe('any_token')
     })
 })
