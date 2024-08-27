@@ -17,6 +17,7 @@ export class RemoteAuthentication implements Authentication {
         })
         switch (httpResponse.statusCode) {
             case 200:
+                return Promise.resolve(httpResponse.body)
                 break
             case 401:
                 throw new InvalidCredentialsError()
@@ -28,6 +29,5 @@ export class RemoteAuthentication implements Authentication {
                 throw new UnexpectedError()
                 break
         }
-        return new Promise(resolve => resolve({ token: 'any' }))
     }
 }
