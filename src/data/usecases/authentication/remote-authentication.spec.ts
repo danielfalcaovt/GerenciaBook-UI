@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IHttpPostClient } from "../../protocols/http/http-post-client"
+import { IHttpClientParams, IHttpPostClient } from "../../protocols/http/http-post-client"
 import { RemoteAuthentication } from "./remote-authentication"
 import { AuthParams } from '../../../domain/usecases/login/authentication'
+import { HttpResponse } from "../../protocols/http/http-protocol"
+import { InvalidCredentialsError } from '../../../domain/errors/invalid-credentials-error'
 
 interface SutTypes {
     sut: RemoteAuthentication
@@ -20,8 +22,10 @@ const makeSut = (): SutTypes => {
 
 const makeHttpPostClientStub = (): IHttpPostClient => {
     class HttpPostClientStub implements IHttpPostClient {
-        post(url: string): Promise<void> {
-            return new Promise(resolve => resolve())
+        post(params: IHttpClientParams): Promise<HttpResponse> {
+            return new Promise(resolve => resolve({
+                statusCode: 200
+            }))
         }
     }
     return new HttpPostClientStub()
@@ -33,10 +37,19 @@ const makeFakeRequest = (): AuthParams => ({
 })
 
 describe('RemoteAuthentication', () => {
-    it('Should call HttpClient with correct URL', async () => {
+    it('Should call HttpClient with correct values', async () => {
         const { sut, httpPostClient } = makeSut()
         const postSpy = jest.spyOn(httpPostClient, 'post')
-        sut.auth(makeFakeRequest())
-        expect(postSpy).toHaveBeenCalledWith('any_url')
+        await sut.auth(makeFakeRequest())
+        expect(postSpy).toHaveBeenCalledWith({
+            url: 'any_url',
+            body: makeFakeRequest()
+        })
+    })
+    it('Should throw InvalidCredentialsError on HttpPostClient returns 401', async () => {
+        const { sut, httpPostClient } = makeSut()
+        jest.spyOn(httpPostClient, 'post').mockReturnValueOnce(Promise.resolve({ statusCode: 401 }))
+        const promise = sut.auth(makeFakeRequest())
+        expect(promise).rejects.toThrow(new InvalidCredentialsError())
     })
 })
