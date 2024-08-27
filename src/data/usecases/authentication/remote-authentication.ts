@@ -1,5 +1,6 @@
  
 import { InvalidCredentialsError } from '../../../domain/errors/invalid-credentials-error';
+import { UnexpectedError } from '../../../domain/errors/unexpected-error';
 import { AccountModel } from '../../../domain/protocols/login/account-model';
 import { Authentication, AuthParams } from '../../../domain/usecases/login/authentication'
 import { IHttpPostClient } from '../../protocols/http/http-post-client'
@@ -17,6 +18,9 @@ export class RemoteAuthentication implements Authentication {
         switch (httpResponse.statusCode) {
             case 401:
                 throw new InvalidCredentialsError()
+                break
+            case 400:
+                throw new UnexpectedError()
                 break
             default:
                 break
