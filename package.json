@@ -6,8 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "eslint ."
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint './src/**/*.ts' --fix"
+    ]
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -24,6 +28,7 @@
     "git-commit-msg-linter": "^5.0.8",
     "globals": "^15.9.0",
     "husky": "^9.1.5",
+    "lint-staged": "^15.2.9",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"
