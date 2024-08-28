@@ -30,6 +30,13 @@ describe('HttpPostClient', () => {
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual([])
   })
+  it('Should return httpResponse on axios fail', async () => {
+    const sut = new AxiosPostClient()
+    jest.spyOn(mockedAxios, 'post').mockReturnValueOnce({ response: { status: 401, data: 'Something goes wrong.' } } as any)
+    const response = await sut.post(makeFakeRequest())
+    expect(response.statusCode).toBe(401)
+    expect(response.body).toBe('Something goes wrong.')
+  })
   it('Should throw if axios throws', async () => {
     const sut = new AxiosPostClient()
     jest.spyOn(axios, 'post').mockImplementationOnce(() => {
