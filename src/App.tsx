@@ -1,4 +1,4 @@
-import Login from "./presentation/pages/login";
+import Login from './presentation/pages/login'
 
 function App() {
   return (
@@ -9,3 +9,4 @@ function App() {
 }
 
 export default App
+
