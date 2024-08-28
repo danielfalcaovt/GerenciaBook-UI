@@ -24,6 +24,12 @@ describe('HttpPostClient', () => {
     await sut.post(expectedValue)
     expect(postSpy).toHaveBeenCalledWith(expectedValue.url, expectedValue.body)
   })
+  it('Should return httpResponse on axios succeed', async () => {
+    const sut = new AxiosPostClient()
+    const response = await sut.post(makeFakeRequest())
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual([])
+  })
   it('Should throw if axios throws', async () => {
     const sut = new AxiosPostClient()
     jest.spyOn(axios, 'post').mockImplementationOnce(() => {
