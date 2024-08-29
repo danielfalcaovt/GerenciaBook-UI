@@ -21,7 +21,6 @@ const loginSchema = yup.object().shape({
 export default function Login(data: LoginControllerDependencies) {
   const [formError, setFormError] = useState<string | boolean>(false)
   const navigate = useNavigate()
-  const [rememberPassword, setRememberPassword] = useState(false)
   const {
     register,
     handleSubmit,
@@ -37,6 +36,8 @@ export default function Login(data: LoginControllerDependencies) {
           setFormError(false)
           const token = response.body
           localStorage.setItem('token', token)
+          const now = new Date()
+          localStorage.setItem('tokenExpiresIn', String(new Date(now.getTime() + (8 * 60 * 60 * 1000)).getTime()))
           navigate('/book')
         }
       })
@@ -102,26 +103,6 @@ export default function Login(data: LoginControllerDependencies) {
                 })}
               ></input>
               <span className="input-border"></span>
-            </div>
-            <div id="form-options-div">
-              <div id="remember-password">
-                <input
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setRememberPassword(true)
-                    } else {
-                      setRememberPassword(false)
-                    }
-                  }}
-                  type="checkbox"
-                  id="login-remember"
-                  name="login-remember"
-                ></input>
-                <label htmlFor="login-remember">Lembrar senha</label>
-              </div>
-              <div id="new-user">
-                <a href="">Cadastrar-se</a>
-              </div>
             </div>
             <button>Enviar</button>
             {formError ? <span id="login-error">{formError}</span> : []}
