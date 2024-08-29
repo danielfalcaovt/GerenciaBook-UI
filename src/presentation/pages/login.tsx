@@ -3,7 +3,8 @@
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { LoginControllerDependencies } from '../protocols/controller'
 
 const loginSchema = yup.object().shape({
@@ -19,6 +20,7 @@ const loginSchema = yup.object().shape({
 
 export default function Login(data: LoginControllerDependencies) {
   const [formError, setFormError] = useState<string | boolean>(false)
+  const navigate = useNavigate()
   const [rememberPassword, setRememberPassword] = useState(false)
   const {
     register,
@@ -35,6 +37,7 @@ export default function Login(data: LoginControllerDependencies) {
           setFormError(false)
           const token = response.body
           localStorage.setItem('token', token)
+          navigate('/book')
         }
       })
       .catch((err) => {
@@ -58,65 +61,79 @@ export default function Login(data: LoginControllerDependencies) {
     }
   }
 
+  const token = localStorage.getItem('token')
+  useEffect(() => {
+    if (token) {
+      navigate('/book')
+    }
+  }, [])
+
   return (
-    <main id="login-page">
-      <article id="login-background"></article>
-      <article id="login-form-container">
-        <div id='login-header'>
-          <img src='/assets/pages/login/gerenciabook.png' alt='livro acima de um texto escrito gerencia book'></img>
-        </div>
-        <form
-          id="login-form"
-          onSubmit={handleSubmit(loginSubmit, invalidRequest)}
-        >
-          <div className="form-input-container">
-            <input
-              className="form-input"
-              placeholder="Endereço de email"
-              type="email"
-              {...register('email', { required: 'O email é obrigatório.' })}
-            ></input>
-            <span className="input-border"></span>
+    !token && (
+      <main id="login-page">
+        <article id="login-background"></article>
+        <article id="login-form-container">
+          <div id="login-header">
+            <img
+              src="/assets/pages/login/gerenciabook.png"
+              alt="livro acima de um texto escrito gerencia book"
+            ></img>
           </div>
-          <div className="form-input-container">
-            <input
-              className="form-input"
-              placeholder="Digite sua senha."
-              type="password"
-              {...register('password', { required: 'A senha é obrigatória.' })}
-            ></input>
-            <span className="input-border"></span>
-          </div>
-          <div id="form-options-div">
-            <div id='remember-password'>
+          <form
+            id="login-form"
+            onSubmit={handleSubmit(loginSubmit, invalidRequest)}
+          >
+            <div className="form-input-container">
               <input
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setRememberPassword(true)
-                  } else {
-                    setRememberPassword(false)
-                  }
-                }}
-                type="checkbox"
-                id="login-remember"
-                name="login-remember"
+                className="form-input"
+                placeholder="Endereço de email"
+                type="email"
+                {...register('email', { required: 'O email é obrigatório.' })}
               ></input>
-              <label htmlFor="login-remember">Lembrar senha</label>
+              <span className="input-border"></span>
             </div>
-            <div id='new-user'>
-              <a href="">Cadastrar-se</a>
+            <div className="form-input-container">
+              <input
+                className="form-input"
+                placeholder="Digite sua senha."
+                type="password"
+                {...register('password', {
+                  required: 'A senha é obrigatória.'
+                })}
+              ></input>
+              <span className="input-border"></span>
             </div>
+            <div id="form-options-div">
+              <div id="remember-password">
+                <input
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setRememberPassword(true)
+                    } else {
+                      setRememberPassword(false)
+                    }
+                  }}
+                  type="checkbox"
+                  id="login-remember"
+                  name="login-remember"
+                ></input>
+                <label htmlFor="login-remember">Lembrar senha</label>
+              </div>
+              <div id="new-user">
+                <a href="">Cadastrar-se</a>
+              </div>
+            </div>
+            <button>Enviar</button>
+            {formError ? <span id="login-error">{formError}</span> : []}
+          </form>
+          <div id="login-footer">
+            <img
+              src="/assets/pages/login/logo-rj.png"
+              alt="brasão do estado do rio de janeiro"
+            ></img>
           </div>
-          <button>Enviar</button>
-          {formError ? <span id="login-error">{formError}</span> : []}
-        </form>
-        <div id="login-footer">
-          <img
-            src="/assets/pages/login/logo-rj.png"
-            alt="brasão do estado do rio de janeiro"
-          ></img>
-        </div>
-      </article>
-    </main>
+        </article>
+      </main>
+    )
   )
 }
