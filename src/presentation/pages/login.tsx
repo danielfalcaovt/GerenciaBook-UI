@@ -25,8 +25,6 @@ export default function Login(data: LoginControllerDependencies) {
     handleSubmit,
     formState: { errors }
   } = useForm({ resolver: yupResolver(loginSchema) })
-  // Enviar para o axios
-  // Enviar para o local storage
   // Alterar o data context
   // Conduzir usuário para próxima página
   async function loginSubmit(userData: any) {
