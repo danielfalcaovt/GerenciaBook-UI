@@ -5,10 +5,7 @@ import { IHttpPostClient } from '../../data/protocols/http/http-post-client'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
-
-interface LoginDependencies {
-  httpPostClient: IHttpPostClient
-}
+import { LoginControllerDependencies } from '../protocols/controller'
 
 const loginSchema = yup.object().shape({
   email: yup
@@ -21,21 +18,31 @@ const loginSchema = yup.object().shape({
     .required('A senha é obrigatória')
 })
 
-export default function Login(dependencies: LoginDependencies) {
+export default function Login(data: LoginControllerDependencies) {
   const [validationError, setValidationError] = useState(false)
+  const [authError, setAuthError] = useState()
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm({ resolver: yupResolver(loginSchema) })
-  // validar todos os dados: ReactForm
   // Enviar para o axios
   // Enviar para o local storage
   // Alterar o data context
   // Conduzir usuário para próxima página
-  async function loginSubmit(data: any) {
+  async function loginSubmit(userData: any) {
     setValidationError(false)
-    dependencies.httpPostClient.post({ url:  })
+    await data.httpPostClient.post({ url: data.url, body: userData })
+    .then(response => {
+      if (response.statusCode === 200) {
+        setAuthError(undefined)
+        const token = response.body
+        localStorage.setItem('token', token)
+      }
+    })
+    .catch(err => {
+      setAuthError(err.response.data)
+    })
   }
 
   async function invalidRequest(data: any) {
@@ -56,8 +63,11 @@ export default function Login(dependencies: LoginDependencies) {
         type="password"
         {...register('password', { required: 'A senha é obrigatória.' })}
       ></input>
-      {(validationError && errors.email || errors.password) && <span>Preencha os campos corretamente.</span>}
+      {((validationError && errors.email) || errors.password) ? (
+        <span>Preencha os campos corretamente.</span>
+      ) : authError ? <span>{authError}</span> : []}
       <button>Enviar</button>
     </form>
+    
   )
 }

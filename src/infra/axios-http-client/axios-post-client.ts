@@ -8,7 +8,8 @@ import axios from 'axios'
 
 export class AxiosPostClient implements IHttpPostClient {
   async post(params: IHttpClientParams): Promise<HttpResponse> {
-    const axiosResponse = await axios.post(params.url, params.body)
+    console.log(params)
+    const axiosResponse = await axios.post(params.url, params.body) // refatorar, ele está dando throw invés de retornar o erro
     if (axiosResponse.status === 200) {
       return Promise.resolve({
         statusCode: axiosResponse.status,
