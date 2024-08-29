@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'Work Sans';
+  src: url('/fonts/WorkSans-Medium.ttf');
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  font-family: 'Work Sans', Arial, Helvetica, sans-serif;
+}
