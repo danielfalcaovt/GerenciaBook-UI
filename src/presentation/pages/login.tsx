@@ -77,15 +77,13 @@ export default function Login(dependencies: LoginControllerDependencies) {
   }, [])
 
   useEffect(() => {
-     setLoading(false)
+    setLoading(false)
   }, [])
 
   return (
     !token && (
       <main id="login-page">
-        {loading && (
-          <Loader />
-        )}
+        {loading && <Loader />}
         <article id="login-background"></article>
         <article id="login-form-container">
           <div id="login-header">
