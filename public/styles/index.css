@@ -9,3 +9,7 @@
   box-sizing: border-box;
   font-family: 'Work Sans', Arial, Helvetica, sans-serif;
 }
+
+*:focus {
+  outline: 0px;
+}
