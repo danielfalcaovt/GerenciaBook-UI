@@ -5,7 +5,7 @@ import { AxiosPostClient } from '../../../infra/axios-http-client/axios-post-cli
 
 export const makeLoginPage = (): React.JSX.Element => {
   return <Login
-    url={env.API_URL || 'any_url'}
+    url={env.API_URL + '/login'}
     httpPostClient={new AxiosPostClient()}
   />
 }
