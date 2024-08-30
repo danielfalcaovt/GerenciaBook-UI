@@ -99,6 +99,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
           >
             <div className="form-input-container">
               <input
+                tabIndex={1}
                 className="form-input"
                 placeholder="Endereço de email"
                 type="email"
@@ -108,6 +109,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
             </div>
             <div className="form-input-container password-input">
               <input
+                tabIndex={2}
                 autoComplete="off"
                 className="form-input"
                 placeholder="Digite sua senha."
@@ -140,7 +142,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
                 </svg>
               </label>
             </div>
-            <button>Enviar</button>
+            <button tabIndex={3}>Enviar</button>
             {formError ? <span id="login-error">{formError}</span> : []}
           </form>
           <div id="login-footer">
