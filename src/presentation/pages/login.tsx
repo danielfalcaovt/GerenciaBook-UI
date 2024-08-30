@@ -18,7 +18,7 @@ const loginSchema = yup.object().shape({
     .required('A senha é obrigatória')
 })
 
-export default function Login(data: LoginControllerDependencies) {
+export default function Login(dependencies: LoginControllerDependencies) {
   const [formError, setFormError] = useState<string | boolean>(false)
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const navigate = useNavigate()
@@ -29,9 +29,9 @@ export default function Login(data: LoginControllerDependencies) {
   } = useForm({ resolver: yupResolver(loginSchema) })
   // Alterar o data context
   // Conduzir usuário para próxima página
-  async function loginSubmit(userData: any) {
-    await data.httpPostClient
-      .post({ url: data.url, body: userData })
+  async function loginSubmit(data: any) {
+    await dependencies.httpPostClient
+      .post({ url: dependencies.url, body: data })
       .then((response) => {
         if (response.statusCode === 200) {
           setFormError(false)
