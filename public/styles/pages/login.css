@@ -49,6 +49,12 @@
   position: relative;
   width: var(--width-of-input);
 }
+
+form span>a {
+  text-decoration: underline;
+  color: #005995;
+}
+
 .form-input {
   color: black;
   font-size: 0.9rem;
@@ -235,3 +241,4 @@ input:-webkit-autofill {
     transform: scale(1.2);
   }
 }
+

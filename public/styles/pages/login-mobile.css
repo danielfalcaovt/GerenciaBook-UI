@@ -1,0 +1,37 @@
+@media screen and (max-width: 600px) {
+  #login-background {
+    display: none;
+  }
+  #login-form-container {
+    width: 100vw;
+  }
+  #login-form-container form {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1200px) and (max-height: 550px) and (orientation: landscape) {
+  #login-page {
+    width: 120vw;
+    height: 120vh;
+  }
+  #login-background {
+    width: 50%;
+  }
+  #login-form-container{
+    grid-template-rows: 0.3fr 1fr 0.3fr;
+    width: 50%;
+  }
+  #login-header>img {
+    width: 75px;
+  }
+  #login-footer>img {
+    width: 75px;
+  }
+  #login-form-container span {
+    font-size: 0.8rem;
+  }
+  #login-form-container form {
+    width: 90%;
+  }
+}
