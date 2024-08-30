@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LoginControllerDependencies } from '../protocols/controller'
 import Loader from '../components/loader'
+import { Link } from 'react-router-dom'
 
 const loginSchema = yup.object().shape({
   email: yup
@@ -21,6 +22,7 @@ const loginSchema = yup.object().shape({
 
 export default function Login(dependencies: LoginControllerDependencies) {
   const [formError, setFormError] = useState<string | boolean>(false)
+  const [errorIsVisible, setErrorVisible] = useState(false)
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
@@ -62,10 +64,17 @@ export default function Login(dependencies: LoginControllerDependencies) {
   }
 
   async function invalidRequest(data: any) {
-    for (const pos of ['email', 'password']) {
-      if (data[pos]) {
-        setFormError(data[pos].message)
+    if (!errorIsVisible) {
+      for (const pos of ['email', 'password']) {
+        if (data[pos]) {
+          setFormError(data[pos].message)
+        }
       }
+      setErrorVisible(true)
+      setTimeout(() => {
+        setErrorVisible(false)
+      }, 3000)
+      return
     }
   }
 
@@ -84,7 +93,13 @@ export default function Login(dependencies: LoginControllerDependencies) {
     !token && (
       <main id="login-page">
         {loading && <Loader />}
-        <article id="login-background"></article>
+        <article
+          id="login-background"
+          style={{
+            background:
+              "black url('/assets/pages/login/login-background.jfif') no-repeat center center/cover"
+          }}
+        ></article>
         <article id="login-form-container">
           <div id="login-header">
             <img
@@ -143,7 +158,19 @@ export default function Login(dependencies: LoginControllerDependencies) {
               </label>
             </div>
             <button tabIndex={3}>Enviar</button>
-            {formError ? <span id="login-error">{formError}</span> : []}
+            <span>
+              Não está cadastrado?
+              <Link to={'/signup'}> Criar uma conta.</Link>
+            </span>
+            <span
+              id="login-error"
+              style={{
+                opacity: errorIsVisible ? 1 : 0,
+                zIndex: errorIsVisible ? 99 : 0
+              }}
+            >
+              {formError}
+            </span>
           </form>
           <div id="login-footer">
             <img

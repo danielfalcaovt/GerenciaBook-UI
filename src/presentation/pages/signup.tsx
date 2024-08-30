@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SignUpControllerDependencies } from '../protocols/controller'
 import Loader from '../components/loader'
+import { Link } from 'react-router-dom'
 
 const signupSchema = yup.object().shape({
   name: yup
@@ -30,6 +31,7 @@ const signupSchema = yup.object().shape({
 
 export default function SignUp(data: SignUpControllerDependencies) {
   const [formError, setFormError] = useState<string | boolean>(false)
+  const [errorIsVisible, setErrorVisible] = useState(false)
   const [passwordVisibility, setPasswordVisibility] = useState({
     password: false,
     confirm: false
@@ -81,9 +83,16 @@ export default function SignUp(data: SignUpControllerDependencies) {
   }
 
   async function invalidRequest(data: any) {
-    for (const pos of ['name', 'email', 'password', 'confirmPassword']) {
-      if (data[pos]) {
-        setFormError(data[pos].message)
+    if (!errorIsVisible) {
+      for (const pos of ['name', 'email', 'password', 'confirmPassword']) {
+        if (data[pos]) {
+          setFormError(data[pos].message)
+          setErrorVisible(true)
+          setTimeout(() => {
+            setErrorVisible(false)
+          }, 3000)
+          return
+        }
       }
     }
   }
@@ -103,8 +112,8 @@ export default function SignUp(data: SignUpControllerDependencies) {
     !token && (
       <main id="login-page">
         {loading && <Loader />}
-        <article id="login-background"></article>
-        <article id="login-form-container">
+        <article id="login-background" style={{background: "black url('/assets/pages/login/signup-background.jfif') no-repeat center center/cover"}}></article>
+        <article id="login-form-container" style={{gridTemplateRows: '0.2fr 0.9fr 0.3fr'}}>
           <div id="login-header">
             <img
               src="/assets/pages/login/gerenciabook.png"
@@ -217,7 +226,16 @@ export default function SignUp(data: SignUpControllerDependencies) {
               </label>
             </div>
             <button tabIndex={5}>Enviar</button>
-            {formError ? <span id="login-error">{formError}</span> : []}
+            <span id='login-link'>
+              Não está cadastrado?
+              <Link to={'/login'}> Criar uma conta.</Link>  
+            </span>
+            <span 
+            id='login-error'
+            style={{opacity: errorIsVisible ? 1 : 0, zIndex: errorIsVisible ? 99 : 0}}
+            >
+              {formError}
+            </span>
           </form>
           <div id="login-footer">
             <img
