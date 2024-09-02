@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IHttpClientParams, IHttpPostClient } from "../../protocols/http/http-post-client"
+import { IHttpClientParams, IHttpPostClient } from "../../protocols/http/post/http-post-client"
 import { RemoteAuthentication } from "./remote-authentication"
 import { AuthParams } from '../../../domain/usecases/login/authentication'
-import { HttpResponse } from "../../protocols/http/http-protocol"
+import { HttpResponse } from "../../../presentation/protocols/http"
 import { InvalidCredentialsError } from '../../../domain/errors/invalid-credentials-error'
 import { UnexpectedError } from '../../../domain/errors/unexpected-error'
 

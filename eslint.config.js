@@ -8,7 +8,10 @@ export default tseslint.config(
   { ignores: ['dist'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
+    files: [
+      '**/*.tsx',
+      '**/*.ts'
+    ],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,

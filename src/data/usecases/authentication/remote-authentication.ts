@@ -5,7 +5,7 @@ import {
   Authentication,
   AuthParams
 } from '../../../domain/usecases/login/authentication'
-import { IHttpPostClient } from '../../protocols/http/http-post-client'
+import { IHttpPostClient } from '../../protocols/http/post/http-post-client'
 
 export class RemoteAuthentication implements Authentication {
   constructor(
