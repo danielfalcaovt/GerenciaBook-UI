@@ -6,9 +6,10 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SignUpControllerDependencies } from '../protocols/controller'
-import Loader from '../components/loader'
+import { SignUpControllerDependencies } from '../../protocols/controller'
+import Loader from '../../components/loader'
 import { Link } from 'react-router-dom'
+import { HttpResponse } from '../../protocols/http'
 
 const signupSchema = yup.object().shape({
   name: yup
@@ -47,13 +48,13 @@ export default function SignUp(data: SignUpControllerDependencies) {
     setLoading(true)
     await data.httpPostClient
       .post({ url: data.url, body: userData })
-      .then((response) => {
+      .then((response: HttpResponse) => {
         if (response.statusCode === 200) {
           setFormError(false)
           navigate('/login')
         }
       })
-      .catch((err) => {
+      .catch((err: any) => {
         if (err.response.status === 400) {
           switch(err.response.data) {
             case "missing param: name":
@@ -227,8 +228,7 @@ export default function SignUp(data: SignUpControllerDependencies) {
             </div>
             <button tabIndex={5}>Enviar</button>
             <span id='login-link'>
-              Não está cadastrado?
-              <Link to={'/login'}> Criar uma conta.</Link>  
+              Não está cadastrado? <Link to={'/login'}>Criar uma conta.</Link>  
             </span>
             <span 
             id='login-error'
