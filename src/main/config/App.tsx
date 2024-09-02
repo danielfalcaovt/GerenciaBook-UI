@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import AppRoutes from './routes'
-import { HttpClientContext } from '../context/data-context'
+import { HttpClientContext } from '../context/http-client-context'
 import { IHttpDeleteClient } from '../../data/protocols/http/delete/http-delete-client'
 import { IHttpGetClient } from '../../data/protocols/http/get/http-get-client'
 import { IHttpPatchClient } from '../../data/protocols/http/patch/http-patch-client'

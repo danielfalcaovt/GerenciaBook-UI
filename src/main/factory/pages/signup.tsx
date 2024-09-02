@@ -1,5 +1,5 @@
 import React from "react"
-import SignUp from "../../../presentation/pages/signup"
+import SignUp from "../../../presentation/pages/auth/signup"
 import env from '../../config/env'
 import { AxiosPostClient } from '../../../infra/axios-http-client/axios-post-client'
 

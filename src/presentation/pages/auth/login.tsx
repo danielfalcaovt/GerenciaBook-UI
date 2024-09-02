@@ -5,9 +5,10 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { LoginControllerDependencies } from '../protocols/controller'
-import Loader from '../components/loader'
+import { LoginControllerDependencies } from '../../protocols/controller'
+import Loader from '../../components/loader'
 import { Link } from 'react-router-dom'
+import { HttpResponse } from '../../protocols/http'
 
 const loginSchema = yup.object().shape({
   email: yup
@@ -37,7 +38,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
     setLoading(true)
     await dependencies.httpPostClient
       .post({ url: dependencies.url, body: data })
-      .then((response) => {
+      .then((response: HttpResponse) => {
         if (response.statusCode === 200) {
           setFormError(false)
           const token = response.body
@@ -50,7 +51,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
           navigate('/book')
         }
       })
-      .catch((err) => {
+      .catch((err: { response: { status: number } }) => {
         if (err.response.status === 401) {
           setFormError('Credenciais Inválidas.')
         } else {
@@ -159,7 +160,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
             </div>
             <button tabIndex={3}>Enviar</button>
             <span>
-              Não está cadastrado? <Link to={'/signup'}>Criar uma conta.</Link>
+              Já está cadastrado? <Link to={'/signup'}>Efetue o login.</Link>
             </span>
             <span
               id="login-error"
