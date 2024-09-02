@@ -5,7 +5,7 @@ import { makeSignUpPage } from '../factory/pages/signup'
 import AuthRoutes from '../middleware/auth-routes'
 import make404Page from '../factory/pages/404'
 import { makeBookPage } from '../factory/pages/book'
-import PostBookForm from '../../presentation/pages/book/post/post-book-form'
+import { makePostBookPage } from '../factory/pages/post-book'
 
 export default function AppRoutes() {
   
@@ -15,7 +15,7 @@ export default function AppRoutes() {
         <Route path='/login' element={makeLoginPage()}/>
         <Route path='/signup' element={makeSignUpPage()} />
         <Route path='/book' element={<AuthRoutes>{makeBookPage()}</AuthRoutes>}>
-          <Route path='/book/cadastrar' element={<PostBookForm/>}/>
+          <Route path='/book/cadastrar' element={makePostBookPage()}/>
           <Route path='/book/atualizar' element={<h1>Atualização</h1>}/>
           <Route path='/book/remover' element={<h1>Remoção</h1>}/>
           <Route path='/book/consultar' element={<h1>Consulta</h1>}/>
