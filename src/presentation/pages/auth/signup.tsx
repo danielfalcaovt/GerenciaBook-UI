@@ -73,8 +73,16 @@ export default function SignUp(data: SignUpControllerDependencies) {
               setFormError('Não foi possível finalizar o cadastro.')
               break
           }
+          setErrorVisible(true)
+          setTimeout(() => {
+            setErrorVisible(false)
+          }, 3000)
         } else {
           setFormError('Ocorreu um erro inesperado.')
+          setErrorVisible(true)
+          setTimeout(() => {
+            setErrorVisible(false)
+          }, 3000)
         }
         setLoading(false)
       })
@@ -228,7 +236,7 @@ export default function SignUp(data: SignUpControllerDependencies) {
             </div>
             <button tabIndex={5}>Enviar</button>
             <span id='login-link'>  
-              Já está cadastrado? <Link to={'/signup'}>Efetue o login.</Link>
+              Já está cadastrado? <Link to={'/login'}>Efetue o login.</Link>
             </span>
             <span 
             id='login-error'
