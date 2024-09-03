@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import { BookControllerDependencies } from '../../protocols/controller'
-import PostBookForm from './post/post-book-form'
+import React from 'react'
 import { Outlet } from 'react-router-dom'
 
 export default function Book() {

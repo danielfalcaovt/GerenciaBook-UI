@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react'
-import { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { DataContext } from '../../../../main/context/data-context'
 import { HttpResponse } from '../../../protocols/http'
+import { DataContext } from '../../../../main/context/data-context'
 
 const bookSchema = yup.object().shape({
   book_name: yup.string().required('O nome do livro é obrigatório'),
@@ -27,7 +26,10 @@ const bookSchema = yup.object().shape({
     )
 })
 
-export default function PostBookForm(dependencies: { url: string, HttpClient: any }) {
+export default function PostBookForm(dependencies: {
+  url: string
+  HttpClient: any
+}) {
   const { data, setData } = useContext<any>(DataContext)
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
@@ -64,22 +66,24 @@ export default function PostBookForm(dependencies: { url: string, HttpClient: an
   }
 
   async function bookSubmit(value: any) {
-    // input date retornando 1 dia anterior
-    const lendDay = new Date(value.lend_day)
-    lendDay.setDate(lendDay.getDate() + 1)
-    // adiciona mais 1 dia na data retornada
+    console.log(value.lend_day)
+    /* 
+        formato new Date() no javascript quando 
+        chamado com uma isostring, retorna com o 
+        horário as meia noite, fazendo com que o 
+        dia seja retornado como o anterior.
+    */
+    // lendDay = new Date( alterando o horário da data recebida no formato ISOString )
+    const lendDay = new Date(value.lend_day + 'T10:20:20.200Z')
     const request = {
       ...value,
       lend_day: lendDay.getTime()
     }
-
-    const httpResponse = await dependencies.HttpClient
-      .post({ url: dependencies.url, body: request })
+    dependencies.HttpClient.post({ url: dependencies.url, body: request })
       .then((response: HttpResponse) => {
         console.log(response)
-        setData(response.body)
       })
-      .catch((err: any) => {
+      .catch((err: { response: { status: number } }) => {
         console.log(err)
       })
   }
