@@ -1,7 +1,7 @@
 import React from "react"
 import SignUp from "../../../presentation/pages/auth/signup"
 import env from '../../config/env'
-import { AxiosPostClient } from '../../../infra/axios-http-client/axios-post-client'
+import { AxiosPostClient } from '../../../infra/axios-http-client/post/axios-post-client'
 
 export const makeSignUpPage = (): React.JSX.Element => {
   return <SignUp

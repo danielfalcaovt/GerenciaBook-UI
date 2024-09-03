@@ -2,8 +2,8 @@
 import {
   IHttpClientParams,
   IHttpPostClient
-} from '../../data/protocols/http/post/http-post-client'
-import { HttpResponse } from '../../presentation/protocols/http'
+} from '../../../data/protocols/http/post/http-post-client'
+import { HttpResponse } from '../../../presentation/protocols/http'
 import axios from 'axios'
 
 export class AxiosPostClient implements IHttpPostClient {
