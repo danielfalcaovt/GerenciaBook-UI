@@ -52,12 +52,17 @@ export default function Login(dependencies: LoginControllerDependencies) {
         }
       })
       .catch((err: { response: { status: number } }) => {
+        console.log(err)
         if (err.response.status === 401) {
           setFormError('Credenciais Inválidas.')
         } else {
           setFormError('Ocorreu um erro inesperado.')
         }
         setLoading(false)
+        setErrorVisible(true)
+        setTimeout(() => {
+          setErrorVisible(false)
+        }, 3000)
       })
       .finally(() => {
         setLoading(false)
@@ -160,7 +165,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
             </div>
             <button tabIndex={3}>Enviar</button>
             <span>
-              Não está cadastrado? <Link to={'/login'}>Criar uma conta.</Link>
+              Não está cadastrado? <Link to={'/signup'}>Criar uma conta.</Link>
             </span>
             <span
               id="login-error"
