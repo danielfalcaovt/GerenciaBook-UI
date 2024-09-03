@@ -18,7 +18,7 @@ describe('AxiosGetClient', () => {
     const getSpy = jest.spyOn(mockedAxios, 'get')
     const expectedValue = makeFakeRequest()
     await sut.get(expectedValue)
-    expect(getSpy).toHaveBeenCalledWith(expectedValue.url)
+    expect(getSpy).toHaveBeenCalledWith(expectedValue.url, {})
   })
   it('Should return httpResponse on axios succeed', async () => {
     const sut = new AxiosGetClient()

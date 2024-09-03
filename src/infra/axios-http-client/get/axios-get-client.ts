@@ -5,8 +5,14 @@ import { HttpResponse } from "../../../presentation/protocols/http";
 import axios from "axios";
 
 export class AxiosGetClient implements IHttpGetClient {
+  constructor(private readonly token?: string) {}
   async get(params: IHttpClientParams): Promise<HttpResponse> {
-    const axiosResponse = await axios.get(params.url)
+    const headers = this.token ? {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    } : {}
+    const axiosResponse = await axios.get(params.url, headers)
     if (axiosResponse.status === 200) {
       return new Promise(resolve => resolve({
         statusCode: axiosResponse.status,
