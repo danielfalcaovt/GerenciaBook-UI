@@ -1,7 +1,7 @@
-import { IHttpClientParams } from "../../../data/protocols/http/post/http-post-client"
+import { IHttpClientParams } from '../../../data/protocols/http/post/http-post-client'
 import * as faker from 'faker'
-import { AxiosGetClient } from "./axios-get-client"
-import axios from "axios"
+import { AxiosGetClient } from './axios-get-client'
+import axios from 'axios'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 jest.mock('axios')
@@ -33,5 +33,19 @@ describe('AxiosGetClient', () => {
     })
     const promise = sut.get(makeFakeRequest())
     expect(promise).rejects.toThrow()
+  })
+  it('Should call axios with correct values on token received', async () => {
+    const sut = new AxiosGetClient('any_token')
+    const getSpy = jest.spyOn(axios, 'get')
+    const expectedValue = makeFakeRequest()
+    await sut.get(expectedValue)
+    expect(getSpy).toHaveBeenCalledWith(
+      expectedValue.url,
+      {
+        headers: {
+          Authorization: 'Bearer any_token'
+        }
+      }
+    )
   })
 })
