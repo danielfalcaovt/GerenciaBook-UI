@@ -6,7 +6,7 @@ import axios from "axios"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
-mockedAxios.post.mockResolvedValue({ status: 200, data: [] } as any)
+mockedAxios.get.mockResolvedValue({ status: 200, data: [] } as any)
 
 const makeFakeRequest = (): IHttpClientParams => ({
   url: faker.internet.url()
@@ -19,5 +19,11 @@ describe('AxiosGetClient', () => {
     const expectedValue = makeFakeRequest()
     await sut.get(expectedValue)
     expect(getSpy).toHaveBeenCalledWith(expectedValue.url)
+  })
+  it('Should return httpResponse on axios succeed', async () => {
+    const sut = new AxiosGetClient()
+    const response = await sut.get(makeFakeRequest())
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual([])
   })
 })
