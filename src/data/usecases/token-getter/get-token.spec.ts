@@ -32,4 +32,9 @@ describe('TokenGetter', () => {
     sut.getToken('token')
     expect(getSpy).toHaveBeenCalledWith('token')
   })
+  it('Should return getItem result', () => {
+    const { sut } = makeSut()
+    const result = sut.getToken('token')
+    expect(result).toBe('any_token')
+  })
 })
