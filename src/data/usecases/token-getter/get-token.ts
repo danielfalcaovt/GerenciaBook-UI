@@ -3,8 +3,12 @@ import { ItemStorage } from "../../protocols/token/item-storage";
 
 export class GetToken implements IGetToken {
   constructor(private readonly itemStorage: ItemStorage) {}
-  getToken(key: string): string {
+  getToken(key: string): string | null {
     const result = this.itemStorage.getItem(key)
-    return result
+    if (result) {
+      return result
+    } else {
+      return null
+    }
   }
 }

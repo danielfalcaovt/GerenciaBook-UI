@@ -1,3 +1,3 @@
 export interface IGetToken {
-  getToken(key: string): string
+  getToken(key: string): string | null
 }
