@@ -6,6 +6,7 @@ import AuthRoutes from '../middleware/auth-routes'
 import make404Page from '../factory/pages/404'
 import { makeBookPage } from '../factory/pages/book'
 import { makePostBookPage } from '../factory/pages/post-book'
+import { makeGetBookPage } from '../factory/pages/get-book'
 
 export default function AppRoutes() {
   
@@ -18,7 +19,7 @@ export default function AppRoutes() {
           <Route path='/book/cadastrar' element={makePostBookPage()}/>
           <Route path='/book/atualizar' element={<h1>Atualização</h1>}/>
           <Route path='/book/remover' element={<h1>Remoção</h1>}/>
-          <Route path='/book/consultar' element={<h1>Consulta</h1>}/>
+          <Route path='/book/consultar' element={makeGetBookPage()}/>
         </Route>
         <Route path='/' element={<AuthRoutes><Navigate to='/book'/></AuthRoutes>} />
         <Route path='*' element={make404Page()} />
