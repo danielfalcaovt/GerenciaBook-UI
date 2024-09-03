@@ -1,16 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import AppRoutes from './routes'
-import { DataContext } from '../context/data-context'
+import DataContextProvider from '../context/data-context-provider'
 
 function App() {
-  const [data, setData] = useState({})
-
   return (
-    <>
-      <DataContext.Provider value={{ data, setData }}>
-        <AppRoutes />
-      </DataContext.Provider>
-    </>
+    <DataContextProvider>
+      <AppRoutes />
+    </DataContextProvider>
   )
 }
 

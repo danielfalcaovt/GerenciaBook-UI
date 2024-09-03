@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { HttpResponse } from '../../../protocols/http'
-import { DataContext } from '../../../../main/context/data-context'
 
 const bookSchema = yup.object().shape({
   book_name: yup.string().required('O nome do livro é obrigatório'),
@@ -27,12 +26,13 @@ const bookSchema = yup.object().shape({
 })
 
 export default function PostBookForm(dependencies: {
-  url: string
-  HttpClient: any
+  url: string,
+  HttpClient: any,
+  context: React.Context<any>
 }) {
-  const { data, setData } = useContext<any>(DataContext)
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
+  const { data, setData } = useContext<any>(dependencies.context)
   const {
     register,
     handleSubmit,
@@ -79,12 +79,31 @@ export default function PostBookForm(dependencies: {
       ...value,
       lend_day: lendDay.getTime()
     }
-    dependencies.HttpClient.post({ url: dependencies.url, body: request })
+    await dependencies.HttpClient.post({ url: dependencies.url, body: request })
       .then((response: HttpResponse) => {
-        console.log(response)
+        setData((oldValue: any) => {
+          const oldBooks = oldValue?.books ? oldValue?.books : []
+          if (oldBooks) {
+            return {
+              ...oldValue,
+              books: [
+                ...oldBooks,
+                response.body
+              ]
+            }
+          } else {
+            setData((oldValue: any) => ({
+              ...oldValue,
+              books: [response.body]
+            }))
+          }
+        })
       })
       .catch((err: { response: { status: number } }) => {
         console.log(err)
+      })
+      .finally(() => {
+        console.log(data)
       })
   }
 
