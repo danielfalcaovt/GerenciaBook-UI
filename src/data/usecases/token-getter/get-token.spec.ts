@@ -37,4 +37,11 @@ describe('TokenGetter', () => {
     const result = sut.getToken('token')
     expect(result).toBe('any_token')
   })
+  it('Should throw if getItem throws', () => {
+    const { sut, getTokenStub } = makeSut()
+    jest.spyOn(getTokenStub, 'getItem').mockImplementation(() => {
+      throw new Error()
+    })
+    expect(sut.getToken).toThrow()
+  })
 })
