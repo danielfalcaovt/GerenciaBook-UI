@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { HttpResponse } from '../../../protocols/http'
+import { IHttpPostClient } from '../../../protocols/http-post-client'
 
 const bookSchema = yup.object().shape({
   book_name: yup.string().required('O nome do livro é obrigatório'),
@@ -27,7 +28,7 @@ const bookSchema = yup.object().shape({
 
 export default function PostBookForm(dependencies: {
   url: string,
-  HttpClient: any,
+  HttpClient: IHttpPostClient,
   context: React.Context<any>
 }) {
   const [formError, setFormError] = useState<string | boolean>(false)
