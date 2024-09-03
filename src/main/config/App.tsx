@@ -3,7 +3,7 @@ import AppRoutes from './routes'
 import { DataContext } from '../context/data-context'
 
 function App() {
-  const [data, setData] = useState(DataContext)
+  const [data, setData] = useState({})
 
   return (
     <>
