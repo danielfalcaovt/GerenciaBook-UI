@@ -227,8 +227,8 @@ export default function SignUp(data: SignUpControllerDependencies) {
               </label>
             </div>
             <button tabIndex={5}>Enviar</button>
-            <span id='login-link'>
-              Não está cadastrado? <Link to={'/login'}>Criar uma conta.</Link>  
+            <span id='login-link'>  
+              Já está cadastrado? <Link to={'/signup'}>Efetue o login.</Link>
             </span>
             <span 
             id='login-error'

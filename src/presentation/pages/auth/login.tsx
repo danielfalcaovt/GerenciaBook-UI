@@ -160,7 +160,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
             </div>
             <button tabIndex={3}>Enviar</button>
             <span>
-              Já está cadastrado? <Link to={'/signup'}>Efetue o login.</Link>
+              Não está cadastrado? <Link to={'/login'}>Criar uma conta.</Link>
             </span>
             <span
               id="login-error"
