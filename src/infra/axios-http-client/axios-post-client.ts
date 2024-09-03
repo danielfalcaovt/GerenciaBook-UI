@@ -8,7 +8,7 @@ import axios from 'axios'
 
 export class AxiosPostClient implements IHttpPostClient {
   async post(params: IHttpClientParams): Promise<HttpResponse> {
-    const axiosResponse = await axios.post(params.url, params.body)
+    const axiosResponse = await axios.post(params.url, params.body) 
     if (axiosResponse.status === 200) {
       return Promise.resolve({
         statusCode: axiosResponse.status,
