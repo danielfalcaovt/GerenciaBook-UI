@@ -22,7 +22,11 @@ describe('HttpPostClient', () => {
     const postSpy = jest.spyOn(mockedAxios, 'post')
     const expectedValue = makeFakeRequest()
     await sut.post(expectedValue)
-    expect(postSpy).toHaveBeenCalledWith(expectedValue.url, expectedValue.body, {})
+    expect(postSpy).toHaveBeenCalledWith(
+      expectedValue.url,
+      expectedValue.body,
+      {}
+    )
   })
   it('Should return httpResponse on axios succeed', async () => {
     const sut = new AxiosPostClient()
@@ -43,8 +47,14 @@ describe('HttpPostClient', () => {
     const postSpy = jest.spyOn(axios, 'post')
     const expectedValue = makeFakeRequest()
     await sut.post(expectedValue)
-    expect(postSpy).toHaveBeenCalledWith(expectedValue.url, expectedValue.body, { headers: {
-      'Authorization': 'Bearer any_token'
-    } })
+    expect(postSpy).toHaveBeenCalledWith(
+      expectedValue.url,
+      expectedValue.body,
+      {
+        headers: {
+          Authorization: 'Bearer any_token'
+        }
+      }
+    )
   })
 })
