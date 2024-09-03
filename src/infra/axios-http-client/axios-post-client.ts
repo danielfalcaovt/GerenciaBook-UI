@@ -7,8 +7,14 @@ import { HttpResponse } from '../../presentation/protocols/http'
 import axios from 'axios'
 
 export class AxiosPostClient implements IHttpPostClient {
+  constructor(private readonly token?: string) {}
   async post(params: IHttpClientParams): Promise<HttpResponse> {
-    const axiosResponse = await axios.post(params.url, params.body) 
+    const headers = this.token ? {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    } : {}
+    const axiosResponse = await axios.post(params.url, params.body, headers)
     if (axiosResponse.status === 200) {
       return Promise.resolve({
         statusCode: axiosResponse.status,
