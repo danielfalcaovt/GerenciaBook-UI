@@ -1,11 +1,10 @@
- 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import axios from "axios"
-import { IHttpClientParams } from "../../../data/protocols/http/post/http-post-client"
+import axios from 'axios'
+import { IHttpClientParams } from '../../../data/protocols/http/post/http-post-client'
 import * as faker from 'faker'
-import { IAddBook } from "../../../data/protocols/book/add-book"
-import { AxiosGetByClient } from "./axios-get-by-client"
+import { IAddBook } from '../../../data/protocols/book/add-book'
+import { AxiosGetByClient } from './axios-get-by-client'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
@@ -27,6 +26,17 @@ describe('AxiosGetByClient', () => {
     const expectedUrl = expectedValue.url + '?book_name=any_name'
     expect(getSpy).toHaveBeenCalledWith(expectedUrl, {})
   })
+  it('Should call axios with correct values on receive more than one param', async () => {
+    const sut = new AxiosGetByClient()
+    const getSpy = jest.spyOn(axios, 'get')
+    const expectedValue = {
+      url: faker.internet.url(),
+      body: { book_name: 'any_name', student_name: 'any_student' }
+    }
+    await sut.getBy(expectedValue)
+    const expectedUrl = expectedValue.url += "?book_name=any_name&student_name=any_student"
+    expect(getSpy).toHaveBeenCalledWith(expectedUrl, {})
+  })
   it('Should return HttpResponse on axios succeed', async () => {
     const sut = new AxiosGetByClient()
     const expectedValue = makeFakeRequest()
@@ -37,7 +47,7 @@ describe('AxiosGetByClient', () => {
   it('Should return httpResponse on axios fails', async () => {
     const sut = new AxiosGetByClient()
     jest.spyOn(mockedAxios, 'get').mockImplementationOnce((): any => {
-      return new Promise((resolve, reject)=> {
+      return new Promise((resolve, reject) => {
         reject({ response: { status: 401, data: 'any_error' } })
       })
     })
@@ -60,13 +70,10 @@ describe('AxiosGetByClient', () => {
     const expectedValue = makeFakeRequest()
     const expectedUrl = expectedValue.url + '?book_name=any_name'
     await sut.getBy(expectedValue)
-    expect(getSpy).toHaveBeenCalledWith(
-      expectedUrl,
-      {
-        headers: {
-          Authorization: 'Bearer any_token'
-        }
+    expect(getSpy).toHaveBeenCalledWith(expectedUrl, {
+      headers: {
+        Authorization: 'Bearer any_token'
       }
-    )
+    })
   })
 })
