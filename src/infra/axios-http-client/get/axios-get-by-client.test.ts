@@ -42,4 +42,15 @@ describe('AxiosGetByClient', () => {
     const promise = sut.getBy(makeFakeRequest())
     expect(promise).rejects.toThrow()
   })
+  it('Should return httpResponse on axios fails', async () => {
+    const sut = new AxiosGetByClient()
+    jest.spyOn(mockedAxios, 'get').mockImplementationOnce((): any => {
+      return new Promise((resolve, reject)=> {
+        reject({ response: { status: 401, data: 'any_error' } })
+      })
+    })
+    const httpResponse = await sut.getBy(makeFakeRequest())
+    expect(httpResponse.statusCode).toBe(401)
+    expect(httpResponse.body).toBe('any_error')
+  })
 })
