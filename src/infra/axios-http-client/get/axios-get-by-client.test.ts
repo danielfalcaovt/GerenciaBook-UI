@@ -27,4 +27,11 @@ describe('AxiosGetByClient', () => {
     const expectedUrl = expectedValue.url + '?book_name=any_name'
     expect(getSpy).toHaveBeenCalledWith(expectedUrl)
   })
+  it('Should return HttpResponse on axios succeed', async () => {
+    const sut = new AxiosGetByClient()
+    const expectedValue = makeFakeRequest()
+    const result = await sut.getBy(expectedValue)
+    expect(result.statusCode).toBe(200)
+    expect(result.body).toEqual([])
+  })
 })
