@@ -14,16 +14,20 @@ export class AxiosGetByClient implements IHttpGetByClient {
     } : {}
     let url = params.url
     url += '?'
-    for (const pos of [
+    const bookParams = [
       'book_name',
       'student_name',
       'student_class',
       'lend_day'
-    ]) {
+    ]
+    bookParams.forEach((pos: string, index: number) => {
       if (params.body && params.body[pos]) {
         url += `${pos}=${params.body[pos]}`
+        if (params.body[bookParams[index+1]]) {
+          url += '&'
+        }
       }
-    }
+    });
     try {
       const axiosResponse = await axios.get(url, headers)
       return new Promise((resolve) =>
