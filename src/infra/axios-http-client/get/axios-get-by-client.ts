@@ -5,7 +5,13 @@ import { IHttpClientParams } from '../../../data/protocols/http/post/http-post-c
 import { HttpResponse } from '../../../presentation/protocols/http'
 
 export class AxiosGetByClient implements IHttpGetByClient {
+  constructor (private readonly token?: string) {}
   async getBy(params: IHttpClientParams): Promise<HttpResponse> {
+    const headers = this.token ? {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    } : {}
     let url = params.url
     url += '?'
     for (const pos of [
@@ -19,7 +25,7 @@ export class AxiosGetByClient implements IHttpGetByClient {
       }
     }
     try {
-      const axiosResponse = await axios.get(url)
+      const axiosResponse = await axios.get(url, headers)
       return new Promise((resolve) =>
         resolve({
           statusCode: axiosResponse.status,
