@@ -34,4 +34,12 @@ describe('AxiosGetByClient', () => {
     expect(result.statusCode).toBe(200)
     expect(result.body).toEqual([])
   })
+  it('Should throw if axios throws', async () => {
+    const sut = new AxiosGetByClient()
+    jest.spyOn(mockedAxios, 'get').mockImplementation(() => {
+      throw new Error()
+    })
+    const promise = sut.getBy(makeFakeRequest())
+    expect(promise).rejects.toThrow()
+  })
 })
