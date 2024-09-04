@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpResponse } from "../../../../presentation/protocols/http"
 
 export interface IHttpPostClient {
@@ -6,5 +7,5 @@ export interface IHttpPostClient {
 
 export interface IHttpClientParams {
   url: string
-  body?: object
+  body?: any
 }
