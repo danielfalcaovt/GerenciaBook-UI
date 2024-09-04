@@ -27,13 +27,20 @@ export class AxiosGetByClient implements IHttpGetByClient {
         })
       )
     } catch (err: any) {
-      const axiosError = err
-      return new Promise((resolve) =>
-        resolve({
-          statusCode: axiosError.response.status,
-          body: axiosError.response.data
+      if (err.response) {
+        const axiosError = err
+        return new Promise((resolve) =>
+          resolve({
+            statusCode: axiosError.response.status,
+            body: axiosError.response.data
+          })
+        )
+      } else {
+        console.log(err)
+        return new Promise((resolve) => {
+          resolve({ statusCode: 500, body: 'Internal Server Error' })
         })
-      )
+      }
     }
   }
 }

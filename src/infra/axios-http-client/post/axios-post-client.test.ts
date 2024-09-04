@@ -34,13 +34,14 @@ describe('HttpPostClient', () => {
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual([])
   })
-  it('Should throw if axios throws', async () => {
+  it('Should return server error if axios throw', async () => {
     const sut = new AxiosPostClient()
-    jest.spyOn(axios, 'post').mockImplementationOnce(() => {
+    jest.spyOn(mockedAxios, 'post').mockImplementation(() => {
       throw new Error()
     })
-    const promise = sut.post(makeFakeRequest())
-    expect(promise).rejects.toThrow()
+    const response = await sut.post(makeFakeRequest())
+    expect(response.statusCode).toBe(500)
+    expect(response.body).toBe('Internal Server Error')
   })
   it('Should call axios with correct values on token received', async () => {
     const sut = new AxiosPostClient('any_token')

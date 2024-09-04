@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IHttpClientParams } from '../../../data/protocols/http/post/http-post-client'
 import * as faker from 'faker'
 import { AxiosGetClient } from './axios-get-client'
 import axios from 'axios'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
 mockedAxios.get.mockResolvedValue({ status: 200, data: [] } as any)
@@ -26,13 +26,14 @@ describe('AxiosGetClient', () => {
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual([])
   })
-  it('Should throw if axios throws', async () => {
+  it('Should return server error if axios throw', async () => {
     const sut = new AxiosGetClient()
-    jest.spyOn(axios, 'get').mockImplementationOnce(() => {
+    jest.spyOn(mockedAxios, 'get').mockImplementation(() => {
       throw new Error()
     })
-    const promise = sut.get(makeFakeRequest())
-    expect(promise).rejects.toThrow()
+    const response = await sut.get(makeFakeRequest())
+    expect(response.statusCode).toBe(500)
+    expect(response.body).toBe('Internal Server Error')
   })
   it('Should call axios with correct values on token received', async () => {
     const sut = new AxiosGetClient('any_token')
