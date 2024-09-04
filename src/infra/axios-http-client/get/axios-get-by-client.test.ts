@@ -4,7 +4,7 @@
 import axios from "axios"
 import { IHttpClientParams } from "../../../data/protocols/http/post/http-post-client"
 import * as faker from 'faker'
-import { IAddBook } from "../../../domain/protocols/book/book"
+import { IAddBook } from "../../../data/protocols/book/add-book"
 import { AxiosGetByClient } from "./axios-get-by-client"
 
 jest.mock('axios')
@@ -34,14 +34,6 @@ describe('AxiosGetByClient', () => {
     expect(result.statusCode).toBe(200)
     expect(result.body).toEqual([])
   })
-  it('Should throw if axios throws', async () => {
-    const sut = new AxiosGetByClient()
-    jest.spyOn(mockedAxios, 'get').mockImplementation(() => {
-      throw new Error()
-    })
-    const promise = sut.getBy(makeFakeRequest())
-    expect(promise).rejects.toThrow()
-  })
   it('Should return httpResponse on axios fails', async () => {
     const sut = new AxiosGetByClient()
     jest.spyOn(mockedAxios, 'get').mockImplementationOnce((): any => {
@@ -52,5 +44,14 @@ describe('AxiosGetByClient', () => {
     const httpResponse = await sut.getBy(makeFakeRequest())
     expect(httpResponse.statusCode).toBe(401)
     expect(httpResponse.body).toBe('any_error')
+  })
+  it('Should return server error if axios throw', async () => {
+    const sut = new AxiosGetByClient()
+    jest.spyOn(mockedAxios, 'get').mockImplementation(() => {
+      throw new Error()
+    })
+    const response = await sut.getBy(makeFakeRequest())
+    expect(response.statusCode).toBe(500)
+    expect(response.body).toBe('Internal Server Error')
   })
 })
