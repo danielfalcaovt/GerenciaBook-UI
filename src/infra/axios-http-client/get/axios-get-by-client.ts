@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { IHttpGetByClient } from "../../../data/protocols/http/get/http-get-by-client";
 import { IHttpClientParams } from "../../../data/protocols/http/post/http-post-client";
@@ -12,7 +13,18 @@ export class AxiosGetByClient implements IHttpGetByClient {
         url += `${pos}=${params.body[pos]}`
       }
     }
-    await axios.get(url)
-    return new Promise(resolve => resolve({statusCode: 200}))
+    const axiosResponse = await axios.get(url)
+    if (axiosResponse.status === 200) {
+      return new Promise(resolve => resolve({
+        statusCode: axiosResponse.status,
+        body: axiosResponse.data
+      }))
+    } else {
+      const axiosError: any = axiosResponse
+      return new Promise(resolve => resolve({
+        statusCode: axiosError.response.status,
+        body: axiosError.response.data
+      }))
+    }
   }
 }
