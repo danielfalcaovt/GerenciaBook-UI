@@ -25,7 +25,7 @@ describe('AxiosGetByClient', () => {
     const expectedValue = makeFakeRequest()
     await sut.getBy(expectedValue)
     const expectedUrl = expectedValue.url + '?book_name=any_name'
-    expect(getSpy).toHaveBeenCalledWith(expectedUrl)
+    expect(getSpy).toHaveBeenCalledWith(expectedUrl, {})
   })
   it('Should return HttpResponse on axios succeed', async () => {
     const sut = new AxiosGetByClient()
@@ -53,5 +53,20 @@ describe('AxiosGetByClient', () => {
     const response = await sut.getBy(makeFakeRequest())
     expect(response.statusCode).toBe(500)
     expect(response.body).toBe('Internal Server Error')
+  })
+  it('Should call axios with correct values on token received', async () => {
+    const sut = new AxiosGetByClient('any_token')
+    const getSpy = jest.spyOn(axios, 'get')
+    const expectedValue = makeFakeRequest()
+    const expectedUrl = expectedValue.url + '?book_name=any_name'
+    await sut.getBy(expectedValue)
+    expect(getSpy).toHaveBeenCalledWith(
+      expectedUrl,
+      {
+        headers: {
+          Authorization: 'Bearer any_token'
+        }
+      }
+    )
   })
 })
