@@ -1,0 +1,5 @@
+export * from '../factory/pages/auth/login'
+export * from '../factory/pages/auth/signup'
+export * from '../factory/pages/api/book'
+export * from '../factory/components/form/post-book'
+export * from '../factory/components/form/get-book'
