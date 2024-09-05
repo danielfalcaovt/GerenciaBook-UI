@@ -83,8 +83,8 @@ export default function PostBookForm(dependencies: {
     await dependencies.HttpClient.post({ url: dependencies.url, body: request })
       .then((response: HttpResponse) => {
         setData((oldValue: any) => {
-          const oldBooks = oldValue?.books ? oldValue?.books : []
-          if (oldBooks) {
+          const oldBooks = oldValue.books?.length>0 ? oldValue.books : []
+          if (oldBooks && oldBooks.length > 0) {
             return {
               ...oldValue,
               books: [
