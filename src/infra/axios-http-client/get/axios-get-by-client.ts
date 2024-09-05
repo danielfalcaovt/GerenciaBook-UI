@@ -17,15 +17,14 @@ export class AxiosGetByClient implements IHttpGetByClient {
     const bookParams = [
       'book_name',
       'student_name',
-      'student_class',
-      'lend_day'
+      'student_class'
     ]
-    bookParams.forEach((pos: string, index: number) => {
+    let queryLength = 0
+    bookParams.forEach((pos: string) => {
       if (params.body && params.body[pos]) {
+        url += queryLength>0 ? '&' : ''
+        queryLength++
         url += `${pos}=${params.body[pos]}`
-        if (params.body[bookParams[index+1]]) {
-          url += '&'
-        }
       }
     });
     try {
