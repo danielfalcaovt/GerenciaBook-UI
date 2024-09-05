@@ -6,7 +6,7 @@ import { LocalStorageRepository } from "../../../infra/local-storage/local-stora
 import { DataContext } from "../../context/data-context"
 import { AxiosUpdateClient } from "../../../infra/axios-http-client/update/axios-update-client"
 
-export const makeGetBookPage = (): React.JSX.Element => {
+export const makeUpdateBookPage = (): React.JSX.Element => {
   const itemStorage = new LocalStorageRepository()
   const token = itemStorage.getItem('token')
   return <UpdateBookForm
