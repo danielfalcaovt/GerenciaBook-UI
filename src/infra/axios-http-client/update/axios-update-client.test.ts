@@ -50,4 +50,12 @@ describe('AxiosUpdateClient', () => {
     expect(response.statusCode).toBe(400)
     expect(response.body).toBe('any_error')
   })
+  it('Should return server error if axios throws', async () => {
+    const sut = new AxiosUpdateClient()
+    jest.spyOn(mockedAxios, 'patch').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.patch(makeFakeRequest())
+    expect(response.statusCode).toBe(500)
+  })
 })
