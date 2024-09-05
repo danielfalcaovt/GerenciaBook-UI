@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "jest --passWithNoTests --forceExit",
+    "test": "jest --passWithNoTests --forceExit --silent",
     "test:staged": "npm run test -- --findRelatedTests",
     "test:watch": "npm run test -- --watch"
   },
