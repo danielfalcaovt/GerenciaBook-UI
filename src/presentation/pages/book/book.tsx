@@ -19,14 +19,27 @@ export default function Book() {
             <th>
               teste
             </th>
+            <th>
+              asdkoad
+            </th>
           </thead>
           <tbody>
             {
-              data.books && data.books.map(book => {
+              data.filteredBooks ? data.filteredBooks.map(book => {
+                return (
+                  <tr>
+                  <td>{book.book_name}</td>
+                  <td>{book.student_name}</td>
+                  <td>{book.student_class}</td>
+                </tr>
+                )
+              }) :
+              (data.books && data.books.length > 0) && data.books?.map(book => {
                 return (
                   <tr>
                     <td>{book.book_name}</td>
                     <td>{book.student_name}</td>
+                    <td>{book.student_class}</td>
                   </tr>
                 )
               })
