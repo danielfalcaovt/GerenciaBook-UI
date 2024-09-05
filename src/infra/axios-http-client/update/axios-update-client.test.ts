@@ -22,12 +22,32 @@ describe('AxiosUpdateClient', () => {
     const patchSpy = jest.spyOn(mockedAxios, 'patch')
     const expectedValue = makeFakeRequest()
     await sut.patch(expectedValue)
-    expect(patchSpy).toHaveBeenCalledWith(expectedValue.url, expectedValue.body, {})
+    expect(patchSpy).toHaveBeenCalledWith(
+      expectedValue.url,
+      expectedValue.body,
+      {}
+    )
   })
   it('Should return httpResponse on axios succeed', async () => {
     const sut = new AxiosUpdateClient()
-    const response = await sut.patch(makeFakeRequest()) 
+    const response = await sut.patch(makeFakeRequest())
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual([])
+  })
+  it('Should return httpResponse on axios fail', async () => {
+    const sut = new AxiosUpdateClient()
+    jest.spyOn(mockedAxios, 'patch').mockImplementationOnce((): any => {
+      return new Promise((resolve, reject) => {
+        reject({
+          response: {
+            status: 400,
+            data: 'any_error'
+          }
+        })
+      })
+    })
+    const response = await sut.patch(makeFakeRequest())
+    expect(response.statusCode).toBe(400)
+    expect(response.body).toBe('any_error')
   })
 })
