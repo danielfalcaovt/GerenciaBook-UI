@@ -6,10 +6,11 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { IHttpPatchClient } from '../../../protocols/http-patch-client'
 import { HttpResponse } from '../../../protocols/http'
-import { IBook } from '../../../../domain/protocols/book/book'
 import React from 'react'
+import { IBook } from '../../../../domain/protocols/book/book'
 
 const bookSchema = yup.object().shape({
+  id: yup.string().required('Selecione um empréstimo antes de continuar.'),
   book_name: yup.string(),
   student_name: yup.string(),
   student_class: yup.string(),
@@ -39,7 +40,9 @@ export default function UpdateBookForm(dependencies: {
   const [errorIsVisible, setErrorVisible] = useState(false)
   const {
     register,
+    setValue,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(bookSchema),
@@ -48,12 +51,25 @@ export default function UpdateBookForm(dependencies: {
     }
   })
 
+  useEffect(() => {
+    if (data.selectedBook) {
+      setErrorVisible(false)
+      for (const pos of ['id', 'student_name', 'book_name', 'student_class'] as ("id" | "book_name" | "student_name" | "student_class")[]) {
+        setValue(pos, data.selectedBook[pos])
+      }
+      const lendDay = new Date(Number(data.selectedBook.lend_day)).toISOString().slice(0, 10)
+      setValue('lend_day', lendDay)
+    } else {
+      reset()
+    }
+  }, [data.selectedBook])
+
   async function bookSubmit(value: any) {
+    console.log('succeed')
     const request = {
       url: dependencies.url,
       body: {
-        ...value,
-        id: data.updateBookId
+        ...value
       }
     }
     if (value.lend_day) {
@@ -63,15 +79,14 @@ export default function UpdateBookForm(dependencies: {
       .then((response: HttpResponse) => {
         if (response.statusCode === 200) {
           setData((oldValue: any) => {
-            const oldBooks = oldValue.books
-            console.log(oldValue.books.indexOf(response.body))
+            const bookArray = oldValue.books.filter((book: IBook) => book.id !== value.id)
             return {
               ...oldValue,
               books: [
-                ...oldBooks,
-                response.body
+                ...bookArray,
+                response.body[0]
               ],
-              updateBookId: undefined
+              selectedBook: undefined
             }
           })
         }
@@ -91,6 +106,7 @@ export default function UpdateBookForm(dependencies: {
   async function invalidRequest(data: any) {
     if (!errorIsVisible) {
       for (const pos of [
+        'id',
         'book_name',
         'student_name',
         'student_class',
@@ -108,8 +124,20 @@ export default function UpdateBookForm(dependencies: {
     }
   }
 
+  function deleteSelectedBook() {
+    setData((oldValue: any) => {
+      return {
+        ...oldValue,
+        selectedBook: undefined
+      }
+    })
+  }
+
   return (
     <>
+    <button onClick={deleteSelectedBook}>
+      remover id
+    </button>
       <form
         method="POST"
         onSubmit={handleSubmit(bookSubmit, invalidRequest)}

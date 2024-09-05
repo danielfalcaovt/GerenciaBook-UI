@@ -3,39 +3,63 @@
 import React, { useContext } from 'react'
 import { Outlet } from 'react-router-dom'
 import { DataContext } from '../../../main/context/data-context'
+import { IBook } from '../../../domain/protocols/book/book'
+import Aside from '../../components/aside'
 
 export default function Book() {
   const { data, setData } = useContext(DataContext)
   return (
     <>
-      <h1>Header</h1>
+      <Aside />
       <div>
-        <h1>Main</h1>
         <table>
           <thead>
-            <th>nome</th>
-            <th>teste</th>
-            <th>asdkoad</th>
+            <th>Livro</th>
+            <th>Estudante</th>
+            <th>Classe</th>
+            <th>Data do Empréstimo</th>
           </thead>
           <tbody>
             {data.filteredBooks
-              ? data.filteredBooks.map((book) => {
+              ? data.filteredBooks?.sort((x: IBook, y:IBook) => Number(x.lend_day) - Number(y.lend_day)).map((book) => {
                   return (
-                    <tr>
+                    <tr
+                      key={book.id}
+                      onClick={() => {
+                        setData((oldValue) => {
+                          return {
+                            ...oldValue,
+                            selectedBook: book
+                          }
+                        })
+                      }}
+                    >
                       <td>{book.book_name}</td>
                       <td>{book.student_name}</td>
                       <td>{book.student_class}</td>
+                      <td>{new Date(book.lend_day).getDate()}</td>
                     </tr>
                   )
                 })
               : data.books &&
                 data.books.length > 0 &&
-                data.books?.map((book) => {
+                data.books?.sort((x: IBook, y:IBook) => Number(x.lend_day) - Number(y.lend_day)).map((book) => {
                   return (
-                    <tr>
+                    <tr
+                      key={book.id}
+                      onClick={() => {
+                        setData((oldValue) => {
+                          return {
+                            ...oldValue,
+                            selectedBook: book
+                          }
+                        })
+                      }}
+                    >
                       <td>{book.book_name}</td>
                       <td>{book.student_name}</td>
                       <td>{book.student_class}</td>
+                      <td>{String(new Date(Number(book.lend_day))).slice(0, 10)}</td>
                     </tr>
                   )
                 })}
@@ -46,7 +70,6 @@ export default function Book() {
         </table>
         <Outlet />
       </div>
-      <h1>footer</h1>
     </>
   )
 }
