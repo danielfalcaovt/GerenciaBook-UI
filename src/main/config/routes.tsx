@@ -1,12 +1,12 @@
 import React from 'react'
 import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom'
-import { makeLoginPage } from '../factory/pages/login'
-import { makeSignUpPage } from '../factory/pages/signup'
+import { makeLoginPage } from '../factory/pages/auth/login'
+import { makeSignUpPage } from '../factory/pages/auth/signup'
 import AuthRoutes from '../middleware/auth-routes'
-import make404Page from '../factory/pages/404'
-import { makeBookPage } from '../factory/pages/book'
-import { makePostBookPage } from '../factory/pages/post-book'
-import { makeGetBookPage } from '../factory/pages/get-book'
+import make404Page from '../factory/pages/error/404'
+import { makeBookPage } from '../factory/pages/api/book'
+import { makePostBookPage } from '../factory/components/form/post-book'
+import { makeGetBookPage } from '../factory/components/form/get-book'
 
 export default function AppRoutes() {
   
