@@ -6,7 +6,7 @@ import axios from "axios"
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
-mockedAxios.get.mockResolvedValue({ status: 200, data: [] } as any)
+mockedAxios.delete.mockResolvedValue({ status: 200, data: [] } as any)
 
 const makeFakeRequest = (): IHttpClientParams => ({
   url: faker.internet.url(),
@@ -23,5 +23,11 @@ describe('AxiosDeleteClient', () => {
     await sut.delete(expectedValue)
     const expectedUrl = expectedValue.url + `?id=${expectedValue.body.id}`
     expect(deleteSpy).toHaveBeenCalledWith(expectedUrl, {})
+  })
+  it('Should return httpResponse on axios succeed', async () => {
+    const sut = new AxiosDeleteClient()
+    const response = await sut.delete(makeFakeRequest())
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual([])
   })
 })
