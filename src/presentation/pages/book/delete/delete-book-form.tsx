@@ -50,26 +50,6 @@ export default function DeleteBookForm(dependencies: {
     }
   })
 
-  useEffect(() => {
-    if (data.selectedBook) {
-      setErrorVisible(false)
-      for (const pos of [
-        'id',
-        'student_name',
-        'book_name',
-        'student_class'
-      ] as ('id' | 'book_name' | 'student_name' | 'student_class')[]) {
-        setValue(pos, data.selectedBook[pos])
-      }
-      const lendDay = new Date(Number(data.selectedBook.lend_day))
-        .toISOString()
-        .slice(0, 10)
-      setValue('lend_day', lendDay)
-    } else {
-      reset()
-    }
-  }, [data.selectedBook])
-
   async function bookSubmit(data: any) {
     dependencies.deleteBook
       .delete(data)
