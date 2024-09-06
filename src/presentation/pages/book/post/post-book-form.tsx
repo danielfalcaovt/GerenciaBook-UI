@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { HttpResponse } from '../../../protocols/http'
 import { IHttpPostClient } from '../../../protocols/http-post-client'
-import { IAddBook } from '../../../../domain/protocols/book/iadd-book'
+import { IAddBook } from '../../../../domain/usecases/book/iadd-book'
 import { IBook } from '../../../../domain/protocols/book/book'
 
 const bookSchema = yup.object().shape({
