@@ -8,6 +8,7 @@ import { IHttpPatchClient } from '../../../protocols/http-patch-client'
 import { HttpResponse } from '../../../protocols/http'
 import React from 'react'
 import { IBook } from '../../../../domain/protocols/book/book'
+import { IUpdateBook } from '../../../../domain/usecases/book/iupdate-book'
 
 const bookSchema = yup.object().shape({
   id: yup.string().required('Selecione um empréstimo antes de continuar.'),
@@ -31,8 +32,7 @@ const bookSchema = yup.object().shape({
 })
 
 export default function UpdateBookForm(dependencies: {
-  url: string
-  HttpClient: IHttpPatchClient
+  updateBook: IUpdateBook
   context: React.Context<any>
 }) {
   const { data, setData } = useContext(dependencies.context)
@@ -54,45 +54,46 @@ export default function UpdateBookForm(dependencies: {
   useEffect(() => {
     if (data.selectedBook) {
       setErrorVisible(false)
-      for (const pos of ['id', 'student_name', 'book_name', 'student_class'] as ("id" | "book_name" | "student_name" | "student_class")[]) {
+      for (const pos of [
+        'id',
+        'student_name',
+        'book_name',
+        'student_class'
+      ] as ('id' | 'book_name' | 'student_name' | 'student_class')[]) {
         setValue(pos, data.selectedBook[pos])
       }
-      const lendDay = new Date(Number(data.selectedBook.lend_day)).toISOString().slice(0, 10)
+      const lendDay = new Date(Number(data.selectedBook.lend_day))
+        .toISOString()
+        .slice(0, 10)
       setValue('lend_day', lendDay)
     } else {
       reset()
     }
   }, [data.selectedBook])
 
-  async function bookSubmit(value: any) {
-    console.log('succeed')
-    const request = {
-      url: dependencies.url,
-      body: {
-        ...value
-      }
+  async function bookSubmit(data: any) {
+    const request = data
+    if (data.lend_day) {
+      request.lend_day = new Date(
+        data.lend_day + 'T10:20:20.200Z'
+      ).getTime()
     }
-    if (value.lend_day) {
-      request.body.lend_day = new Date(value.lend_day + 'T10:20:20.200Z').getTime()
-    }
-    dependencies.HttpClient.patch(request)
-      .then((response: HttpResponse) => {
-        if (response.statusCode === 200) {
-          setData((oldValue: any) => {
-            const bookArray = oldValue.books.filter((book: IBook) => book.id !== value.id)
-            return {
-              ...oldValue,
-              books: [
-                ...bookArray,
-                response.body[0]
-              ],
-              selectedBook: undefined
-            }
-          })
-        }
+    dependencies.updateBook
+      .update(request)
+      .then((response: IBook[]) => {
+        setData((oldValue: any) => {
+          const bookArray = oldValue.books.filter((book: IBook) => book.id !== data.id)
+          bookArray.push(response[0])
+          return {
+            ...oldValue,
+            books: bookArray,
+            filteredBooks: undefined,
+            selectedBook: undefined
+          }
+        })
       })
       .catch((err: any) => {
-        setFormError(err.body)
+        setFormError(err.message)
         setErrorVisible(true)
         setTimeout(() => {
           setErrorVisible(false)
@@ -135,9 +136,7 @@ export default function UpdateBookForm(dependencies: {
 
   return (
     <>
-    <button onClick={deleteSelectedBook}>
-      remover id
-    </button>
+      <button onClick={deleteSelectedBook}>remover id</button>
       <form
         method="POST"
         onSubmit={handleSubmit(bookSubmit, invalidRequest)}

@@ -5,13 +5,13 @@ import UpdateBookForm from "../../../../presentation/pages/book/update/update-bo
 import { LocalStorageRepository } from "../../../../infra/local-storage/local-storage"
 import { DataContext } from "../../../context/data-context"
 import { AxiosUpdateClient } from "../../../../infra/axios-http-client/update/axios-update-client"
+import { RemoteUpdateBook } from "../../../../data/usecases/book/update/update-book"
 
 export const makeUpdateBookPage = (): React.JSX.Element => {
   const itemStorage = new LocalStorageRepository()
   const token = itemStorage.getItem('token')
   return <UpdateBookForm
-    url={env.API_URL + '/books'}
-    HttpClient={new AxiosUpdateClient(token ? token : undefined)}
+    updateBook={new RemoteUpdateBook(env.API_URL + '/books', new AxiosUpdateClient(token ? token : undefined))}
     context={DataContext}
   />
 }
