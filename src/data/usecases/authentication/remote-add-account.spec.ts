@@ -69,4 +69,12 @@ describe('RemoteAddAccount', () => {
     const promise = sut.add(makeFakeAccount())
     expect(promise).rejects.toThrow(new UnexpectedError())
   })
+  it('Should throw if httpclient throws', async () => {
+    const { sut, httpClientStub  } = makeSut()
+    jest.spyOn(httpClientStub, 'post').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const promise = sut.add(makeFakeAccount())
+    expect(promise).rejects.toThrow()
+  })
 })
