@@ -10,7 +10,7 @@ export const makeDeleteBookPage = (): React.JSX.Element => {
   const itemStorage = new LocalStorageRepository()
   const token = itemStorage.getItem('token')
   return <DeleteBookForm
-    deleteBook={new RemoteDeleteBook(env.API_URL + '/books/query', new AxiosDeleteClient(token ? token : undefined))}
+    deleteBook={new RemoteDeleteBook(env.API_URL + '/books', new AxiosDeleteClient(token ? token : undefined))}
     context={DataContext}
   />
 }

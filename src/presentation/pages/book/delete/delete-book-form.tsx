@@ -38,6 +38,8 @@ export default function DeleteBookForm(dependencies: {
   const [errorIsVisible, setErrorVisible] = useState(false)
   const {
     register,
+    setValue,
+    reset,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -48,8 +50,11 @@ export default function DeleteBookForm(dependencies: {
   })
 
   async function bookSubmit(data: any) {
+    const request = {
+      id: data.id
+    }
     dependencies.deleteBook
-      .delete(data)
+      .delete(request)
       .then((response: boolean) => {
         if (response) {
           setData((oldValue: any) => {
@@ -94,6 +99,26 @@ export default function DeleteBookForm(dependencies: {
       }
     })
   }
+
+  useEffect(() => {
+    if (data.selectedBook) {
+      setErrorVisible(false)
+      for (const pos of [
+        'id',
+        'student_name',
+        'book_name',
+        'student_class'
+      ] as ('id' | 'book_name' | 'student_name' | 'student_class')[]) {
+        setValue(pos, data.selectedBook[pos])
+      }
+      const lendDay = new Date(Number(data.selectedBook.lend_day))
+        .toISOString()
+        .slice(0, 10)
+      setValue('lend_day', lendDay)
+    } else {
+      reset()
+    }
+  }, [data.selectedBook])
 
   return (
     <>
