@@ -2,7 +2,7 @@ import { IBook } from "../../../../domain/protocols/book/book";
 import { IGetBook, IGetBookModel } from "../../../../domain/usecases/book/iget-book";
 import { IHttpGetByClient } from "../../../protocols/http/get/http-get-by-client";
 
-export class GetBook implements IGetBook {
+export class RemoteGetBook implements IGetBook {
   constructor (
     private readonly url: string,
     private readonly httpClient: IHttpGetByClient
