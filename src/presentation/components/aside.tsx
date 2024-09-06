@@ -1,11 +1,23 @@
-import React from 'react'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { DataContext } from '../../main/context/data-context'
 
 export default function Aside() {
+  const { data, setData } = useContext(DataContext)
   return (
     <aside>
       <div id="aside-header">
-        <Link to={'/book'}>
+        <Link to={'/book'} onClick={() => {
+          setData((oldValue: any) => {
+            return {
+              ...oldValue,
+              filteredBooks: undefined,
+              selectedBook: undefined
+            }
+          })
+        }}>
           <img
             src="/assets/pages/login/gerenciabook.png"
             alt="livro acima de um texto escrito gerencia book"
