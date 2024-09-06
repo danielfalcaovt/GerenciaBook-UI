@@ -1,7 +1,7 @@
 import { IBook } from "../../protocols/book/book";
 
 export interface IUpdateBook {
-  update(book: IUpdateBookModel): Promise<IBook>
+  update(book: IUpdateBookModel): Promise<IBook[]>
 }
 
 export interface IUpdateBookModel {

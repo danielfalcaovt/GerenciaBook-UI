@@ -12,7 +12,7 @@ export class RemoteUpdateBook implements IUpdateBook {
     private readonly url: string,
     private readonly httpClient: IHttpPatchClient
   ) {}
-  async update(book: IUpdateBookModel): Promise<IBook> {
+  async update(book: IUpdateBookModel): Promise<IBook[]> {
     const response = await this.httpClient.patch({ url: this.url, body: book })
     switch (response.statusCode) {
       case 200:

@@ -30,13 +30,13 @@ const makeHttpClientStub = (): IHttpPatchClient => {
     async patch(params: IHttpClientParams): Promise<HttpResponse> {
       return Promise.resolve({
         statusCode: 200,
-        body: {
+        body: [{
           id: 'any_id',
           book_name: 'any_book',
           student_name: 'any_student',
           student_class: 3001,
           lend_day: 'random_day'
-        }
+        }]
       })
     }
   }
@@ -63,8 +63,8 @@ describe('RemoteUpdateBook', () => {
   it('Should return book on patch succeed', async () => {
     const { sut } = makeSut()
     const response = await sut.update(makeFakeBook())
-    expect(response.id).toBe('any_id')
-    expect(response.book_name).toBe('any_book')
+    expect(response[0].id).toBe('any_id')
+    expect(response[0].book_name).toBe('any_book')
   })
 
   it('Should throw an invalid params error on patch return 400', async () => {
