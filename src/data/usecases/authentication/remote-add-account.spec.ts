@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { InvalidCredentialsError } from "../../../domain/errors/invalid-credentials-error"
+import { UnexpectedError } from "../../../domain/errors/unexpected-error"
 import { IAddAccount, IAddAccountModel } from "../../../domain/protocols/signup/add-account"
 import { HttpResponse } from "../../../presentation/protocols/http"
 import { IHttpClientParams, IHttpPostClient } from "../../protocols/http/post/http-post-client"
@@ -54,5 +56,11 @@ describe('RemoteAddAccount', () => {
     const response = await sut.add(makeFakeAccount())
     expect(response.id).toBe('any_id')
     expect(response.book_name).toBe('any_book')
+  })
+  it('Should return an invalid credentials error on post receive 400', async () => {
+    const { sut, httpClientStub } = makeSut()
+    jest.spyOn(httpClientStub, 'post').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
+    const promise = sut.add(makeFakeAccount())
+    expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
 })
