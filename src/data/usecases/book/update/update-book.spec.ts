@@ -73,15 +73,15 @@ describe('RemoteUpdateBook', () => {
     const promise = sut.update(makeFakeBook())
     expect(promise).rejects.toThrow(new InvalidParamsError())
   })
-  /*
-  it('Should throw an unexpected error on getBy return an error', async () => {
+ 
+  it('Should throw an unexpected error on patch return an error', async () => {
     const { sut, httpClientStub } = makeSut()
     jest
-      .spyOn(httpClientStub, 'getBy')
+      .spyOn(httpClientStub, 'patch')
       .mockReturnValueOnce(Promise.resolve({ statusCode: 500 }))
-    const promise = sut.getBy(makeFakeBook())
+    const promise = sut.update(makeFakeBook())
     expect(promise).rejects.toThrow(new UnexpectedError())
-  })
+  }) /*
   it('Should throw if httpclient throws', async () => {
     const { sut, httpClientStub } = makeSut()
     jest.spyOn(httpClientStub, 'getBy').mockImplementationOnce(() => {
