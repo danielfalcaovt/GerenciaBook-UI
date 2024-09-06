@@ -4,10 +4,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { IHttpDeleteClient } from '../../../protocols/http-delete-client'
 import { HttpResponse } from '../../../protocols/http'
 import React from 'react'
 import { IBook } from '../../../../domain/protocols/book/book'
+import { IDeleteBook } from '../../../../domain/usecases/book/idelete-book'
 
 const bookSchema = yup.object().shape({
   id: yup.string().required('Selecione um empréstimo antes de continuar.'),
@@ -31,8 +31,7 @@ const bookSchema = yup.object().shape({
 })
 
 export default function DeleteBookForm(dependencies: {
-  url: string
-  HttpClient: IHttpDeleteClient
+  deleteBook: IDeleteBook
   context: React.Context<any>
 }) {
   const { data, setData } = useContext(dependencies.context)
@@ -71,19 +70,14 @@ export default function DeleteBookForm(dependencies: {
     }
   }, [data.selectedBook])
 
-  async function bookSubmit(value: any) {
-    const request = {
-      url: dependencies.url,
-      body: {
-        id: value.id
-      }
-    }
-    dependencies.HttpClient.delete(request)
-      .then((response: HttpResponse) => {
-        if (response.statusCode === 200) {
+  async function bookSubmit(data: any) {
+    dependencies.deleteBook
+      .delete(data)
+      .then((response: boolean) => {
+        if (response) {
           setData((oldValue: any) => {
             const bookArray = oldValue.books.filter(
-              (book: IBook) => book.id !== value.id
+              (book: IBook) => book.id !== data.id
             )
             return {
               ...oldValue,
@@ -94,7 +88,7 @@ export default function DeleteBookForm(dependencies: {
         }
       })
       .catch((err: any) => {
-        setFormError(err.body)
+        setFormError(err.message)
         setErrorVisible(true)
         setTimeout(() => {
           setErrorVisible(false)
