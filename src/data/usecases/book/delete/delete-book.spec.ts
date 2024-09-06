@@ -39,8 +39,8 @@ const makeFakeBook = (): IDeleteBookModel => ({
   id: 'any_id'
 })
 
-describe('RemoteGetBook', () => {
-  it('Should call get with correct values', async () => {
+describe('RemoteDeleteBook', () => {
+  it('Should call delete with correct values', async () => {
     const { sut, httpClientStub } = makeSut()
     const deleteSpy = jest.spyOn(httpClientStub, 'delete')
     await sut.delete(makeFakeBook())
@@ -49,12 +49,12 @@ describe('RemoteGetBook', () => {
       body: makeFakeBook()
     })
   })
-  /* it('Should return book array on getBy succeed', async () => {
+   it('Should return book array on delete succeed', async () => {
     const { sut } = makeSut()
-    const response = await sut.getBy(makeFakeBook())
-    expect(response[0].id).toBe('any_id')
-    expect(response[0].book_name).toBe('any_book')
+    const response = await sut.delete(makeFakeBook())
+    expect(response).toBeTruthy()
   })
+  /*
   it('Should throw an invalid params error on getBy return 400', async () => {
     const { sut, httpClientStub } = makeSut()
     jest.spyOn(httpClientStub, 'getBy').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
