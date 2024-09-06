@@ -9,6 +9,7 @@ import {
   IGetBookModel
 } from '../../../../domain/usecases/book/iget-book'
 import { RemoteGetBook } from './get-book'
+import { InvalidParamsError } from '../../../../domain/errors/invalid-params-error'
 
 interface SutTypes {
   sut: IGetBook
@@ -67,13 +68,13 @@ describe('RemoteGetBook', () => {
     expect(response[0].id).toBe('any_id')
     expect(response[0].book_name).toBe('any_book')
   })
-  /*
-  it('Should throw an invalid credentials error on getBy return 400', async () => {
+  it('Should throw an invalid params error on getBy return 400', async () => {
     const { sut, httpClientStub } = makeSut()
     jest.spyOn(httpClientStub, 'getBy').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
-    const promise = sut.add(makeFakeBook())
+    const promise = sut.getBy(makeFakeBook())
     expect(promise).rejects.toThrow(new InvalidParamsError())
   })
+  /*
   it('Should throw an unexpected error on getBy return an error', async () => {
     const { sut, httpClientStub } = makeSut()
     jest.spyOn(httpClientStub, 'getBy').mockReturnValueOnce(Promise.resolve({ statusCode: 500 }))
