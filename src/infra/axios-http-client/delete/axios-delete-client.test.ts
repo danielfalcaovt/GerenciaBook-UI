@@ -30,4 +30,15 @@ describe('AxiosDeleteClient', () => {
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual([])
   })
+  it('Should return httpResponse on axios fails', async () => {
+    const sut = new AxiosDeleteClient()
+    jest.spyOn(mockedAxios, 'delete').mockImplementationOnce((): any => {
+      return new Promise((resolve, reject) => {
+        reject({ response: { status: 401, data: 'any_error' } })
+      })
+    })
+    const httpResponse = await sut.delete(makeFakeRequest())
+    expect(httpResponse.statusCode).toBe(401)
+    expect(httpResponse.body).toBe('any_error')
+  })
 })
