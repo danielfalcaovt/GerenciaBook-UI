@@ -49,7 +49,7 @@ describe('RemoteDeleteBook', () => {
       body: makeFakeBook()
     })
   })
-   it('Should return book array on delete succeed', async () => {
+   it('Should return boolean on delete succeed', async () => {
     const { sut } = makeSut()
     const response = await sut.delete(makeFakeBook())
     expect(response).toBeTruthy()
