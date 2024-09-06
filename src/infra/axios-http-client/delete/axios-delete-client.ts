@@ -35,12 +35,18 @@ export class AxiosDeleteClient implements IHttpDeleteClient {
       )
     } catch (err) {
       const axiosError: any = err
-      return new Promise((resolve) =>
-        resolve({
-          statusCode: axiosError.response.status,
-          body: axiosError.response.data
-        })
-      )
+      if (axiosError.response) {
+        return new Promise((resolve) =>
+          resolve({
+            statusCode: axiosError.response.status,
+            body: axiosError.response.data
+          })
+        )
+      } else {
+        return new Promise((resolve) =>
+          resolve({ statusCode: 500, body: 'Internal Server Error' })
+        )
+      }
     }
   }
 }
