@@ -3,7 +3,7 @@
 import axios from 'axios'
 import { IHttpClientParams } from '../../../data/protocols/http/post/http-post-client'
 import * as faker from 'faker'
-import { IAddBook } from '../../../data/protocols/book/add-book'
+import { IAddBookModel } from '../../../data/protocols/book/iadd-book'
 import { AxiosGetByClient } from './axios-get-by-client'
 
 jest.mock('axios')
@@ -14,7 +14,7 @@ const makeFakeRequest = (): IHttpClientParams => ({
   url: faker.internet.url(),
   body: {
     book_name: 'any_name'
-  } as IAddBook
+  } as IAddBookModel
 })
 
 describe('AxiosGetByClient', () => {
