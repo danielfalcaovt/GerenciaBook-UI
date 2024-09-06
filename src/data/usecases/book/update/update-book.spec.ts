@@ -66,16 +66,14 @@ describe('RemoteUpdateBook', () => {
     expect(response.id).toBe('any_id')
     expect(response.book_name).toBe('any_book')
   })
-  /*
-  it('Should throw an invalid params error on getBy return 400', async () => {
+
+  it('Should throw an invalid params error on patch return 400', async () => {
     const { sut, httpClientStub } = makeSut()
-    jest
-      .spyOn(httpClientStub, 'getBy')
-      .mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
-    const promise = sut.getBy(makeFakeBook())
+    jest.spyOn(httpClientStub, 'patch').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
+    const promise = sut.update(makeFakeBook())
     expect(promise).rejects.toThrow(new InvalidParamsError())
   })
-
+  /*
   it('Should throw an unexpected error on getBy return an error', async () => {
     const { sut, httpClientStub } = makeSut()
     jest
