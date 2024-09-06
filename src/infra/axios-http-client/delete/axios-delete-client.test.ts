@@ -41,4 +41,13 @@ describe('AxiosDeleteClient', () => {
     expect(httpResponse.statusCode).toBe(401)
     expect(httpResponse.body).toBe('any_error')
   })
+  it('Should return server error if axios throw', async () => {
+    const sut = new AxiosDeleteClient()
+    jest.spyOn(mockedAxios, 'delete').mockImplementation(() => {
+      throw new Error()
+    })
+    const response = await sut.delete(makeFakeRequest())
+    expect(response.statusCode).toBe(500)
+    expect(response.body).toBe('Internal Server Error')
+  })
 })
