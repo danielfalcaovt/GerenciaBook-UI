@@ -2,10 +2,10 @@ import { IHttpGetClient } from './http-get-client'
 import { IHttpPostClient } from './http-post-client'
 import { IHttpPatchClient } from './http-patch-client'
 import { IHttpDeleteClient } from './http-delete-client'
+import { Authentication } from '../../domain/usecases/login/authentication'
 
 export interface LoginControllerDependencies {
-  httpPostClient: IHttpPostClient
-  url: string
+  Authenticator: Authentication
 }
 
 export interface SignUpControllerDependencies {
