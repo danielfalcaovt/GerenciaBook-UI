@@ -10,7 +10,7 @@ import {
   IDeleteBookModel
 } from '../../../../domain/usecases/book/idelete-book'
 import { IHttpDeleteClient } from '../../../protocols/http/delete/http-delete-client'
-import { RemoteDeleteBook } from './remote-delete-book'
+import { RemoteDeleteBook } from './delete-book'
 
 interface SutTypes {
   sut: IDeleteBook

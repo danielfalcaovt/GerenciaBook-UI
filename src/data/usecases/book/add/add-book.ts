@@ -4,7 +4,7 @@ import { IBook } from "../../../../domain/protocols/book/book";
 import { IAddBook, IAddBookModel } from "../../../../domain/usecases/book/iadd-book";
 import { IHttpPostClient } from "../../../protocols/http/post/http-post-client";
 
-export class AddBook implements IAddBook {
+export class RemoteAddBook implements IAddBook {
   constructor(
     private readonly url: string,
     private readonly httpClient: IHttpPostClient

@@ -3,7 +3,7 @@ import env from '../../../config/env'
 import { LocalStorageRepository } from "../../../../infra/local-storage/local-storage"
 import { DataContext } from "../../../context/data-context"
 import DeleteBookForm from "../../../../presentation/pages/book/delete/delete-book-form"
-import { RemoteDeleteBook } from "../../../../data/usecases/book/delete/remote-delete-book"
+import { RemoteDeleteBook } from "../../../../data/usecases/book/delete/delete-book"
 import { AxiosDeleteClient } from "../../../../infra/axios-http-client/delete/axios-delete-client"
 
 export const makeDeleteBookPage = (): React.JSX.Element => {

@@ -4,7 +4,7 @@ import { UnexpectedError } from "../../../../domain/errors/unexpected-error"
 import { HttpResponse } from "../../../../presentation/protocols/http"
 import { IAddBook, IAddBookModel } from "../../../../domain/usecases/book/iadd-book"
 import { IHttpClientParams, IHttpPostClient } from "../../../protocols/http/post/http-post-client"
-import { AddBook } from "./add-book"
+import { RemoteAddBook } from "./add-book"
 
 interface SutTypes {
   sut: IAddBook
@@ -13,7 +13,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const httpClientStub = makeHttpClientStub()
-  const sut = new AddBook('any_url', httpClientStub)
+  const sut = new RemoteAddBook('any_url', httpClientStub)
   return {
     sut,
     httpClientStub
