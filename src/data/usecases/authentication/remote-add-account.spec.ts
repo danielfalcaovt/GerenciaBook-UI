@@ -49,4 +49,10 @@ describe('RemoteAddAccount', () => {
     await sut.add(makeFakeAccount())
     expect(postSpy).toHaveBeenCalledWith({ url: 'any_url', body: makeFakeAccount() })
   })
+  it('Should return account on post succeed', async () => {
+    const { sut } = makeSut()
+    const response = await sut.add(makeFakeAccount())
+    expect(response.id).toBe('any_id')
+    expect(response.book_name).toBe('any_book')
+  })
 })
