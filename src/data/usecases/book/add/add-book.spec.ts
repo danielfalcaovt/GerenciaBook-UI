@@ -58,7 +58,7 @@ describe('RemoteAddBook', () => {
     expect(response.id).toBe('any_id')
     expect(response.book_name).toBe('any_book')
   })
-  it('Should throw an invalid credentials error on post receive 400', async () => {
+  it('Should throw an invalid credentials error on post return 400', async () => {
     const { sut, httpClientStub } = makeSut()
     jest.spyOn(httpClientStub, 'post').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
     const promise = sut.add(makeFakeBook())
