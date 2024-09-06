@@ -1,4 +1,4 @@
-import { HttpResponse } from "../../../presentation/protocols/http"
+import { Account } from "./account"
 
 export interface IAddAccountModel {
   name: string
@@ -7,5 +7,5 @@ export interface IAddAccountModel {
 }
 
 export interface IAddAccount {
-  add(account: IAddAccountModel): Promise<HttpResponse>
+  add(account: IAddAccountModel): Promise<Account>
 }
