@@ -57,10 +57,16 @@ describe('RemoteAddAccount', () => {
     expect(response.id).toBe('any_id')
     expect(response.book_name).toBe('any_book')
   })
-  it('Should return an invalid credentials error on post receive 400', async () => {
+  it('Should throw an invalid credentials error on post receive 400', async () => {
     const { sut, httpClientStub } = makeSut()
     jest.spyOn(httpClientStub, 'post').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
     const promise = sut.add(makeFakeAccount())
     expect(promise).rejects.toThrow(new InvalidCredentialsError())
+  })
+  it('Should throw an unexpected error on post receive an error', async () => {
+    const { sut, httpClientStub } = makeSut()
+    jest.spyOn(httpClientStub, 'post').mockReturnValueOnce(Promise.resolve({ statusCode: 500 }))
+    const promise = sut.add(makeFakeAccount())
+    expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })
