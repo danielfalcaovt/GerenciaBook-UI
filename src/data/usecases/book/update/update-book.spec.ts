@@ -5,7 +5,10 @@ import { IHttpClientParams } from '../../../protocols/http/post/http-post-client
 import { InvalidParamsError } from '../../../../domain/errors/invalid-params-error'
 import { UnexpectedError } from '../../../../domain/errors/unexpected-error'
 import { IHttpPatchClient } from '../../../protocols/http/patch/http-patch-client'
-import { IUpdateBook, IUpdateBookModel } from '../../../../domain/usecases/book/iupdate-book'
+import {
+  IUpdateBook,
+  IUpdateBookModel
+} from '../../../../domain/usecases/book/iupdate-book'
 import { RemoteUpdateBook } from './update-book'
 
 interface SutTypes {
@@ -27,15 +30,13 @@ const makeHttpClientStub = (): IHttpPatchClient => {
     async patch(params: IHttpClientParams): Promise<HttpResponse> {
       return Promise.resolve({
         statusCode: 200,
-        body: [
-          {
-            id: 'any_id',
-            book_name: 'any_book',
-            student_name: 'any_student',
-            student_class: 3001,
-            lend_day: 'random_day'
-          }
-        ]
+        body: {
+          id: 'any_id',
+          book_name: 'any_book',
+          student_name: 'any_student',
+          student_class: 3001,
+          lend_day: 'random_day'
+        }
       })
     }
   }
@@ -49,7 +50,7 @@ const makeFakeBook = (): IUpdateBookModel => ({
 })
 
 describe('RemoteUpdateBook', () => {
-   it('Should call patch with correct values', async () => {
+  it('Should call patch with correct values', async () => {
     const { sut, httpClientStub } = makeSut()
     const patchSpy = jest.spyOn(httpClientStub, 'patch')
     await sut.update(makeFakeBook())
@@ -58,13 +59,14 @@ describe('RemoteUpdateBook', () => {
       body: makeFakeBook()
     })
   })
-  /*
-  it('Should return book array on getBy succeed', async () => {
+
+  it('Should return book on patch succeed', async () => {
     const { sut } = makeSut()
-    const response = await sut.getBy(makeFakeBook())
-    expect(response[0].id).toBe('any_id')
-    expect(response[0].book_name).toBe('any_book')
+    const response = await sut.update(makeFakeBook())
+    expect(response.id).toBe('any_id')
+    expect(response.book_name).toBe('any_book')
   })
+  /*
   it('Should throw an invalid params error on getBy return 400', async () => {
     const { sut, httpClientStub } = makeSut()
     jest
