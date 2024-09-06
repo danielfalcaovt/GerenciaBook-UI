@@ -82,13 +82,12 @@ describe('RemoteGetBook', () => {
     const promise = sut.getBy(makeFakeBook())
     expect(promise).rejects.toThrow(new UnexpectedError())
   })
-  /*
   it('Should throw if httpclient throws', async () => {
     const { sut, httpClientStub  } = makeSut()
     jest.spyOn(httpClientStub, 'getBy').mockImplementationOnce(() => {
       throw new Error()
     })
-    const promise = sut.add(makeFakeBook())
+    const promise = sut.getBy(makeFakeBook())
     expect(promise).rejects.toThrow()
-  }) */
+  })
 })
