@@ -64,4 +64,18 @@ describe('RemoteAddBook', () => {
     const promise = sut.add(makeFakeBook())
     expect(promise).rejects.toThrow(new InvalidParamsError())
   })
+  it('Should throw an unexpected error on post return an error', async () => {
+    const { sut, httpClientStub } = makeSut()
+    jest.spyOn(httpClientStub, 'post').mockReturnValueOnce(Promise.resolve({ statusCode: 500 }))
+    const promise = sut.add(makeFakeBook())
+    expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+  it('Should throw if httpclient throws', async () => {
+    const { sut, httpClientStub  } = makeSut()
+    jest.spyOn(httpClientStub, 'post').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const promise = sut.add(makeFakeBook())
+    expect(promise).rejects.toThrow()
+  })
 })
