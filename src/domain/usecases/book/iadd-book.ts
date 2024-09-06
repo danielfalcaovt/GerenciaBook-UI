@@ -1,4 +1,4 @@
-import { IBook } from "./book"
+import { IBook } from "../../protocols/book/book"
 
 export interface IAddBookModel {
   book_name: string

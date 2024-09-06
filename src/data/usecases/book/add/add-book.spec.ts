@@ -2,7 +2,7 @@
 import { InvalidParamsError } from "../../../../domain/errors/invalid-params-error"
 import { UnexpectedError } from "../../../../domain/errors/unexpected-error"
 import { HttpResponse } from "../../../../presentation/protocols/http"
-import { IAddBook, IAddBookModel } from "../../../../domain/protocols/book/iadd-book"
+import { IAddBook, IAddBookModel } from "../../../../domain/usecases/book/iadd-book"
 import { IHttpClientParams, IHttpPostClient } from "../../../protocols/http/post/http-post-client"
 import { AddBook } from "./add-book"
 
