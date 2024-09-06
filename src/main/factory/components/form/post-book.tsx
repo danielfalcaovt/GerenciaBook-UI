@@ -5,13 +5,13 @@ import { AxiosPostClient } from '../../../../infra/axios-http-client/post/axios-
 import PostBookForm from "../../../../presentation/pages/book/post/post-book-form"
 import { LocalStorageRepository } from "../../../../infra/local-storage/local-storage"
 import { DataContext } from "../../../context/data-context"
+import { AddBook } from "../../../../data/usecases/book/add/add-book"
 
 export const makePostBookPage = (): React.JSX.Element => {
   const itemStorage = new LocalStorageRepository()
   const token = itemStorage.getItem('token')
   return <PostBookForm
-    url={env.API_URL + '/books'}
-    HttpClient={new AxiosPostClient(token ? token : undefined)}
+    addBook={new AddBook(env.API_URL + '/books', new AxiosPostClient(token ? token : ''))}
     context={DataContext}
   />
 }

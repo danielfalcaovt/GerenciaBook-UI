@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { HttpResponse } from '../../../protocols/http'
 import { IHttpPostClient } from '../../../protocols/http-post-client'
+import { IAddBook } from '../../../../domain/protocols/book/iadd-book'
+import { IBook } from '../../../../domain/protocols/book/book'
 
 const bookSchema = yup.object().shape({
   book_name: yup.string().required('O nome do livro é obrigatório'),
@@ -27,8 +29,7 @@ const bookSchema = yup.object().shape({
 })
 
 export default function PostBookForm(dependencies: {
-  url: string,
-  HttpClient: IHttpPostClient,
+  addBook: IAddBook,
   context: React.Context<any>
 }) {
   const [formError, setFormError] = useState<string | boolean>(false)
@@ -66,8 +67,8 @@ export default function PostBookForm(dependencies: {
     }
   }
 
-  async function bookSubmit(value: any) {
-    console.log(value.lend_day)
+  async function bookSubmit(data: any) {
+    console.log(data.lend_day)
     /* 
         formato new Date() no javascript quando 
         chamado com uma isostring, retorna com o 
@@ -75,13 +76,13 @@ export default function PostBookForm(dependencies: {
         dia seja retornado como o anterior.
     */
     // lendDay = new Date( alterando o horário da data recebida no formato ISOString )
-    const lendDay = new Date(value.lend_day + 'T10:20:20.200Z')
+    const lendDay = new Date(data.lend_day + 'T10:20:20.200Z')
     const request = {
-      ...value,
+      ...data,
       lend_day: lendDay.getTime()
     }
-    await dependencies.HttpClient.post({ url: dependencies.url, body: request })
-      .then((response: HttpResponse) => {
+    await dependencies.addBook.add(request)
+      .then((response: IBook) => {
         setData((oldValue: any) => {
           const oldBooks = oldValue.books?.length>0 ? oldValue.books : []
           if (oldBooks && oldBooks.length > 0) {
@@ -89,13 +90,13 @@ export default function PostBookForm(dependencies: {
               ...oldValue,
               books: [
                 ...oldBooks,
-                response.body
+                response
               ]
             }
           } else {
             setData((oldValue: any) => ({
               ...oldValue,
-              books: [response.body]
+              books: [response]
             }))
           }
         })
