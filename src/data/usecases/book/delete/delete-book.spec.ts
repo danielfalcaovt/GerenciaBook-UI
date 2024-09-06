@@ -54,26 +54,27 @@ describe('RemoteDeleteBook', () => {
     const response = await sut.delete(makeFakeBook())
     expect(response).toBeTruthy()
   })
-  /*
-  it('Should throw an invalid params error on getBy return 400', async () => {
+  
+  it('Should throw an invalid params error on delete return 400', async () => {
     const { sut, httpClientStub } = makeSut()
-    jest.spyOn(httpClientStub, 'getBy').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
-    const promise = sut.getBy(makeFakeBook())
+    jest.spyOn(httpClientStub, 'delete').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
+    const promise = sut.delete(makeFakeBook())
     expect(promise).rejects.toThrow(new InvalidParamsError())
   })
   
-  it('Should throw an unexpected error on getBy return an error', async () => {
+  it('Should throw an unexpected error on delete return an error', async () => {
     const { sut, httpClientStub } = makeSut()
-    jest.spyOn(httpClientStub, 'getBy').mockReturnValueOnce(Promise.resolve({ statusCode: 500 }))
-    const promise = sut.getBy(makeFakeBook())
+    jest.spyOn(httpClientStub, 'delete').mockReturnValueOnce(Promise.resolve({ statusCode: 500 }))
+    const promise = sut.delete(makeFakeBook())
     expect(promise).rejects.toThrow(new UnexpectedError())
   })
+  /*
   it('Should throw if httpclient throws', async () => {
     const { sut, httpClientStub  } = makeSut()
-    jest.spyOn(httpClientStub, 'getBy').mockImplementationOnce(() => {
+    jest.spyOn(httpClientStub, 'delete').mockImplementationOnce(() => {
       throw new Error()
     })
-    const promise = sut.getBy(makeFakeBook())
+    const promise = sut.delete(makeFakeBook())
     expect(promise).rejects.toThrow()
   }) */
 })
