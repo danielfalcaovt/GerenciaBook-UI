@@ -7,6 +7,7 @@ import * as yup from 'yup'
 import { IHttpGetByClient } from '../../../protocols/http-get-by-client'
 import { HttpResponse } from '../../../protocols/http'
 import { IBook } from '../../../../domain/protocols/book/book'
+import { IGetBook } from '../../../../domain/usecases/book/iget-book'
 
 const bookSchema = yup.object().shape({
   book_name: yup.string(),
@@ -29,8 +30,7 @@ const bookSchema = yup.object().shape({
 })
 
 export default function GetBookForm(dependencies: {
-  url: string
-  HttpClient: IHttpGetByClient
+  getBook: IGetBook
   context: React.Context<any>
 }) {
   const { data, setData } = useContext(dependencies.context)
@@ -50,9 +50,13 @@ export default function GetBookForm(dependencies: {
 
   const searchStudentName = watch('student_name')
   const filteredBooks = searchStudentName
-    ? data.books.filter((book: IBook) => {
-        return book.student_name.toLowerCase().includes(searchStudentName.toLowerCase())
-      }).sort()
+    ? data.books
+        .filter((book: IBook) => {
+          return book.student_name
+            .toLowerCase()
+            .includes(searchStudentName.toLowerCase())
+        })
+        .sort()
     : ''
 
   useEffect(() => {
@@ -65,25 +69,21 @@ export default function GetBookForm(dependencies: {
   }, [searchStudentName])
 
   async function bookSubmit(value: any) {
-    const request = {
-      url: dependencies.url,
-      body: {
-        ...value
-      }
-    }
+    const request = value
     if (value.lend_day) {
-      request.body.lend_day = new Date(value.lend_day + 'T10:20:20.200Z').getTime()
+      request.body.lend_day = new Date(
+        value.lend_day + 'T10:20:20.200Z'
+      ).getTime()
     }
-    dependencies.HttpClient.getBy(request)
-      .then((response: HttpResponse) => {
-        if (response.statusCode === 200) {
-          setData((oldValue: any) => {
-            return {
-              ...oldValue,
-              filteredBooks: response.body
-            }
-          })
-        }
+    dependencies.getBook
+      .getBy(request)
+      .then((response: IBook[]) => {
+        setData((oldValue: any) => {
+          return {
+            ...oldValue,
+            filteredBooks: response
+          }
+        })
       })
       .catch((err: any) => {
         setFormError(err.body)

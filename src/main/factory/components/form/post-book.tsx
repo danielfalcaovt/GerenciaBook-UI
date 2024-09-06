@@ -11,7 +11,7 @@ export const makePostBookPage = (): React.JSX.Element => {
   const itemStorage = new LocalStorageRepository()
   const token = itemStorage.getItem('token')
   return <PostBookForm
-    addBook={new AddBook(env.API_URL + '/books', new AxiosPostClient(token ? token : ''))}
+    addBook={new AddBook(env.API_URL + '/books', new AxiosPostClient(token ? token : undefined))}
     context={DataContext}
   />
 }
