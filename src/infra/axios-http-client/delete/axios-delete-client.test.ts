@@ -50,4 +50,16 @@ describe('AxiosDeleteClient', () => {
     expect(response.statusCode).toBe(500)
     expect(response.body).toBe('Internal Server Error')
   })
+  it('Should call axios with correct values on token received', async () => {
+    const sut = new AxiosDeleteClient('any_token')
+    const getSpy = jest.spyOn(axios, 'delete')
+    const expectedValue = makeFakeRequest()
+    const expectedUrl = expectedValue.url + `?id=${expectedValue.body.id}`
+    await sut.delete(expectedValue)
+    expect(getSpy).toHaveBeenCalledWith(expectedUrl, {
+      headers: {
+        Authorization: 'Bearer any_token'
+      }
+    })
+  })
 })
