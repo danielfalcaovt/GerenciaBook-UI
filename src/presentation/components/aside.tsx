@@ -5,10 +5,12 @@ export default function Aside() {
   return (
     <aside>
       <div id="aside-header">
-        <img
-          src="/assets/pages/login/gerenciabook.png"
-          alt="livro acima de um texto escrito gerencia book"
-        ></img>
+        <Link to={'/book'}>
+          <img
+            src="/assets/pages/login/gerenciabook.png"
+            alt="livro acima de um texto escrito gerencia book"
+          ></img>
+        </Link>
       </div>
       <div id="link-container">
         <ul id="link-main">
