@@ -5,7 +5,10 @@ import { HttpResponse } from '../../../../presentation/protocols/http'
 import { IHttpClientParams } from '../../../protocols/http/post/http-post-client'
 import { InvalidParamsError } from '../../../../domain/errors/invalid-params-error'
 import { UnexpectedError } from '../../../../domain/errors/unexpected-error'
-import { IDeleteBook, IDeleteBookModel } from '../../../../domain/usecases/book/idelete-book'
+import {
+  IDeleteBook,
+  IDeleteBookModel
+} from '../../../../domain/usecases/book/idelete-book'
 import { IHttpDeleteClient } from '../../../protocols/http/delete/http-delete-client'
 import { RemoteDeleteBook } from './remote-delete-book'
 
@@ -49,32 +52,36 @@ describe('RemoteDeleteBook', () => {
       body: makeFakeBook()
     })
   })
-   it('Should return boolean on delete succeed', async () => {
+  it('Should return boolean on delete succeed', async () => {
     const { sut } = makeSut()
     const response = await sut.delete(makeFakeBook())
     expect(response).toBeTruthy()
   })
-  
+
   it('Should throw an invalid params error on delete return 400', async () => {
     const { sut, httpClientStub } = makeSut()
-    jest.spyOn(httpClientStub, 'delete').mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
+    jest
+      .spyOn(httpClientStub, 'delete')
+      .mockReturnValueOnce(Promise.resolve({ statusCode: 400 }))
     const promise = sut.delete(makeFakeBook())
     expect(promise).rejects.toThrow(new InvalidParamsError())
   })
-  
+
   it('Should throw an unexpected error on delete return an error', async () => {
     const { sut, httpClientStub } = makeSut()
-    jest.spyOn(httpClientStub, 'delete').mockReturnValueOnce(Promise.resolve({ statusCode: 500 }))
+    jest
+      .spyOn(httpClientStub, 'delete')
+      .mockReturnValueOnce(Promise.resolve({ statusCode: 500 }))
     const promise = sut.delete(makeFakeBook())
     expect(promise).rejects.toThrow(new UnexpectedError())
   })
-  /*
+
   it('Should throw if httpclient throws', async () => {
-    const { sut, httpClientStub  } = makeSut()
+    const { sut, httpClientStub } = makeSut()
     jest.spyOn(httpClientStub, 'delete').mockImplementationOnce(() => {
       throw new Error()
     })
     const promise = sut.delete(makeFakeBook())
     expect(promise).rejects.toThrow()
-  }) */
+  })
 })
