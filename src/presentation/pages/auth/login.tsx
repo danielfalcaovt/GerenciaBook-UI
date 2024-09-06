@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom'
 import { LoginControllerDependencies } from '../../protocols/controller'
 import Loader from '../../components/loader'
 import { Link } from 'react-router-dom'
-import { HttpResponse } from '../../protocols/http'
 
 const loginSchema = yup.object().shape({
   email: yup
@@ -36,28 +35,20 @@ export default function Login(dependencies: LoginControllerDependencies) {
   // Conduzir usuário para próxima página
   async function loginSubmit(data: any) {
     setLoading(true)
-    await dependencies.httpPostClient
-      .post({ url: dependencies.url, body: data })
-      .then((response: HttpResponse) => {
-        if (response.statusCode === 200) {
-          setFormError(false)
-          const token = response.body
-          localStorage.setItem('token', token)
-          const now = new Date()
-          localStorage.setItem(
-            'tokenExpiresIn',
-            String(new Date(now.getTime() + 8 * 60 * 60 * 1000).getTime())
-          )
-          navigate('/book')
-        }
+    await dependencies.Authenticator.auth(data)
+      .then((response: any) => {
+        setFormError(false)
+        const token = response
+        localStorage.setItem('token', token)
+        const now = new Date()
+        localStorage.setItem(
+          'tokenExpiresIn',
+          String(new Date(now.getTime() + 8 * 60 * 60 * 1000).getTime())
+        )
+        navigate('/book')
       })
-      .catch((err: { response: { status: number } }) => {
-        console.log(err)
-        if (err.response.status === 401) {
-          setFormError('Credenciais Inválidas.')
-        } else {
-          setFormError('Ocorreu um erro inesperado.')
-        }
+      .catch((err: Error) => {
+        setFormError(err.message)
         setLoading(false)
         setErrorVisible(true)
         setTimeout(() => {

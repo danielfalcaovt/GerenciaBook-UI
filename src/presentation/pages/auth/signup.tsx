@@ -30,7 +30,7 @@ const signupSchema = yup.object().shape({
     .oneOf([yup.ref('password'), null as any], 'As senhas são distintas.')
 })
 
-export default function SignUp(data: SignUpControllerDependencies) {
+export default function SignUp(dependencies: SignUpControllerDependencies) {
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
   const [passwordVisibility, setPasswordVisibility] = useState({
@@ -46,44 +46,19 @@ export default function SignUp(data: SignUpControllerDependencies) {
   } = useForm({ resolver: yupResolver(signupSchema) })
   async function signupSubmit(userData: any) {
     setLoading(true)
-    await data.httpPostClient
-      .post({ url: data.url, body: userData })
-      .then((response: HttpResponse) => {
-        if (response.statusCode === 200) {
-          setFormError(false)
-          navigate('/login')
-        }
+    await dependencies.AddAccount
+      .add(userData)
+      .then(() => {
+        setFormError(false)
+        navigate('/login')
       })
       .catch((err: any) => {
-        if (err.response.status === 400) {
-          switch(err.response.data) {
-            case "missing param: name":
-              setFormError('O nome é obrigatório')
-              break
-            case "invalid param: email":
-              setFormError('Email já existente ou inválido.')    
-              break
-            case "invalid param: confirmPassword":
-              setFormError('As senhas são distintas.')
-              break
-            case "missing param: password":
-              setFormError('A senha é obrigatória')
-              break
-            default:
-              setFormError('Não foi possível finalizar o cadastro.')
-              break
-          }
+          setFormError(err.message)
           setErrorVisible(true)
           setTimeout(() => {
             setErrorVisible(false)
           }, 3000)
-        } else {
-          setFormError('Ocorreu um erro inesperado.')
-          setErrorVisible(true)
-          setTimeout(() => {
-            setErrorVisible(false)
-          }, 3000)
-        }
+
         setLoading(false)
       })
       .finally(() => {

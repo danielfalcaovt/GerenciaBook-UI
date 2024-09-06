@@ -2,15 +2,15 @@ import { IHttpGetClient } from './http-get-client'
 import { IHttpPostClient } from './http-post-client'
 import { IHttpPatchClient } from './http-patch-client'
 import { IHttpDeleteClient } from './http-delete-client'
+import { Authentication } from '../../domain/usecases/login/authentication'
+import { IAddAccount } from '../../domain/protocols/signup/add-account'
 
 export interface LoginControllerDependencies {
-  httpPostClient: IHttpPostClient
-  url: string
+  Authenticator: Authentication
 }
 
 export interface SignUpControllerDependencies {
-  httpPostClient: IHttpPostClient
-  url: string
+  AddAccount: IAddAccount
 }
 
 export interface BookControllerDependencies {

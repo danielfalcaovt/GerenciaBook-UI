@@ -21,12 +21,12 @@ export default function Book() {
           </thead>
           <tbody>
             {data.filteredBooks
-              ? data.filteredBooks?.sort((x: IBook, y:IBook) => Number(x.lend_day) - Number(y.lend_day)).map((book) => {
+              ? data.filteredBooks?.sort((x: IBook, y:IBook) => Number(x.lend_day) - Number(y.lend_day)).map((book: any) => {
                   return (
                     <tr
                       key={book.id}
                       onClick={() => {
-                        setData((oldValue) => {
+                        setData((oldValue: any) => {
                           return {
                             ...oldValue,
                             selectedBook: book
@@ -43,12 +43,12 @@ export default function Book() {
                 })
               : data.books &&
                 data.books.length > 0 &&
-                data.books?.sort((x: IBook, y:IBook) => Number(x.lend_day) - Number(y.lend_day)).map((book) => {
+                data.books?.sort((x: IBook, y:IBook) => Number(x.lend_day) - Number(y.lend_day)).map((book: any) => {
                   return (
                     <tr
                       key={book.id}
                       onClick={() => {
-                        setData((oldValue) => {
+                        setData((oldValue: any) => {
                           return {
                             ...oldValue,
                             selectedBook: book
