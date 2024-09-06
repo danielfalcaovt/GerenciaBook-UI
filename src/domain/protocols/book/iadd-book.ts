@@ -1,4 +1,4 @@
-import { IBook } from "../../../domain/protocols/book/book"
+import { IBook } from "./book"
 
 export interface IAddBookModel {
   book_name: string

@@ -1,7 +1,7 @@
 import { InvalidParamsError } from "../../../../domain/errors/invalid-params-error";
 import { UnexpectedError } from "../../../../domain/errors/unexpected-error";
 import { IBook } from "../../../../domain/protocols/book/book";
-import { IAddBook, IAddBookModel } from "../../../protocols/book/iadd-book";
+import { IAddBook, IAddBookModel } from "../../../../domain/protocols/book/iadd-book";
 import { IHttpPostClient } from "../../../protocols/http/post/http-post-client";
 
 export class AddBook implements IAddBook {

@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { IHttpClientParams } from '../../../data/protocols/http/post/http-post-client'
 import * as faker from 'faker'
-import { IAddBookModel } from '../../../data/protocols/book/iadd-book'
+import { IAddBookModel } from '../../../domain/protocols/book/iadd-book'
 import { AxiosUpdateClient } from './axios-update-client'
 
 jest.mock('axios')
