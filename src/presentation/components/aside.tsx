@@ -60,7 +60,7 @@ export default function Aside() {
             </Link>
           </li>
           <li>
-            <Link to={'/book/remover'}>
+            <Link to={'/book/devolver'}>
               <div>
                 <img
                   src="/assets/pages/books/delete-book.png"

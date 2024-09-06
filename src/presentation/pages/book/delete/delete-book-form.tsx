@@ -4,7 +4,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { HttpResponse } from '../../../protocols/http'
 import React from 'react'
 import { IBook } from '../../../../domain/protocols/book/book'
 import { IDeleteBook } from '../../../../domain/usecases/book/idelete-book'
@@ -39,9 +38,7 @@ export default function DeleteBookForm(dependencies: {
   const [errorIsVisible, setErrorVisible] = useState(false)
   const {
     register,
-    setValue,
     handleSubmit,
-    reset,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(bookSchema),
