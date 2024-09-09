@@ -4,12 +4,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import React from 'react'
-import { IBook } from '../../../../domain/protocols/book/book'
-import { IDeleteBook } from '../../../../domain/usecases/book/idelete-book'
+import { IHttpGetByClient } from '../../../../protocols/http-get-by-client'
+import { HttpResponse } from '../../../../protocols/http'
+import { IBook } from '../../../../../domain/protocols/book/book'
+import { IGetBook } from '../../../../../domain/usecases/book/iget-book'
 
 const bookSchema = yup.object().shape({
-  id: yup.string().required('Selecione um empréstimo antes de continuar.'),
   book_name: yup.string(),
   student_name: yup.string(),
   student_class: yup.string(),
@@ -29,8 +29,8 @@ const bookSchema = yup.object().shape({
     )
 })
 
-export default function DeleteBookForm(dependencies: {
-  deleteBook: IDeleteBook
+export default function GetBookForm(dependencies: {
+  getBook: IGetBook
   context: React.Context<any>
 }) {
   const { data, setData } = useContext(dependencies.context)
@@ -38,8 +38,7 @@ export default function DeleteBookForm(dependencies: {
   const [errorIsVisible, setErrorVisible] = useState(false)
   const {
     register,
-    setValue,
-    reset,
+    watch,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -49,28 +48,45 @@ export default function DeleteBookForm(dependencies: {
     }
   })
 
-  async function bookSubmit(data: any) {
-    const request = {
-      id: data.id
+  const searchStudentName = watch('student_name')
+  const filteredBooks = searchStudentName
+    ? data.books
+        .filter((book: IBook) => {
+          return book.student_name
+            .toLowerCase()
+            .includes(searchStudentName.toLowerCase())
+        })
+        .sort()
+    : ''
+
+  useEffect(() => {
+    setData((oldValue: any) => {
+      return {
+        ...oldValue,
+        filteredBooks: filteredBooks
+      }
+    })
+  }, [searchStudentName])
+
+  async function bookSubmit(value: any) {
+    const request = value
+    if (value.lend_day) {
+      request.body.lend_day = new Date(
+        value.lend_day + 'T10:20:20.200Z'
+      ).getTime()
     }
-    dependencies.deleteBook
-      .delete(request)
-      .then((response: boolean) => {
-        if (response) {
-          setData((oldValue: any) => {
-            const bookArray = oldValue.books.filter(
-              (book: IBook) => book.id !== data.id
-            )
-            return {
-              ...oldValue,
-              books: bookArray,
-              selectedBook: undefined
-            }
-          })
-        }
+    dependencies.getBook
+      .getBy(request)
+      .then((response: IBook[]) => {
+        setData((oldValue: any) => {
+          return {
+            ...oldValue,
+            filteredBooks: response
+          }
+        })
       })
       .catch((err: any) => {
-        setFormError(err.message)
+        setFormError(err.body)
         setErrorVisible(true)
         setTimeout(() => {
           setErrorVisible(false)
@@ -83,7 +99,17 @@ export default function DeleteBookForm(dependencies: {
 
   async function invalidRequest(data: any) {
     if (!errorIsVisible) {
-      setFormError('Selecione um empréstimo para confirmar a devolução.')
+      for (const pos of [
+        'book_name',
+        'student_name',
+        'student_class',
+        'lend_day'
+      ]) {
+        if (data[pos]) {
+          setFormError(data[pos].message)
+          break
+        }
+      }
       setErrorVisible(true)
       setTimeout(() => {
         setErrorVisible(false)
@@ -91,58 +117,26 @@ export default function DeleteBookForm(dependencies: {
     }
   }
 
-  function deleteSelectedBook() {
-    setData((oldValue: any) => {
-      return {
-        ...oldValue,
-        selectedBook: undefined
-      }
-    })
-  }
-
-  useEffect(() => {
-    if (data.selectedBook) {
-      setErrorVisible(false)
-      for (const pos of [
-        'id',
-        'student_name',
-        'book_name',
-        'student_class'
-      ] as ('id' | 'book_name' | 'student_name' | 'student_class')[]) {
-        setValue(pos, data.selectedBook[pos])
-      }
-      const lendDay = new Date(Number(data.selectedBook.lend_day))
-        .toISOString()
-        .slice(0, 10)
-      setValue('lend_day', lendDay)
-    } else {
-      reset()
-    }
-  }, [data.selectedBook])
-
   return (
     <>
-      <button onClick={deleteSelectedBook}>remover id</button>
       <form
         method="POST"
         onSubmit={handleSubmit(bookSubmit, invalidRequest)}
         autoComplete="off"
       >
         <input
-          disabled
           type="text"
           {...register('book_name')}
           id="book_name"
           placeholder="Nome do livro"
         />
         <input
-          disabled
           type="text"
           {...register('student_name')}
           id="student_name"
           placeholder="Nome do estudante"
         />
-        <select disabled {...register('student_class')}>
+        <select {...register('student_class')}>
           <option value="" disabled>
             Selecione a turma:
           </option>
@@ -168,7 +162,7 @@ export default function DeleteBookForm(dependencies: {
           <option value={3002}>3002</option>
           <option value={3003}>3003</option>
         </select>
-        <input disabled type="date" {...register('lend_day')} />
+        <input type="date" {...register('lend_day')} />
         <button>Enviar</button>
       </form>
       <div

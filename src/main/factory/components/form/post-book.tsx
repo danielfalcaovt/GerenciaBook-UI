@@ -2,7 +2,7 @@
 import React from "react"
 import env from '../../../config/env'
 import { AxiosPostClient } from '../../../../infra/axios-http-client/post/axios-post-client'
-import PostBookForm from "../../../../presentation/pages/book/post/post-book-form"
+import PostBookForm from "../../../../presentation/pages/book/form/post/post-book-form"
 import { LocalStorageRepository } from "../../../../infra/local-storage/local-storage"
 import { DataContext } from "../../../context/data-context"
 import { RemoteAddBook } from "../../../../data/usecases/book/add/add-book"

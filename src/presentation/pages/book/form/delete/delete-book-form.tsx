@@ -4,11 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { IHttpPatchClient } from '../../../protocols/http-patch-client'
-import { HttpResponse } from '../../../protocols/http'
 import React from 'react'
-import { IBook } from '../../../../domain/protocols/book/book'
-import { IUpdateBook } from '../../../../domain/usecases/book/iupdate-book'
+import { IBook } from '../../../../../domain/protocols/book/book'
+import { IDeleteBook } from '../../../../../domain/usecases/book/idelete-book'
 
 const bookSchema = yup.object().shape({
   id: yup.string().required('Selecione um empréstimo antes de continuar.'),
@@ -31,8 +29,8 @@ const bookSchema = yup.object().shape({
     )
 })
 
-export default function UpdateBookForm(dependencies: {
-  updateBook: IUpdateBook
+export default function DeleteBookForm(dependencies: {
+  deleteBook: IDeleteBook
   context: React.Context<any>
 }) {
   const { data, setData } = useContext(dependencies.context)
@@ -41,8 +39,8 @@ export default function UpdateBookForm(dependencies: {
   const {
     register,
     setValue,
-    handleSubmit,
     reset,
+    handleSubmit,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(bookSchema),
@@ -50,6 +48,57 @@ export default function UpdateBookForm(dependencies: {
       student_class: ''
     }
   })
+
+  async function bookSubmit(data: any) {
+    const request = {
+      id: data.id
+    }
+    dependencies.deleteBook
+      .delete(request)
+      .then((response: boolean) => {
+        if (response) {
+          setData((oldValue: any) => {
+            const bookArray = oldValue.books.filter(
+              (book: IBook) => book.id !== data.id
+            )
+            return {
+              ...oldValue,
+              books: bookArray,
+              selectedBook: undefined
+            }
+          })
+        }
+      })
+      .catch((err: any) => {
+        setFormError(err.message)
+        setErrorVisible(true)
+        setTimeout(() => {
+          setErrorVisible(false)
+        }, 3000)
+      })
+      .finally(() => {
+        console.log(data)
+      })
+  }
+
+  async function invalidRequest(data: any) {
+    if (!errorIsVisible) {
+      setFormError('Selecione um empréstimo para confirmar a devolução.')
+      setErrorVisible(true)
+      setTimeout(() => {
+        setErrorVisible(false)
+      }, 3000)
+    }
+  }
+
+  function deleteSelectedBook() {
+    setData((oldValue: any) => {
+      return {
+        ...oldValue,
+        selectedBook: undefined
+      }
+    })
+  }
 
   useEffect(() => {
     if (data.selectedBook) {
@@ -71,69 +120,6 @@ export default function UpdateBookForm(dependencies: {
     }
   }, [data.selectedBook])
 
-  async function bookSubmit(data: any) {
-    const request = data
-    if (data.lend_day) {
-      request.lend_day = new Date(
-        data.lend_day + 'T10:20:20.200Z'
-      ).getTime()
-    }
-    dependencies.updateBook
-      .update(request)
-      .then((response: IBook[]) => {
-        setData((oldValue: any) => {
-          const bookArray = oldValue.books.filter((book: IBook) => book.id !== data.id)
-          bookArray.push(response[0])
-          return {
-            ...oldValue,
-            books: bookArray,
-            filteredBooks: undefined,
-            selectedBook: undefined
-          }
-        })
-      })
-      .catch((err: any) => {
-        setFormError(err.message)
-        setErrorVisible(true)
-        setTimeout(() => {
-          setErrorVisible(false)
-        }, 3000)
-      })
-      .finally(() => {
-        console.log(data)
-      })
-  }
-
-  async function invalidRequest(data: any) {
-    if (!errorIsVisible) {
-      for (const pos of [
-        'id',
-        'book_name',
-        'student_name',
-        'student_class',
-        'lend_day'
-      ]) {
-        if (data[pos]) {
-          setFormError(data[pos].message)
-          break
-        }
-      }
-      setErrorVisible(true)
-      setTimeout(() => {
-        setErrorVisible(false)
-      }, 3000)
-    }
-  }
-
-  function deleteSelectedBook() {
-    setData((oldValue: any) => {
-      return {
-        ...oldValue,
-        selectedBook: undefined
-      }
-    })
-  }
-
   return (
     <>
       <button onClick={deleteSelectedBook}>remover id</button>
@@ -143,18 +129,20 @@ export default function UpdateBookForm(dependencies: {
         autoComplete="off"
       >
         <input
+          disabled
           type="text"
           {...register('book_name')}
           id="book_name"
           placeholder="Nome do livro"
         />
         <input
+          disabled
           type="text"
           {...register('student_name')}
           id="student_name"
           placeholder="Nome do estudante"
         />
-        <select {...register('student_class')}>
+        <select disabled {...register('student_class')}>
           <option value="" disabled>
             Selecione a turma:
           </option>
@@ -180,7 +168,7 @@ export default function UpdateBookForm(dependencies: {
           <option value={3002}>3002</option>
           <option value={3003}>3003</option>
         </select>
-        <input type="date" {...register('lend_day')} />
+        <input disabled type="date" {...register('lend_day')} />
         <button>Enviar</button>
       </form>
       <div

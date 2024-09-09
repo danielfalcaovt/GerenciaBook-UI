@@ -4,12 +4,14 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { IHttpGetByClient } from '../../../protocols/http-get-by-client'
-import { HttpResponse } from '../../../protocols/http'
-import { IBook } from '../../../../domain/protocols/book/book'
-import { IGetBook } from '../../../../domain/usecases/book/iget-book'
+import { IHttpPatchClient } from '../../../../protocols/http-patch-client'
+import { HttpResponse } from '../../../../protocols/http'
+import React from 'react'
+import { IBook } from '../../../../../domain/protocols/book/book'
+import { IUpdateBook } from '../../../../../domain/usecases/book/iupdate-book'
 
 const bookSchema = yup.object().shape({
+  id: yup.string().required('Selecione um empréstimo antes de continuar.'),
   book_name: yup.string(),
   student_name: yup.string(),
   student_class: yup.string(),
@@ -29,8 +31,8 @@ const bookSchema = yup.object().shape({
     )
 })
 
-export default function GetBookForm(dependencies: {
-  getBook: IGetBook
+export default function UpdateBookForm(dependencies: {
+  updateBook: IUpdateBook
   context: React.Context<any>
 }) {
   const { data, setData } = useContext(dependencies.context)
@@ -38,8 +40,9 @@ export default function GetBookForm(dependencies: {
   const [errorIsVisible, setErrorVisible] = useState(false)
   const {
     register,
-    watch,
+    setValue,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(bookSchema),
@@ -48,45 +51,49 @@ export default function GetBookForm(dependencies: {
     }
   })
 
-  const searchStudentName = watch('student_name')
-  const filteredBooks = searchStudentName
-    ? data.books
-        .filter((book: IBook) => {
-          return book.student_name
-            .toLowerCase()
-            .includes(searchStudentName.toLowerCase())
-        })
-        .sort()
-    : ''
-
   useEffect(() => {
-    setData((oldValue: any) => {
-      return {
-        ...oldValue,
-        filteredBooks: filteredBooks
+    if (data.selectedBook) {
+      setErrorVisible(false)
+      for (const pos of [
+        'id',
+        'student_name',
+        'book_name',
+        'student_class'
+      ] as ('id' | 'book_name' | 'student_name' | 'student_class')[]) {
+        setValue(pos, data.selectedBook[pos])
       }
-    })
-  }, [searchStudentName])
+      const lendDay = new Date(Number(data.selectedBook.lend_day))
+        .toISOString()
+        .slice(0, 10)
+      setValue('lend_day', lendDay)
+    } else {
+      reset()
+    }
+  }, [data.selectedBook])
 
-  async function bookSubmit(value: any) {
-    const request = value
-    if (value.lend_day) {
-      request.body.lend_day = new Date(
-        value.lend_day + 'T10:20:20.200Z'
+  async function bookSubmit(data: any) {
+    const request = data
+    if (data.lend_day) {
+      request.lend_day = new Date(
+        data.lend_day + 'T10:20:20.200Z'
       ).getTime()
     }
-    dependencies.getBook
-      .getBy(request)
+    dependencies.updateBook
+      .update(request)
       .then((response: IBook[]) => {
         setData((oldValue: any) => {
+          const bookArray = oldValue.books.filter((book: IBook) => book.id !== data.id)
+          bookArray.push(response[0])
           return {
             ...oldValue,
-            filteredBooks: response
+            books: bookArray,
+            filteredBooks: undefined,
+            selectedBook: undefined
           }
         })
       })
       .catch((err: any) => {
-        setFormError(err.body)
+        setFormError(err.message)
         setErrorVisible(true)
         setTimeout(() => {
           setErrorVisible(false)
@@ -100,6 +107,7 @@ export default function GetBookForm(dependencies: {
   async function invalidRequest(data: any) {
     if (!errorIsVisible) {
       for (const pos of [
+        'id',
         'book_name',
         'student_name',
         'student_class',
@@ -117,8 +125,18 @@ export default function GetBookForm(dependencies: {
     }
   }
 
+  function deleteSelectedBook() {
+    setData((oldValue: any) => {
+      return {
+        ...oldValue,
+        selectedBook: undefined
+      }
+    })
+  }
+
   return (
     <>
+      <button onClick={deleteSelectedBook}>remover id</button>
       <form
         method="POST"
         onSubmit={handleSubmit(bookSubmit, invalidRequest)}
