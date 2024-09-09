@@ -7,6 +7,7 @@ import * as yup from 'yup'
 import React from 'react'
 import { IBook } from '../../../../../domain/protocols/book/book'
 import { IDeleteBook } from '../../../../../domain/usecases/book/idelete-book'
+import TrashButton from '../../../../components/trash'
 
 const bookSchema = yup.object().shape({
   id: yup.string().required('Selecione um empréstimo antes de continuar.'),
@@ -122,7 +123,7 @@ export default function DeleteBookForm(dependencies: {
 
   return (
     <>
-      <button onClick={deleteSelectedBook}>remover id</button>
+      <TrashButton onClick={deleteSelectedBook}/>
       <form
         method="POST"
         onSubmit={handleSubmit(bookSubmit, invalidRequest)}

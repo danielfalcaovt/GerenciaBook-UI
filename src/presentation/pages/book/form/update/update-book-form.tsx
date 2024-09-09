@@ -9,6 +9,7 @@ import { HttpResponse } from '../../../../protocols/http'
 import React from 'react'
 import { IBook } from '../../../../../domain/protocols/book/book'
 import { IUpdateBook } from '../../../../../domain/usecases/book/iupdate-book'
+import TrashButton from '../../../../components/trash'
 
 const bookSchema = yup.object().shape({
   id: yup.string().required('Selecione um empréstimo antes de continuar.'),
@@ -74,15 +75,15 @@ export default function UpdateBookForm(dependencies: {
   async function bookSubmit(data: any) {
     const request = data
     if (data.lend_day) {
-      request.lend_day = new Date(
-        data.lend_day + 'T10:20:20.200Z'
-      ).getTime()
+      request.lend_day = new Date(data.lend_day + 'T10:20:20.200Z').getTime()
     }
     dependencies.updateBook
       .update(request)
       .then((response: IBook[]) => {
         setData((oldValue: any) => {
-          const bookArray = oldValue.books.filter((book: IBook) => book.id !== data.id)
+          const bookArray = oldValue.books.filter(
+            (book: IBook) => book.id !== data.id
+          )
           bookArray.push(response[0])
           return {
             ...oldValue,
@@ -136,7 +137,7 @@ export default function UpdateBookForm(dependencies: {
 
   return (
     <>
-      <button onClick={deleteSelectedBook}>remover id</button>
+      <TrashButton onClick={deleteSelectedBook} />
       <form
         method="POST"
         onSubmit={handleSubmit(bookSubmit, invalidRequest)}
@@ -147,14 +148,16 @@ export default function UpdateBookForm(dependencies: {
           {...register('book_name')}
           id="book_name"
           placeholder="Nome do livro"
+          disabled={data.selectedBook ? false : true}
         />
         <input
           type="text"
           {...register('student_name')}
           id="student_name"
           placeholder="Nome do estudante"
+          disabled={data.selectedBook ? false : true}
         />
-        <select {...register('student_class')}>
+        <select {...register('student_class')} disabled={data.selectedBook ? false : true}>
           <option value="" disabled>
             Selecione a turma:
           </option>
@@ -180,8 +183,8 @@ export default function UpdateBookForm(dependencies: {
           <option value={3002}>3002</option>
           <option value={3003}>3003</option>
         </select>
-        <input type="date" {...register('lend_day')} />
-        <button>Enviar</button>
+        <input type="date" {...register('lend_day')} disabled={data.selectedBook ? false : true}/>
+        <button disabled={data.selectedBook ? false : true}>Enviar</button>
       </form>
       <div
         id="error-modal"
