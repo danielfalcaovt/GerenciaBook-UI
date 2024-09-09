@@ -1,12 +1,15 @@
-import React from 'react'
-import AppRoutes from './routes'
-import DataContextProvider from '../context/data-context-provider'
+import React, { useContext } from 'react'
+import Routes from './routes'
+import { LoaderContext } from '../context/loader-context'
+import Loader from '../../presentation/components/loader'
 
 function App() {
+  const { loading } = useContext(LoaderContext)
   return (
-    <DataContextProvider>
-      <AppRoutes />
-    </DataContextProvider>
+    <>
+      {loading && <Loader />}
+      <Routes />
+    </>
   )
 }
 
