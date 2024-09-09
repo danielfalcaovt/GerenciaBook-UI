@@ -73,6 +73,7 @@ export default function UpdateBookForm(dependencies: {
   }, [data.selectedBook])
 
   async function bookSubmit(data: any) {
+    reset()
     const request = data
     if (data.lend_day) {
       request.lend_day = new Date(data.lend_day + 'T10:20:20.200Z').getTime()

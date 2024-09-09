@@ -37,6 +37,7 @@ export default function PostBookForm(dependencies: {
   const { data, setData } = useContext<any>(dependencies.context)
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -68,7 +69,7 @@ export default function PostBookForm(dependencies: {
   }
 
   async function bookSubmit(data: any) {
-    console.log(data.lend_day)
+    reset()
     /* 
         formato new Date() no javascript quando 
         chamado com uma isostring, retorna com o 

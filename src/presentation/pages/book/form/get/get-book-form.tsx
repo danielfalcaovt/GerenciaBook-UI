@@ -38,6 +38,7 @@ export default function GetBookForm(dependencies: {
   const [errorIsVisible, setErrorVisible] = useState(false)
   const {
     register,
+    reset,
     watch,
     handleSubmit,
     formState: { errors }
@@ -69,6 +70,7 @@ export default function GetBookForm(dependencies: {
   }, [searchStudentName])
 
   async function bookSubmit(value: any) {
+    reset()
     const request = value
     if (value.lend_day) {
       request.body.lend_day = new Date(

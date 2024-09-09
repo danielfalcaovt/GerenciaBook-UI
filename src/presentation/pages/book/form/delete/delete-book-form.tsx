@@ -51,6 +51,7 @@ export default function DeleteBookForm(dependencies: {
   })
 
   async function bookSubmit(data: any) {
+    reset()
     const request = {
       id: data.id
     }
