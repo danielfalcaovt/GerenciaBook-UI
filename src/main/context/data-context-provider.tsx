@@ -32,7 +32,7 @@ export default function DataContextProvider({ children }: any) {
       .finally(() => {
         setLoading(false)
       })
-  }, [data.token])
+  }, [])
 
   return (
     <>
