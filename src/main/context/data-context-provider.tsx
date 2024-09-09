@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { DataContext } from './data-context'
 import Loader from '../../presentation/components/loader'
 import { AxiosGetClient } from '../../infra/axios-http-client/get/axios-get-client'
 import { LocalStorageRepository } from '../../infra/local-storage/local-storage'
 import env from '../config/env'
 import { HttpResponse } from '../../presentation/protocols/http'
+import { LoaderContext } from './loader-context'
 
 export default function DataContextProvider({ children }: any) {
-  const [data, setData] = useState({})
-  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState({ token: undefined })
+  const {loading, setLoading} = useContext(LoaderContext)
 
   useEffect(() => {
     const localStorageRepo = new LocalStorageRepository()
@@ -29,10 +30,9 @@ export default function DataContextProvider({ children }: any) {
         setLoading(false)
       })
       .finally(() => {
-        console.log('fim')
         setLoading(false)
       })
-  }, [])
+  }, [data.token])
 
   return (
     <>

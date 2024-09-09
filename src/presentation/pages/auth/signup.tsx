@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -10,6 +10,7 @@ import { SignUpControllerDependencies } from '../../protocols/controller'
 import Loader from '../../components/loader'
 import { Link } from 'react-router-dom'
 import { HttpResponse } from '../../protocols/http'
+import { LoaderContext } from '../../../main/context/loader-context'
 
 const signupSchema = yup.object().shape({
   name: yup
@@ -37,7 +38,7 @@ export default function SignUp(dependencies: SignUpControllerDependencies) {
     password: false,
     confirm: false
   })
-  const [loading, setLoading] = useState(true)
+  const {loading, setLoading} = useContext(LoaderContext)
   const navigate = useNavigate()
   const {
     register,
@@ -95,7 +96,6 @@ export default function SignUp(dependencies: SignUpControllerDependencies) {
   return (
     !token && (
       <main id="login-page">
-        {loading && <Loader />}
         <article id="login-background" style={{background: "black url('/assets/pages/login/signup-background.jfif') no-repeat center center/cover"}}></article>
         <article id="login-form-container" style={{gridTemplateRows: '0.2fr 0.9fr 0.3fr'}}>
           <div id="login-header">

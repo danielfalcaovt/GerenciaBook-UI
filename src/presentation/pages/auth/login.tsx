@@ -3,11 +3,13 @@
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LoginControllerDependencies } from '../../protocols/controller'
 import Loader from '../../components/loader'
 import { Link } from 'react-router-dom'
+import { LoaderContext } from '../../../main/context/loader-context'
+import { DataContext } from '../../../main/context/data-context'
 
 const loginSchema = yup.object().shape({
   email: yup
@@ -24,7 +26,8 @@ export default function Login(dependencies: LoginControllerDependencies) {
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
   const [passwordVisibility, setPasswordVisibility] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const { loading, setLoading } = useContext(LoaderContext)
+  const { data, setData } = useContext(DataContext)
   const navigate = useNavigate()
   const {
     register,
@@ -45,7 +48,6 @@ export default function Login(dependencies: LoginControllerDependencies) {
           'tokenExpiresIn',
           String(new Date(now.getTime() + 8 * 60 * 60 * 1000).getTime())
         )
-        navigate('/book')
       })
       .catch((err: Error) => {
         setFormError(err.message)
@@ -56,6 +58,13 @@ export default function Login(dependencies: LoginControllerDependencies) {
         }, 3000)
       })
       .finally(() => {
+        setData((oldValue: any) => {
+          return {
+            ...oldValue,
+            token: token
+          }
+        })
+        navigate('/book')
         setLoading(false)
       })
   }
@@ -89,7 +98,6 @@ export default function Login(dependencies: LoginControllerDependencies) {
   return (
     !token && (
       <main id="login-page">
-        {loading && <Loader />}
         <article
           id="login-background"
           style={{
