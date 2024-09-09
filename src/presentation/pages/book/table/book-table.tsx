@@ -6,7 +6,7 @@ import { IBook } from '../../../../domain/protocols/book/book'
 export default function BookTable() {
   const { data, setData } = useContext(DataContext)
   const dataAtual = new Date()
-  console.log(data)
+
   return (
     <table>
       <thead>
@@ -26,7 +26,16 @@ export default function BookTable() {
               .map((book: any) => {
                 return (
                   <tr
-                    
+                    style={
+                      new Date(Number(book.lend_day)) <
+                      new Date(
+                        dataAtual.getFullYear(),
+                        dataAtual.getMonth(),
+                        dataAtual.getDate() - 14
+                      )
+                        ? { background: '#F9CCC8' }
+                        : {}
+                    }
                     key={book.id}
                     onClick={() => {
                       setData((oldValue: any) => {
@@ -40,16 +49,7 @@ export default function BookTable() {
                     <td>{book.book_name}</td>
                     <td>{book.student_name}</td>
                     <td>{book.student_class}</td>
-                    <td style={
-                      new Date(Number(book.lend_day)) <
-                      new Date(
-                        dataAtual.getFullYear(),
-                        dataAtual.getMonth(),
-                        dataAtual.getDate() - 14
-                      )
-                        ? { background: 'red' }
-                        : {}
-                    }>
+                    <td >
                       {new Date(Number(book.lend_day)).getDate() < 10 ? 0 : ''}
                       {new Date(Number(book.lend_day)).getDate()}/
                       {new Date(Number(book.lend_day)).getMonth() < 10 ? 0 : ''}
@@ -68,7 +68,16 @@ export default function BookTable() {
               .map((book: any) => {
                 return (
                   <tr
-                    
+                    style={
+                      new Date(Number(book.lend_day)) <
+                      new Date(
+                        dataAtual.getFullYear(),
+                        dataAtual.getMonth(),
+                        dataAtual.getDate() - 14
+                      )
+                        ? { background: '#F9CCC8' }
+                        : {}
+                    }
                     key={book.id}
                     onClick={() => {
                       setData((oldValue: any) => {
@@ -82,16 +91,7 @@ export default function BookTable() {
                     <td>{book.book_name}</td>
                     <td>{book.student_name}</td>
                     <td>{book.student_class}</td>
-                    <td   style={
-                      new Date(Number(book.lend_day)) <
-                      new Date(
-                        dataAtual.getFullYear(),
-                        dataAtual.getMonth(),
-                        dataAtual.getDate() - 14
-                      )
-                        ? { background: '#E52A1B' }
-                        : {}
-                    }>
+                    <td   >
                       {new Date(Number(book.lend_day)).getDate() < 10 ? 0 : ''}
                       {new Date(Number(book.lend_day)).getDate()}/
                       {new Date(Number(book.lend_day)).getMonth() < 10 ? 0 : ''}
@@ -101,9 +101,6 @@ export default function BookTable() {
                   </tr>
                 )
               })}
-        <tr>
-          <td></td>
-        </tr>
       </tbody>
     </table>
   )
