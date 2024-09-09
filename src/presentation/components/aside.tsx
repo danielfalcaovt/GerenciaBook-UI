@@ -4,20 +4,31 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { DataContext } from '../../main/context/data-context'
 
-export default function Aside() {
+export default function Aside(props: any) {
   const { data, setData } = useContext(DataContext)
   return (
     <aside>
       <div id="aside-header">
-        <Link to={'/book'} onClick={() => {
-          setData((oldValue: any) => {
-            return {
-              ...oldValue,
-              filteredBooks: undefined,
-              selectedBook: undefined
-            }
-          })
-        }}>
+        <Link
+          to={'/book'}
+          onClick={() => {
+            props.setStyle({
+              bookContainer: {
+                gridTemplateRows: '1fr'
+              },
+              bookSection: {
+                gridArea: '1 / 1 / 1 / 1'
+              }
+            })
+            setData((oldValue: any) => {
+              return {
+                ...oldValue,
+                filteredBooks: undefined,
+                selectedBook: undefined
+              }
+            })
+          }}
+        >
           <img
             src="/assets/pages/login/gerenciabook.png"
             alt="livro acima de um texto escrito gerencia book"
@@ -27,7 +38,17 @@ export default function Aside() {
       <div id="link-container">
         <ul id="link-main">
           <li>
-            <Link to={'/book/cadastrar'}>
+            <Link
+              to={'/book/cadastrar'}
+              onClick={()=>{props.setStyle({
+                bookContainer: {
+                  gridTemplateRows: '0.5fr 0.5fr'
+                },
+                bookSection: {
+                  gridArea: '2 / 1 / 2 / 1'
+                }
+              })}}
+            >
               <div>
                 <img
                   src="/assets/pages/books/add-book.png"
@@ -38,7 +59,17 @@ export default function Aside() {
             </Link>
           </li>
           <li>
-            <Link to={'/book/atualizar'}>
+            <Link
+              to={'/book/atualizar'}
+              onClick={()=>{props.setStyle({
+                bookContainer: {
+                  gridTemplateRows: '0.5fr 0.5fr'
+                },
+                bookSection: {
+                  gridArea: '2 / 1 / 2 / 1'
+                }
+              })}}
+            >
               <div>
                 <img
                   src="/assets/pages/books/patch-book.png"
@@ -49,7 +80,17 @@ export default function Aside() {
             </Link>
           </li>
           <li>
-            <Link to={'/book/consultar'}>
+            <Link
+              to={'/book/consultar'}
+              onClick={()=>{props.setStyle({
+                bookContainer: {
+                  gridTemplateRows: '0.5fr 0.5fr'
+                },
+                bookSection: {
+                  gridArea: '2 / 1 / 2 / 1'
+                }
+              })}}
+            >
               <div>
                 <img
                   src="/assets/pages/books/search-book.png"
@@ -60,7 +101,17 @@ export default function Aside() {
             </Link>
           </li>
           <li>
-            <Link to={'/book/devolver'}>
+            <Link
+              to={'/book/devolver'}
+              onClick={()=>{props.setStyle({
+                bookContainer: {
+                  gridTemplateRows: '0.5fr 0.5fr'
+                },
+                bookSection: {
+                  gridArea: '2 / 1 / 2 / 1'
+                }
+              })}}
+            >
               <div>
                 <img
                   src="/assets/pages/books/delete-book.png"
