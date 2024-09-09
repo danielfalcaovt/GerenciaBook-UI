@@ -13,3 +13,18 @@
 *:focus {
   outline: 0px;
 }
+
+
+::-webkit-scrollbar {
+  background: #E0E0E0;
+  border-radius: 15px;
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #0043A5;
+  border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #003F7A;
+}

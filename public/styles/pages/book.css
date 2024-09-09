@@ -1,0 +1,53 @@
+#book-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.8fr 0.1fr;
+}
+
+#book-container>section {
+  width: 90%;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  margin: auto;
+}
+
+#book-container form{
+  grid-area: 2/1/2/1;
+}
+#book-container div {
+  grid-area: 2/1/2/1;
+}
+
+#book-container table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#book-container thead {
+  position: sticky;
+  top: 0px;
+  z-index: 10;
+  background: white;
+}
+
+#book-container th {
+  font-weight: bold;
+}
+#book-container table tr {
+  height: 70px;
+}
+
+#book-container th,td {
+  text-align: left;
+  text-indent: 15px;
+}
+
+#formstudent_class {
+  width: 100px;
+}
+
+#formlend_day {
+  width: 200px;
+}

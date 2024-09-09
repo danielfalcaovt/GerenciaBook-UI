@@ -9,10 +9,14 @@ export default function Book() {
   return (
     <>
       <Aside />
-      <div>
-        <BookTable/>
-        <Outlet />
-      </div>
+      <main id="book-container">
+        <section>
+          <BookTable />
+        </section>
+        <article id='book-form'>
+          <Outlet />
+        </article>
+      </main>
     </>
   )
 }
