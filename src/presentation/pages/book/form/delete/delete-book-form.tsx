@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -41,8 +42,7 @@ export default function DeleteBookForm(dependencies: {
     register,
     setValue,
     reset,
-    handleSubmit,
-    formState: { errors }
+    handleSubmit
   } = useForm({
     resolver: yupResolver(bookSchema),
     defaultValues: {
@@ -83,7 +83,7 @@ export default function DeleteBookForm(dependencies: {
       })
   }
 
-  async function invalidRequest(data: any) {
+  async function invalidRequest(_data: any) {
     if (!errorIsVisible) {
       setFormError('Selecione um empréstimo para confirmar a devolução.')
       setErrorVisible(true)

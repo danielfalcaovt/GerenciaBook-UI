@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { HttpResponse } from '../../../../protocols/http'
-import { IHttpPostClient } from '../../../../protocols/http-post-client'
 import { IAddBook } from '../../../../../domain/usecases/book/iadd-book'
 import { IBook } from '../../../../../domain/protocols/book/book'
 
@@ -34,12 +32,11 @@ export default function PostBookForm(dependencies: {
 }) {
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
-  const { data, setData } = useContext<any>(dependencies.context)
+  const { setData } = useContext<any>(dependencies.context)
   const {
     register,
     reset,
-    handleSubmit,
-    formState: { errors }
+    handleSubmit
   } = useForm({
     resolver: yupResolver(bookSchema),
     defaultValues: {

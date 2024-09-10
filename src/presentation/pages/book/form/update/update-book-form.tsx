@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { IHttpPatchClient } from '../../../../protocols/http-patch-client'
-import { HttpResponse } from '../../../../protocols/http'
 import React from 'react'
 import { IBook } from '../../../../../domain/protocols/book/book'
 import { IUpdateBook } from '../../../../../domain/usecases/book/iupdate-book'
@@ -43,8 +42,7 @@ export default function UpdateBookForm(dependencies: {
     register,
     setValue,
     handleSubmit,
-    reset,
-    formState: { errors }
+    reset
   } = useForm({
     resolver: yupResolver(bookSchema),
     defaultValues: {
