@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -106,18 +107,7 @@ export default function UpdateBookForm(dependencies: {
 
   async function invalidRequest(data: any) {
     if (!errorIsVisible) {
-      for (const pos of [
-        'id',
-        'book_name',
-        'student_name',
-        'student_class',
-        'lend_day'
-      ]) {
-        if (data[pos]) {
-          setFormError(data[pos].message)
-          break
-        }
-      }
+      setFormError('Selecione um empréstimo para alterar.')
       setErrorVisible(true)
       setTimeout(() => {
         setErrorVisible(false)
@@ -183,7 +173,7 @@ export default function UpdateBookForm(dependencies: {
           <option value={3003}>3003</option>
         </select>
         <input type="date" {...register('lend_day')} disabled={data.selectedBook ? false : true}/>
-        <button disabled={data.selectedBook ? false : true}>Enviar</button>
+        <button>Enviar</button>
       </form>
       <div
         id="error-modal"
