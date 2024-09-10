@@ -39,15 +39,25 @@ export default function Aside(props: any) {
         <ul id="link-main">
           <li>
             <Link
+              style={
+                window.location.pathname === '/book/cadastrar'
+                  ? {
+                      background: 'rgb(0, 63, 122)',
+                      boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.336)'
+                    }
+                  : {}
+              }
               to={'/book/cadastrar'}
-              onClick={()=>{props.setStyle({
-                bookContainer: {
-                  gridTemplateRows: '0.5fr 0.5fr'
-                },
-                bookSection: {
-                  gridArea: '2 / 1 / 2 / 1'
-                }
-              })}}
+              onClick={() => {
+                props.setStyle({
+                  bookContainer: {
+                    gridTemplateRows: '0.5fr 0.5fr'
+                  },
+                  bookSection: {
+                    gridArea: '2 / 1 / 2 / 1'
+                  }
+                })
+              }}
             >
               <div>
                 <img
@@ -60,36 +70,25 @@ export default function Aside(props: any) {
           </li>
           <li>
             <Link
-              to={'/book/atualizar'}
-              onClick={()=>{props.setStyle({
-                bookContainer: {
-                  gridTemplateRows: '0.5fr 0.5fr'
-                },
-                bookSection: {
-                  gridArea: '2 / 1 / 2 / 1'
-                }
-              })}}
-            >
-              <div>
-                <img
-                  src="/assets/pages/books/patch-book.png"
-                  alt="botão para atualizar um empréstimo"
-                />
-              </div>
-              <p>Alterar</p>
-            </Link>
-          </li>
-          <li>
-            <Link
+              style={
+                window.location.pathname === '/book/consultar'
+                  ? {
+                      background: 'rgb(0, 63, 122)',
+                      boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.336)'
+                    }
+                  : {}
+              }
               to={'/book/consultar'}
-              onClick={()=>{props.setStyle({
-                bookContainer: {
-                  gridTemplateRows: '0.5fr 0.5fr'
-                },
-                bookSection: {
-                  gridArea: '2 / 1 / 2 / 1'
-                }
-              })}}
+              onClick={() => {
+                props.setStyle({
+                  bookContainer: {
+                    gridTemplateRows: '0.5fr 0.5fr'
+                  },
+                  bookSection: {
+                    gridArea: '2 / 1 / 2 / 1'
+                  }
+                })
+              }}
             >
               <div>
                 <img
@@ -102,15 +101,56 @@ export default function Aside(props: any) {
           </li>
           <li>
             <Link
+              style={
+                window.location.pathname === '/book/atualizar'
+                  ? {
+                      background: 'rgb(0, 63, 122)',
+                      boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.336)'
+                    }
+                  : {}
+              }
+              to={'/book/atualizar'}
+              onClick={() => {
+                props.setStyle({
+                  bookContainer: {
+                    gridTemplateRows: '0.5fr 0.5fr'
+                  },
+                  bookSection: {
+                    gridArea: '2 / 1 / 2 / 1'
+                  }
+                })
+              }}
+            >
+              <div>
+                <img
+                  src="/assets/pages/books/patch-book.png"
+                  alt="botão para atualizar um empréstimo"
+                />
+              </div>
+              <p>Alterar</p>
+            </Link>
+          </li>
+          <li>
+            <Link
+              style={
+                window.location.pathname === '/book/devolver'
+                  ? {
+                      background: 'rgb(0, 63, 122)',
+                      boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.336)'
+                    }
+                  : {}
+              }
               to={'/book/devolver'}
-              onClick={()=>{props.setStyle({
-                bookContainer: {
-                  gridTemplateRows: '0.5fr 0.5fr'
-                },
-                bookSection: {
-                  gridArea: '2 / 1 / 2 / 1'
-                }
-              })}}
+              onClick={() => {
+                props.setStyle({
+                  bookContainer: {
+                    gridTemplateRows: '0.5fr 0.5fr'
+                  },
+                  bookSection: {
+                    gridArea: '2 / 1 / 2 / 1'
+                  }
+                })
+              }}
             >
               <div>
                 <img
