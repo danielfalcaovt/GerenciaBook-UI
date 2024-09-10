@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { DataContext } from '../../main/context/data-context'
 
 export default function Aside(props: any) {
-  const { data, setData } = useContext(DataContext)
+  const { setData } = useContext(DataContext)
   return (
     <aside style={props.mobileMenuVisibility ? { transform: 'translateX(0)' }: {}}>
       <div id="aside-header">

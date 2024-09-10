@@ -40,12 +40,7 @@ export default function DeleteBookForm(dependencies: {
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
   const { setLoading } = useContext(LoaderContext)
-  const {
-    register,
-    setValue,
-    reset,
-    handleSubmit
-  } = useForm({
+  const { register, setValue, reset, handleSubmit } = useForm({
     resolver: yupResolver(bookSchema),
     defaultValues: {
       student_class: ''
@@ -129,13 +124,14 @@ export default function DeleteBookForm(dependencies: {
 
   return (
     <>
-      <TrashButton onClick={deleteSelectedBook}/>
+      <TrashButton onClick={deleteSelectedBook} />
       <form
         method="POST"
         onSubmit={handleSubmit(bookSubmit, invalidRequest)}
         autoComplete="off"
       >
         <input
+          maxLength={100}
           disabled
           type="text"
           {...register('book_name')}
@@ -143,6 +139,7 @@ export default function DeleteBookForm(dependencies: {
           placeholder="Nome do livro"
         />
         <input
+          maxLength={100}
           disabled
           type="text"
           {...register('student_name')}
@@ -168,12 +165,17 @@ export default function DeleteBookForm(dependencies: {
           <option value={1001}>1001</option>
           <option value={1002}>1002</option>
           <option value={1003}>1003</option>
+          <option value={1004}>1004</option>
+          <option value={1005}>1005</option>
           <option value={2001}>2001</option>
           <option value={2002}>2002</option>
           <option value={2003}>2003</option>
+          <option value={2004}>2004</option>
+          <option value={2005}>2005</option>
           <option value={3001}>3001</option>
           <option value={3002}>3002</option>
           <option value={3003}>3003</option>
+          <option value={'CF4'}>CF4</option>
         </select>
         <input disabled type="date" {...register('lend_day')} />
         <button>Enviar</button>

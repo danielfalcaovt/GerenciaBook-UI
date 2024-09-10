@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -6,10 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LoginControllerDependencies } from '../../protocols/controller'
-import Loader from '../../components/loader'
 import { Link } from 'react-router-dom'
 import { LoaderContext } from '../../../main/context/loader-context'
-import { DataContext } from '../../../main/context/data-context'
 
 const loginSchema = yup.object().shape({
   email: yup
@@ -26,13 +23,11 @@ export default function Login(dependencies: LoginControllerDependencies) {
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
   const [passwordVisibility, setPasswordVisibility] = useState(false)
-  const { loading, setLoading } = useContext(LoaderContext)
-  const { data, setData } = useContext(DataContext)
+  const { setLoading } = useContext(LoaderContext)
   const navigate = useNavigate()
   const {
     register,
-    handleSubmit,
-    formState: { errors }
+    handleSubmit
   } = useForm({ resolver: yupResolver(loginSchema) })
   // Alterar o data context
   // Conduzir usuário para próxima página
@@ -58,12 +53,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
         }, 3000)
       })
       .finally(() => {
-        setData((oldValue: any) => {
-          return {
-            ...oldValue,
-            token: token
-          }
-        })
+        window.location.reload()
         navigate('/book')
         setLoading(false)
       })

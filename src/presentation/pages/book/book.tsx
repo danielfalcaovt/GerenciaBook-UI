@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import Aside from '../../components/aside'

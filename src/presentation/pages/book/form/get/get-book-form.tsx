@@ -130,12 +130,14 @@ export default function GetBookForm(dependencies: {
         autoComplete="off"
       >
         <input
+          maxLength={100}
           type="text"
           {...register('book_name')}
           id="book_name"
           placeholder="Nome do livro"
         />
         <input
+          maxLength={100}
           type="text"
           {...register('student_name')}
           id="student_name"
@@ -160,12 +162,17 @@ export default function GetBookForm(dependencies: {
           <option value={1001}>1001</option>
           <option value={1002}>1002</option>
           <option value={1003}>1003</option>
+          <option value={1004}>1004</option>
+          <option value={1005}>1005</option>
           <option value={2001}>2001</option>
           <option value={2002}>2002</option>
           <option value={2003}>2003</option>
+          <option value={2004}>2004</option>
+          <option value={2005}>2005</option>
           <option value={3001}>3001</option>
           <option value={3002}>3002</option>
           <option value={3003}>3003</option>
+          <option value={'CF4'}>CF4</option>
         </select>
         <input type="date" {...register('lend_day')} />
         <button>Enviar</button>
