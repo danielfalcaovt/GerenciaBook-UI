@@ -52,8 +52,8 @@ export default function BookTable() {
                     <td >
                       {new Date(Number(book.lend_day)).getDate() < 10 ? 0 : ''}
                       {new Date(Number(book.lend_day)).getDate()}/
-                      {new Date(Number(book.lend_day)).getMonth() < 10 ? 0 : ''}
-                      {new Date(Number(book.lend_day)).getMonth()}/
+                      {new Date(Number(book.lend_day)).getMonth() + 1 < 10 ? 0 : ''}
+                      {new Date(Number(book.lend_day)).getMonth() + 1}/
                       {new Date(Number(book.lend_day)).getFullYear()}
                     </td>
                   </tr>
@@ -94,8 +94,8 @@ export default function BookTable() {
                     <td>
                       {new Date(Number(book.lend_day)).getDate() < 10 ? 0 : ''}
                       {new Date(Number(book.lend_day)).getDate()}/
-                      {new Date(Number(book.lend_day)).getMonth() < 10 ? 0 : ''}
-                      {new Date(Number(book.lend_day)).getMonth()}/
+                      {new Date(Number(book.lend_day)).getMonth() + 1 < 10 ? 0 : ''}
+                      {new Date(Number(book.lend_day)).getMonth() + 1}/
                       {new Date(Number(book.lend_day)).getFullYear()}
                     </td>
                   </tr>
