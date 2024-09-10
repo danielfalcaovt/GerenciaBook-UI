@@ -10,6 +10,7 @@ import React from 'react'
 import { IBook } from '../../../../../domain/protocols/book/book'
 import { IUpdateBook } from '../../../../../domain/usecases/book/iupdate-book'
 import TrashButton from '../../../../components/trash'
+import { LoaderContext } from '../../../../../main/context/loader-context'
 
 const bookSchema = yup.object().shape({
   id: yup.string().required('Selecione um empréstimo antes de continuar.'),
@@ -39,8 +40,9 @@ export default function UpdateBookForm(dependencies: {
   const { data, setData } = useContext(dependencies.context)
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
+  const { setLoading } = useContext(LoaderContext)
   const {
-    register,
+    register,    
     setValue,
     handleSubmit,
     reset
@@ -77,6 +79,7 @@ export default function UpdateBookForm(dependencies: {
     if (data.lend_day) {
       request.lend_day = new Date(data.lend_day + 'T10:20:20.200Z').getTime()
     }
+    setLoading(true)
     dependencies.updateBook
       .update(request)
       .then((response: IBook[]) => {
@@ -96,11 +99,13 @@ export default function UpdateBookForm(dependencies: {
       .catch((err: any) => {
         setFormError(err.message)
         setErrorVisible(true)
+        setLoading(false)
         setTimeout(() => {
           setErrorVisible(false)
         }, 3000)
       })
       .finally(() => {
+        setLoading(false)
         console.log(data)
       })
   }

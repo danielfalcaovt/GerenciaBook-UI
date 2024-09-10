@@ -9,6 +9,7 @@ import React from 'react'
 import { IBook } from '../../../../../domain/protocols/book/book'
 import { IDeleteBook } from '../../../../../domain/usecases/book/idelete-book'
 import TrashButton from '../../../../components/trash'
+import { LoaderContext } from '../../../../../main/context/loader-context'
 
 const bookSchema = yup.object().shape({
   id: yup.string().required('Selecione um empréstimo antes de continuar.'),
@@ -38,6 +39,7 @@ export default function DeleteBookForm(dependencies: {
   const { data, setData } = useContext(dependencies.context)
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
+  const { setLoading } = useContext(LoaderContext)
   const {
     register,
     setValue,
@@ -55,6 +57,7 @@ export default function DeleteBookForm(dependencies: {
     const request = {
       id: data.id
     }
+    setLoading(true)
     dependencies.deleteBook
       .delete(request)
       .then((response: boolean) => {
@@ -74,11 +77,13 @@ export default function DeleteBookForm(dependencies: {
       .catch((err: any) => {
         setFormError(err.message)
         setErrorVisible(true)
+        setLoading(false)
         setTimeout(() => {
           setErrorVisible(false)
         }, 3000)
       })
       .finally(() => {
+        setLoading(false)
         console.log(data)
       })
   }

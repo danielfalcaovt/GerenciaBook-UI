@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { IBook } from '../../../../../domain/protocols/book/book'
 import { IGetBook } from '../../../../../domain/usecases/book/iget-book'
+import { LoaderContext } from '../../../../../main/context/loader-context'
 
 const bookSchema = yup.object().shape({
   book_name: yup.string(),
@@ -33,6 +34,7 @@ export default function GetBookForm(dependencies: {
 }) {
   const { data, setData } = useContext(dependencies.context)
   const [formError, setFormError] = useState<string | boolean>(false)
+  const {setLoading} = useContext(LoaderContext)
   const [errorIsVisible, setErrorVisible] = useState(false)
   const {
     register,
@@ -74,6 +76,7 @@ export default function GetBookForm(dependencies: {
         value.lend_day + 'T10:20:20.200Z'
       ).getTime()
     }
+    setLoading(true)
     dependencies.getBook
       .getBy(request)
       .then((response: IBook[]) => {
@@ -84,28 +87,31 @@ export default function GetBookForm(dependencies: {
           }
         })
       })
-      .catch((err: any) => {
-        setFormError(err.body)
+      .catch(() => {
+        setFormError('Preencha todos os campos corretamente.')
         setErrorVisible(true)
+        setLoading(false)
         setTimeout(() => {
           setErrorVisible(false)
         }, 3000)
       })
       .finally(() => {
+        setLoading(false)
         console.log(data)
       })
   }
 
-  async function invalidRequest(data: any) {
+  async function invalidRequest(request: any) {
     if (!errorIsVisible) {
+      console.log(request)
       for (const pos of [
         'book_name',
         'student_name',
         'student_class',
         'lend_day'
       ]) {
-        if (data[pos]) {
-          setFormError(data[pos].message)
+        if (request[pos]) {
+          setFormError(request[pos].message)
           break
         }
       }

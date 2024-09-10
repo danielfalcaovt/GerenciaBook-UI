@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { IAddBook } from '../../../../../domain/usecases/book/iadd-book'
 import { IBook } from '../../../../../domain/protocols/book/book'
+import { LoaderContext } from '../../../../../main/context/loader-context'
 
 const bookSchema = yup.object().shape({
   book_name: yup.string().required('O nome do livro é obrigatório'),
@@ -33,6 +34,7 @@ export default function PostBookForm(dependencies: {
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
   const { setData } = useContext<any>(dependencies.context)
+  const { setLoading } = useContext(LoaderContext)
   const {
     register,
     reset,
@@ -79,6 +81,7 @@ export default function PostBookForm(dependencies: {
       ...data,
       lend_day: lendDay.getTime()
     }
+    setLoading(true)
     dependencies.addBook.add(request)
       .then((response: IBook) => {
         setData((oldValue: any) => {
@@ -99,10 +102,16 @@ export default function PostBookForm(dependencies: {
           }
         })
       })
-      .catch((err: { response: { status: number } }) => {
-        console.log(err)
+      .catch((err: Error) => {
+        setFormError(err.message)
+        setErrorVisible(true)
+        setLoading(false)
+        setTimeout(() => {
+          setErrorVisible(false)
+        }, 3000)
       })
       .finally(() => {
+        setLoading(false)
         console.log(data)
       })
   }
