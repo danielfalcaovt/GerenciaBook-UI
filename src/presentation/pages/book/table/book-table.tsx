@@ -18,7 +18,7 @@ export default function BookTable() {
         </tr>
       </thead>
       <tbody>
-        {data.filteredBooks
+        {(data && data.filteredBooks)
           ? data.filteredBooks
               ?.sort(
                 (x: IBook, y: IBook) => Number(x.lend_day) - Number(y.lend_day)
@@ -59,8 +59,8 @@ export default function BookTable() {
                   </tr>
                 )
               })
-          : data.books &&
-            data.books.length > 0 &&
+          : (data && data.books) &&
+            data.books?.length > 0 &&
             data.books
               ?.sort(
                 (x: IBook, y: IBook) => Number(x.lend_day) - Number(y.lend_day)

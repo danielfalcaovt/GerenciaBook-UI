@@ -7,7 +7,9 @@ interface DataContextType {
 }
 
 const defaultContextValue: DataContextType = {
-  data: {},
+  data: {
+    books: []
+  },
   setData: () => {}
 };
 

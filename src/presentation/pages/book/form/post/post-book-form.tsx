@@ -82,10 +82,10 @@ export default function PostBookForm(dependencies: {
       ...data,
       lend_day: lendDay.getTime()
     }
-    await dependencies.addBook.add(request)
+    dependencies.addBook.add(request)
       .then((response: IBook) => {
         setData((oldValue: any) => {
-          const oldBooks = oldValue.books?.length>0 ? oldValue.books : []
+          const oldBooks = (oldValue.books && oldValue.books?.length>0) ? oldValue.books : []
           if (oldBooks && oldBooks.length > 0) {
             return {
               ...oldValue,
@@ -95,10 +95,10 @@ export default function PostBookForm(dependencies: {
               ]
             }
           } else {
-            setData((oldValue: any) => ({
+            return {
               ...oldValue,
               books: [response]
-            }))
+            }
           }
         })
       })
