@@ -167,6 +167,9 @@
 .deleteButton svg {
   width: 44%;
 }
+#drag-menu {
+  display: none;
+}
 .deleteButton:hover {
   background-color: rgb(237, 56, 56);
   overflow: visible;

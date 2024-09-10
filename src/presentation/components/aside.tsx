@@ -7,11 +7,12 @@ import { DataContext } from '../../main/context/data-context'
 export default function Aside(props: any) {
   const { data, setData } = useContext(DataContext)
   return (
-    <aside>
+    <aside style={props.mobileMenuVisibility ? { transform: 'translateX(0)' }: {}}>
       <div id="aside-header">
         <Link
           to={'/book'}
           onClick={() => {
+            props.setMobileMenuVisibility(false)
             props.setStyle({
               bookContainer: {
                 gridTemplateRows: '1fr'
@@ -49,6 +50,7 @@ export default function Aside(props: any) {
               }
               to={'/book/cadastrar'}
               onClick={() => {
+                props.setMobileMenuVisibility(false)
                 props.setStyle({
                   bookContainer: {
                     gridTemplateRows: '0.5fr 0.5fr'
@@ -80,6 +82,7 @@ export default function Aside(props: any) {
               }
               to={'/book/consultar'}
               onClick={() => {
+                props.setMobileMenuVisibility(false)
                 props.setStyle({
                   bookContainer: {
                     gridTemplateRows: '0.5fr 0.5fr'
@@ -111,6 +114,7 @@ export default function Aside(props: any) {
               }
               to={'/book/atualizar'}
               onClick={() => {
+                props.setMobileMenuVisibility(false)
                 props.setStyle({
                   bookContainer: {
                     gridTemplateRows: '0.5fr 0.5fr'
@@ -142,6 +146,7 @@ export default function Aside(props: any) {
               }
               to={'/book/devolver'}
               onClick={() => {
+                props.setMobileMenuVisibility(false)
                 props.setStyle({
                   bookContainer: {
                     gridTemplateRows: '0.5fr 0.5fr'
