@@ -10,7 +10,7 @@ import { HttpResponse } from '../../presentation/protocols/http'
 import { LoaderContext } from './loader-context'
 
 export default function DataContextProvider({ children }: any) {
-  const [data, setData] = useState({ token: undefined })
+  const [data, setData] = useState({ books: [] })
   const {loading, setLoading} = useContext(LoaderContext)
 
   useEffect(() => {

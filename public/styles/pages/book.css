@@ -1,8 +1,9 @@
 #book-container {
   display: grid;
   grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
   position: relative;
-  transition: all 0.3s;
+  transition: grid-template-rows 0.3s;
 }
 
 #book-container>section {
@@ -62,11 +63,19 @@
 }
 
 #formstudent_class {
-  width: 100px;
+  width: 10%;
 }
 
 #formlend_day {
-  width: 200px;
+  width: 20%;
+}
+
+#formstudent_name {
+  width: 35%;
+}
+
+#formbook_name {
+  width: 35%;
 }
 
 

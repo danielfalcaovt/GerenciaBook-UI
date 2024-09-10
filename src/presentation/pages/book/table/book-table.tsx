@@ -11,8 +11,8 @@ export default function BookTable() {
     <table>
       <thead>
         <tr>
-          <th>Livro</th>
-          <th>Estudante</th>
+          <th id='formbook_name'>Livro</th>
+          <th id='formstudent_name'>Estudante</th>
           <th id='formstudent_class'>Classe</th>
           <th id='formlend_day'>Data do Empréstimo</th>
         </tr>
@@ -91,7 +91,7 @@ export default function BookTable() {
                     <td>{book.book_name}</td>
                     <td>{book.student_name}</td>
                     <td>{book.student_class}</td>
-                    <td   >
+                    <td>
                       {new Date(Number(book.lend_day)).getDate() < 10 ? 0 : ''}
                       {new Date(Number(book.lend_day)).getDate()}/
                       {new Date(Number(book.lend_day)).getMonth() < 10 ? 0 : ''}
