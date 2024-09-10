@@ -137,6 +137,17 @@
   cursor: pointer;
 }
 
+#error-modal {
+  position: absolute;
+  bottom: 0px;
+  background: #E52A1B;
+  padding: 5px 15px;
+  border-radius: 15px;
+  border: 1px solid #F9CCC8;
+  transition: all 0.3s;
+  color: #F9CCC8;
+}
+
 .deleteButton {
   width: 45px;
   height: 45px;
