@@ -1,3 +1,4 @@
+ 
 import { InvalidCredentialsError } from '../../../domain/errors/invalid-credentials-error'
 import { UnexpectedError } from '../../../domain/errors/unexpected-error'
 import { Account } from '../../../domain/protocols/signup/account'
@@ -20,6 +21,9 @@ export class RemoteAddAccount implements IAddAccount {
         break
       case 400:
         throw new InvalidCredentialsError()
+        break
+      case 403:
+        throw new Error('Acesso de Administrador não Identificado.')
         break
       default:
         throw new UnexpectedError()
