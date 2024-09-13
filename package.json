@@ -1,13 +1,15 @@
 {
   "name": "gerenciabook",
   "private": true,
-  "version": "1.7.0",
+  "version": "1.7.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "npm run build && serve -l 8080 -s dist",
     "test": "jest --passWithNoTests --forceExit --silent",
     "test:staged": "npm run test -- --findRelatedTests",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "build": "vite build"
   },
   "lint-staged": {
     "*.{ts, tsx}": [
