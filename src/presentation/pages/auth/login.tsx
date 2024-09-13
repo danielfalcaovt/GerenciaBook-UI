@@ -43,6 +43,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
           'tokenExpiresIn',
           String(new Date(now.getTime() + 8 * 60 * 60 * 1000).getTime())
         )
+        navigate('/book')
       })
       .catch((err: Error) => {
         setFormError(err.message)
@@ -54,7 +55,6 @@ export default function Login(dependencies: LoginControllerDependencies) {
       })
       .finally(() => {
         window.location.reload()
-        navigate('/book')
         setLoading(false)
       })
   }

@@ -64,6 +64,7 @@ export default function DeleteBookForm(dependencies: {
             return {
               ...oldValue,
               books: bookArray,
+              filteredBooks: undefined,
               selectedBook: undefined
             }
           })

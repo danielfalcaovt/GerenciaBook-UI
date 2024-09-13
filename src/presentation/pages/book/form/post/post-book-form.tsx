@@ -89,6 +89,7 @@ export default function PostBookForm(dependencies: {
           if (oldBooks && oldBooks.length > 0) {
             return {
               ...oldValue,
+              filteredBooks: undefined,
               books: [
                 ...oldBooks,
                 response
