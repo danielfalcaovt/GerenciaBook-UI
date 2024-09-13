@@ -9,7 +9,7 @@ import * as yup from 'yup'
 import React from 'react'
 import { IBook } from '../../../../../domain/protocols/book/book'
 import { IUpdateBook } from '../../../../../domain/usecases/book/iupdate-book'
-import TrashButton from '../../../../components/trash'
+import TrashButton from '../../../../elements/trash'
 import { LoaderContext } from '../../../../../main/context/loader-context'
 
 const bookSchema = yup.object().shape({
