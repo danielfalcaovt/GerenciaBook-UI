@@ -44,6 +44,7 @@ export default function Login(dependencies: LoginControllerDependencies) {
           String(new Date(now.getTime() + 8 * 60 * 60 * 1000).getTime())
         )
         navigate('/book')
+        window.location.reload()
       })
       .catch((err: Error) => {
         setFormError(err.message)
@@ -54,7 +55,6 @@ export default function Login(dependencies: LoginControllerDependencies) {
         }, 3000)
       })
       .finally(() => {
-        window.location.reload()
         setLoading(false)
       })
   }
