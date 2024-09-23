@@ -56,32 +56,40 @@
   filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.404));
 }
 
+#bookform-header {
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.267);
+}
+
 #book-container th,td {
   text-align: left;
   padding: 0;
-  width: 20%;
   padding-left: 15px;
   border: 0px;
 }
 
-#formstudent_class {
-  width: 10%;
+#book-container #tablestudent_class {
+  width: 15%;
 }
 
-#formlend_day {
+#book-container #tablelend_day {
+  width: 15%;
+}
+
+#book-container #tablephone {
   width: 20%;
 }
 
-#formstudent_name {
-  width: 35%;
+#book-container #tablestudent_name {
+  width: 25%;
 }
 
-#formbook_name {
-  width: 35%;
+#book-container #tablebook_name {
+  width: 25%;
 }
 
 
 /*Formulário*/
+
 
 #book-form {
   display: flex;
@@ -111,14 +119,24 @@
 #book-form>form {
   display:grid;
   gap: 15px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
+}
+
+#lend_day {
+  grid-area: 2/1/2/3;
+  margin: auto;
+}
+
+#phone {
+  grid-area: 2/2/2/4;
+  margin: auto;
 }
 
 #book-form>button {
   position: absolute;
   top: 30%;
-  right: 100px;
+  right: 30px;
   transform: translateY(-50%);
 }
 
@@ -130,7 +148,7 @@
   width: 50%;
   margin: auto;
   color: white;
-  grid-area: 3/1/3/3;
+  grid-area: 3/1/3/4;
   height: 30px;
 }
 
@@ -224,7 +242,7 @@ a {
 .scroll-up {
   position: absolute;
   top: 30%;
-  left: 100px;
+  left: 30px;
   transform: translateY(-50%);
   right: 3rem;
   z-index: 10;
@@ -253,5 +271,15 @@ a {
 @media (max-width: 1199.98px) {
   .scroll-up {
     right: 1rem;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  #book-form>button {
+    display: none;
+  }
+
+  .scroll-up {
+    display: none;
   }
 }

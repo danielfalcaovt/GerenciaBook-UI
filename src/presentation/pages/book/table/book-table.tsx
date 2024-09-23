@@ -10,12 +10,12 @@ export default function BookTable() {
   return (
     <table>
       <thead>
-        <tr>
-          <th id="formbook_name">Livro</th>
-          <th id="formstudent_name">Estudante</th>
-          <th id="formstudent_class">Classe</th>
-          <th id="formlend_day">Data do Empréstimo</th>
-          <th id="formphone">Celular</th>
+        <tr id='booktable-header'>
+          <th id="tablebook_name">Livro</th>
+          <th id="tablestudent_name">Estudante</th>
+          <th id="tablestudent_class">Classe</th>
+          <th id="tablelend_day">Data do Empréstimo</th>
+          <th id="tablephone">Celular</th>
         </tr>
       </thead>
       <tbody>
