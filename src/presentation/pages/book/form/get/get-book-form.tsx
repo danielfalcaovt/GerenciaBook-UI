@@ -176,6 +176,7 @@ export default function GetBookForm(dependencies: {
         </select>
         <input id="lend_day" type="date" {...register('lend_day')} />
         <input
+          maxLength={11}
           id="phone"
           placeholder="Celular"
           type="number"

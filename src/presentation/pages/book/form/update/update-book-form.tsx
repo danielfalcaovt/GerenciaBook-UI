@@ -199,6 +199,7 @@ export default function UpdateBookForm(dependencies: {
           disabled={data.selectedBook ? false : true}
         />
         <input
+          maxLength={11}
           id="phone"
           placeholder="Celular"
           type="number"

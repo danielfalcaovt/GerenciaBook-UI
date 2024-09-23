@@ -191,6 +191,7 @@ export default function DeleteBookForm(dependencies: {
         </select>
         <input id="lend_day" disabled type="date" {...register('lend_day')} />
         <input
+          maxLength={11}
           id="phone"
           disabled
           placeholder="Celular"
