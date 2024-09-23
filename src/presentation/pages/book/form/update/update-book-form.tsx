@@ -30,7 +30,8 @@ const bookSchema = yup.object().shape({
         }
         return true
       }
-    )
+    ),
+  phone: yup.string().max(11, 'O telefone deve ter no máximo 11 digitos.')
 })
 
 export default function UpdateBookForm(dependencies: {
@@ -41,12 +42,7 @@ export default function UpdateBookForm(dependencies: {
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
   const { setLoading } = useContext(LoaderContext)
-  const {
-    register,    
-    setValue,
-    handleSubmit,
-    reset
-  } = useForm({
+  const { register, setValue, handleSubmit, reset } = useForm({
     resolver: yupResolver(bookSchema),
     defaultValues: {
       student_class: ''
@@ -60,8 +56,15 @@ export default function UpdateBookForm(dependencies: {
         'id',
         'student_name',
         'book_name',
-        'student_class'
-      ] as ('id' | 'book_name' | 'student_name' | 'student_class')[]) {
+        'student_class',
+        'phone'
+      ] as (
+        | 'id'
+        | 'book_name'
+        | 'student_name'
+        | 'student_class'
+        | 'phone'
+      )[]) {
         setValue(pos, data.selectedBook[pos])
       }
       const lendDay = new Date(Number(data.selectedBook.lend_day))
@@ -153,7 +156,10 @@ export default function UpdateBookForm(dependencies: {
           placeholder="Nome do estudante"
           disabled={data.selectedBook ? false : true}
         />
-        <select {...register('student_class')} disabled={data.selectedBook ? false : true}>
+        <select
+          {...register('student_class')}
+          disabled={data.selectedBook ? false : true}
+        >
           <option value="" disabled>
             Selecione a turma:
           </option>
@@ -163,12 +169,14 @@ export default function UpdateBookForm(dependencies: {
           <option value={701}>701</option>
           <option value={702}>702</option>
           <option value={703}>703</option>
+          <option value={704}>704</option>
           <option value={801}>801</option>
           <option value={802}>802</option>
           <option value={803}>803</option>
           <option value={901}>901</option>
           <option value={902}>902</option>
           <option value={903}>903</option>
+          <option value={904}>904</option>
           <option value={1001}>1001</option>
           <option value={1002}>1002</option>
           <option value={1003}>1003</option>
@@ -183,8 +191,18 @@ export default function UpdateBookForm(dependencies: {
           <option value={3002}>3002</option>
           <option value={3003}>3003</option>
           <option value={'CF4'}>CF4</option>
+          <option value={'AP2'}>AP2</option>
         </select>
-        <input type="date" {...register('lend_day')} disabled={data.selectedBook ? false : true}/>
+        <input
+          type="date"
+          {...register('lend_day')}
+          disabled={data.selectedBook ? false : true}
+        />
+        <input
+          placeholder="Celular"
+          type="number"
+          {...register('phone')}
+        />
         <button>Enviar</button>
       </form>
       <div

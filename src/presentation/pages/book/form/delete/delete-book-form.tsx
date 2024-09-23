@@ -29,7 +29,8 @@ const bookSchema = yup.object().shape({
         }
         return true
       }
-    )
+    ),
+  phone: yup.string().max(11, 'O telefone deve ter no máximo 11 digitos.')
 })
 
 export default function DeleteBookForm(dependencies: {
@@ -110,8 +111,15 @@ export default function DeleteBookForm(dependencies: {
         'id',
         'student_name',
         'book_name',
-        'student_class'
-      ] as ('id' | 'book_name' | 'student_name' | 'student_class')[]) {
+        'student_class',
+        'phone'
+      ] as (
+        | 'id'
+        | 'book_name'
+        | 'student_name'
+        | 'student_class'
+        | 'phone'
+      )[]) {
         setValue(pos, data.selectedBook[pos])
       }
       const lendDay = new Date(Number(data.selectedBook.lend_day))
@@ -157,12 +165,14 @@ export default function DeleteBookForm(dependencies: {
           <option value={701}>701</option>
           <option value={702}>702</option>
           <option value={703}>703</option>
+          <option value={704}>704</option>
           <option value={801}>801</option>
           <option value={802}>802</option>
           <option value={803}>803</option>
           <option value={901}>901</option>
           <option value={902}>902</option>
           <option value={903}>903</option>
+          <option value={904}>904</option>
           <option value={1001}>1001</option>
           <option value={1002}>1002</option>
           <option value={1003}>1003</option>
@@ -177,8 +187,15 @@ export default function DeleteBookForm(dependencies: {
           <option value={3002}>3002</option>
           <option value={3003}>3003</option>
           <option value={'CF4'}>CF4</option>
+          <option value={'AP2'}>AP2</option>
         </select>
         <input disabled type="date" {...register('lend_day')} />
+        <input
+          disabled
+          placeholder="Celular"
+          type="number"
+          {...register('phone')}
+        />
         <button>Enviar</button>
       </form>
       <div

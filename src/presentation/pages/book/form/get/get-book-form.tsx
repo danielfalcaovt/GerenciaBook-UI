@@ -25,7 +25,8 @@ const bookSchema = yup.object().shape({
         }
         return true
       }
-    )
+    ),
+  phone: yup.string().max(11, 'O telefone deve ter no máximo 11 digitos.')
 })
 
 export default function GetBookForm(dependencies: {
@@ -34,14 +35,9 @@ export default function GetBookForm(dependencies: {
 }) {
   const { data, setData } = useContext(dependencies.context)
   const [formError, setFormError] = useState<string | boolean>(false)
-  const {setLoading} = useContext(LoaderContext)
+  const { setLoading } = useContext(LoaderContext)
   const [errorIsVisible, setErrorVisible] = useState(false)
-  const {
-    register,
-    reset,
-    watch,
-    handleSubmit
-  } = useForm({
+  const { register, reset, watch, handleSubmit } = useForm({
     resolver: yupResolver(bookSchema),
     defaultValues: {
       student_class: ''
@@ -87,7 +83,9 @@ export default function GetBookForm(dependencies: {
           }
         })
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log('SO SO')
+        console.log(err)
         setFormError('Preencha todos os campos corretamente.')
         setErrorVisible(true)
         setLoading(false)
@@ -153,12 +151,14 @@ export default function GetBookForm(dependencies: {
           <option value={701}>701</option>
           <option value={702}>702</option>
           <option value={703}>703</option>
+          <option value={704}>704</option>
           <option value={801}>801</option>
           <option value={802}>802</option>
           <option value={803}>803</option>
           <option value={901}>901</option>
           <option value={902}>902</option>
           <option value={903}>903</option>
+          <option value={904}>904</option>
           <option value={1001}>1001</option>
           <option value={1002}>1002</option>
           <option value={1003}>1003</option>
@@ -173,8 +173,14 @@ export default function GetBookForm(dependencies: {
           <option value={3002}>3002</option>
           <option value={3003}>3003</option>
           <option value={'CF4'}>CF4</option>
+          <option value={'AP2'}>AP2</option>
         </select>
         <input type="date" {...register('lend_day')} />
+        <input
+          placeholder="Celular"
+          type="number"
+          {...register('phone')}
+        />
         <button>Enviar</button>
       </form>
       <div

@@ -37,7 +37,8 @@ const makeHttpClientStub = (): IHttpGetByClient => {
             book_name: 'any_book',
             student_name: 'any_student',
             student_class: 3001,
-            lend_day: 'random_day'
+            lend_day: 'random_day',
+            phone: undefined
           }
         ]
       })

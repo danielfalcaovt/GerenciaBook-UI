@@ -17,7 +17,8 @@ export class AxiosGetByClient implements IHttpGetByClient {
     const bookParams = [
       'book_name',
       'student_name',
-      'student_class'
+      'student_class',
+      'phone'
     ]
     let queryLength = 0
     bookParams.forEach((pos: string) => {

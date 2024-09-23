@@ -24,22 +24,19 @@ const bookSchema = yup.object().shape({
         }
         return true
       }
-    )
+    ),
+  phone: yup.string().max(11, 'O telefone deve ter no máximo 11 digitos.')
 })
 
 export default function PostBookForm(dependencies: {
-  addBook: IAddBook,
+  addBook: IAddBook
   context: React.Context<any>
 }) {
   const [formError, setFormError] = useState<string | boolean>(false)
   const [errorIsVisible, setErrorVisible] = useState(false)
   const { setData } = useContext<any>(dependencies.context)
   const { setLoading } = useContext(LoaderContext)
-  const {
-    register,
-    reset,
-    handleSubmit
-  } = useForm({
+  const { register, reset, handleSubmit } = useForm({
     resolver: yupResolver(bookSchema),
     defaultValues: {
       lend_day: new Date().toISOString().slice(0, 10),
@@ -53,7 +50,8 @@ export default function PostBookForm(dependencies: {
         'book_name',
         'student_name',
         'student_class',
-        'lend_day'
+        'lend_day',
+        'phone'
       ]) {
         if (data[pos]) {
           setFormError(data[pos].message)
@@ -82,18 +80,17 @@ export default function PostBookForm(dependencies: {
       lend_day: lendDay.getTime()
     }
     setLoading(true)
-    dependencies.addBook.add(request)
+    dependencies.addBook
+      .add(request)
       .then((response: IBook) => {
         setData((oldValue: any) => {
-          const oldBooks = (oldValue.books && oldValue.books?.length>0) ? oldValue.books : []
+          const oldBooks =
+            oldValue.books && oldValue.books?.length > 0 ? oldValue.books : []
           if (oldBooks && oldBooks.length > 0) {
             return {
               ...oldValue,
               filteredBooks: undefined,
-              books: [
-                ...oldBooks,
-                response
-              ]
+              books: [...oldBooks, response]
             }
           } else {
             return {
@@ -148,12 +145,14 @@ export default function PostBookForm(dependencies: {
           <option value={701}>701</option>
           <option value={702}>702</option>
           <option value={703}>703</option>
+          <option value={704}>704</option>
           <option value={801}>801</option>
           <option value={802}>802</option>
           <option value={803}>803</option>
           <option value={901}>901</option>
           <option value={902}>902</option>
           <option value={903}>903</option>
+          <option value={904}>904</option>
           <option value={1001}>1001</option>
           <option value={1002}>1002</option>
           <option value={1003}>1003</option>
@@ -168,8 +167,10 @@ export default function PostBookForm(dependencies: {
           <option value={3002}>3002</option>
           <option value={3003}>3003</option>
           <option value={'CF4'}>CF4</option>
+          <option value={'AP2'}>AP2</option>
         </select>
         <input type="date" {...register('lend_day')} />
+        <input placeholder="Celular" type="number" {...register('phone')} />
         <button>Enviar</button>
       </form>
       <div
