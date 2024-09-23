@@ -21,6 +21,7 @@
 
 #book-container form{
   grid-area: 1/1/1/1;
+  font-size: 0.9rem;
 }
 #book-container div {
   grid-area: 1/1/1/1;
@@ -58,7 +59,8 @@
 #book-container th,td {
   text-align: left;
   padding: 0;
-  text-indent: 15px;
+  width: 20%;
+  padding-left: 15px;
   border: 0px;
 }
 

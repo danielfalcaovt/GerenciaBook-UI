@@ -15,6 +15,7 @@ export default function BookTable() {
           <th id="formstudent_name">Estudante</th>
           <th id="formstudent_class">Classe</th>
           <th id="formlend_day">Data do Empréstimo</th>
+          <th id="formphone">Celular</th>
         </tr>
       </thead>
       <tbody>
@@ -60,6 +61,7 @@ export default function BookTable() {
                       {new Date(Number(book.lend_day)).getMonth() + 1}/
                       {new Date(Number(book.lend_day)).getFullYear()}
                     </td>
+                    <td>{book.phone ? book.phone?.length > 9 ? `(${book.phone.slice(0,2)}) ${book.phone.slice(2, 7)} - ${book.phone.slice(7, book.phone.length)}` : book.phone.slice(0, 4) - book.phone.slice(4, 8) : '---------'}</td>
                   </tr>
                 )
               })
@@ -107,6 +109,8 @@ export default function BookTable() {
                       {new Date(Number(book.lend_day)).getMonth() + 1}/
                       {new Date(Number(book.lend_day)).getFullYear()}
                     </td>
+                    <td>{book.phone ? book.phone?.length > 9 ? `(${book.phone.slice(0,2)}) ${book.phone.slice(2, 7)} - ${book.phone.slice(7, book.phone.length)}` : book.phone.slice(0, 4) - book.phone.slice(4, 8) : '---------'}</td>
+
                   </tr>
                 )
               })}
