@@ -25,8 +25,7 @@ const bookSchema = yup.object().shape({
         return true
       }
     ),
-  phone: yup.string().max(11, 'O telefone deve ter no máximo 11 digitos.')
-})
+    phone: yup.string().min(9, 'O telefone deve ter no mínimo 9 dígitos.').max(11, 'O telefone deve ter no máximo 11 digitos.')})
 
 export default function PostBookForm(dependencies: {
   addBook: IAddBook
