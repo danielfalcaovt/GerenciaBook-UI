@@ -1,7 +1,7 @@
 @media screen and (max-width: 600px) {
   #root {
     grid-template-columns: 1fr;
-    width: 100vw;
+    width: 140vw;
   }
   #root > aside {
     transition: all 0.3s;

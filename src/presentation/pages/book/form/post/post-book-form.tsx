@@ -169,8 +169,13 @@ export default function PostBookForm(dependencies: {
           <option value={'CF4'}>CF4</option>
           <option value={'AP2'}>AP2</option>
         </select>
-        <input type="date" {...register('lend_day')} />
-        <input placeholder="Celular" type="number" {...register('phone')} />
+        <input id="lend_day" type="date" {...register('lend_day')} />
+        <input
+          id="phone"
+          placeholder="Celular"
+          type="number"
+          {...register('phone')}
+        />
         <button>Enviar</button>
       </form>
       <div

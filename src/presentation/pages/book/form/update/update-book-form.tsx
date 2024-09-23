@@ -194,11 +194,13 @@ export default function UpdateBookForm(dependencies: {
           <option value={'AP2'}>AP2</option>
         </select>
         <input
+          id="lend_day"
           type="date"
           {...register('lend_day')}
           disabled={data.selectedBook ? false : true}
         />
         <input
+          id="phone"
           placeholder="Celular"
           type="number"
           {...register('phone')}
