@@ -1,50 +1,62 @@
-# React + TypeScript + Vite
+# GerenciaBook - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bem-vindo ao repositório do **GerenciaBook**! Esta é a interface frontend da aplicação que gerencia o empréstimo de livros de uma biblioteca. O aplicativo se comunica com a API **GerenciaBook**, que também está disponível em meu GitHub.
 
-Currently, two official plugins are available:
+## Sumário
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Sobre](#sobre)
+- [Funcionalidades](#funcionalidades)
+- [Instalação](#instalação)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Seções do Aplicativo](#seções-do-aplicativo)
+- [Screenshots](#screenshots)
+- [Contribuições](#contribuições)
+- [Licença](#licença)
 
-## Expanding the ESLint configuration
+## Sobre
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+O **GerenciaBook** é uma aplicação web projetada para facilitar o gerenciamento de empréstimos de livros em bibliotecas. Com uma interface intuitiva, os usuários podem realizar diversas operações, como registrar novos livros, atualizar informações e gerenciar empréstimos de forma eficiente.
 
-- Configure the top-level `parserOptions` property like this:
+## Funcionalidades
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Login e Registro:** Crie uma conta ou faça login para acessar o sistema.
+- **Listagem de Livros:** Visualize todos os livros disponíveis para empréstimo.
+- **Adicionar Livros:** Insira novos títulos na biblioteca.
+- **Atualizar Livros:** Modifique informações de livros existentes.
+- **Remover Livros:** Exclua livros que não estão mais disponíveis.
+- **Gerenciar Empréstimos:** Controle os empréstimos de livros, incluindo datas de devolução.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Instalação
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Para rodar o projeto localmente, siga os passos abaixo:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. Clone o repositório:
+   git clone https://github.com/seu-usuario/gerenciabook-frontend.git
+
+2. Navegue até o diretório do projeto:
+   cd gerenciabook-frontend
+
+3. Instale as dependências:
+   npm install
+
+4. Inicie a aplicação:
+   npm start
+
+## Estrutura do Projeto
+
+- /src - Contém todos os componentes e páginas da aplicação.
+- /public - Arquivos públicos e configuração do aplicativo.
+- /styles - Folhas de estilo da aplicação.
+
+## Contribuições
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests. Para grandes mudanças, por favor, abra uma issue primeiro para discutir o que você gostaria de mudar.
+
+## Screenshots
+
+![image](https://github.com/user-attachments/assets/932b5501-01c7-43e2-8955-6560369a0b25)
+![image](https://github.com/user-attachments/assets/9cda8626-9112-4969-9ae5-1951c3b21dab)
+![image](https://github.com/user-attachments/assets/d40e7a29-be9f-4ab9-8047-b5c8e49bc905)
+![image](https://github.com/user-attachments/assets/c2f303a1-9a29-42c2-b3d4-93c8be19d1b3)
+![image](https://github.com/user-attachments/assets/929275e5-7cb3-464a-b6c9-ef9e8ecce598)
+![image](https://github.com/user-attachments/assets/d4ed4b81-28ba-4410-b474-32db146d7406)
