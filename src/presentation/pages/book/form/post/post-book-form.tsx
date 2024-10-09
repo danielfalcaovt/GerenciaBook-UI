@@ -90,7 +90,8 @@ export default function PostBookForm(dependencies: {
             return {
               ...oldValue,
               filteredBooks: undefined,
-              books: [...oldBooks, response]
+              books: [...oldBooks, response],
+              selectedBook: response
             }
           } else {
             return {
