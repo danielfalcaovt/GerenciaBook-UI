@@ -26,8 +26,8 @@ const bookSchema = yup.object().shape({
         return true
       }
     ),
-    phone: yup.string().nullable().optional()
-  })
+  phone: yup.string().nullable().optional()
+})
 
 export default function GetBookForm(dependencies: {
   getBook: IGetBook
@@ -121,6 +121,9 @@ export default function GetBookForm(dependencies: {
 
   return (
     <>
+      <div id="formTitle">
+        <h1>CONSULTA</h1>
+      </div>
       <form
         method="POST"
         onSubmit={handleSubmit(bookSubmit, invalidRequest)}

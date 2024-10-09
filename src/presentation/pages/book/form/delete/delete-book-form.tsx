@@ -132,6 +132,9 @@ export default function DeleteBookForm(dependencies: {
 
   return (
     <>
+    <div id='formTitle'>
+      <h1>DEVOLUÇÃO</h1>
+    </div>
       <TrashButton onClick={deleteSelectedBook} />
       <form
         method="POST"

@@ -87,15 +87,15 @@ export default function UpdateBookForm(dependencies: {
       .update(request)
       .then((response: IBook[]) => {
         setData((oldValue: any) => {
-          const bookArray = oldValue.books.filter(
+          const bookArray = oldValue.books?.filter(
             (book: IBook) => book.id !== data.id
           )
           bookArray.push(response[0])
+          console.log(response)
           return {
             ...oldValue,
             books: bookArray,
-            filteredBooks: undefined,
-            selectedBook: undefined
+            filteredBooks: undefined
           }
         })
       })
@@ -133,6 +133,9 @@ export default function UpdateBookForm(dependencies: {
 
   return (
     <>
+      <div id="formTitle">
+        <h1>CORREÇÃO</h1>
+      </div>
       <TrashButton onClick={deleteSelectedBook} />
       <form
         method="POST"
