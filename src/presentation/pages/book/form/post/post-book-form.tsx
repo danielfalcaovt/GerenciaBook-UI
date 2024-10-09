@@ -25,7 +25,8 @@ const bookSchema = yup.object().shape({
         return true
       }
     ),
-    phone: yup.string().min(9, 'O telefone deve ter no mínimo 9 dígitos.').max(11, 'O telefone deve ter no máximo 11 digitos.')})
+    phone: yup.string().nullable().optional()
+  })
 
 export default function PostBookForm(dependencies: {
   addBook: IAddBook
@@ -109,7 +110,6 @@ export default function PostBookForm(dependencies: {
       })
       .finally(() => {
         setLoading(false)
-        console.log(data)
       })
   }
 
@@ -170,6 +170,7 @@ export default function PostBookForm(dependencies: {
         </select>
         <input id="lend_day" type="date" {...register('lend_day')} />
         <input
+          minLength={9}
           maxLength={11}
           id="phone"
           placeholder="Celular"

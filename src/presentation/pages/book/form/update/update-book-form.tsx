@@ -31,7 +31,8 @@ const bookSchema = yup.object().shape({
         return true
       }
     ),
-    phone: yup.string().min(9, 'O telefone deve ter no mínimo 9 dígitos.').max(11, 'O telefone deve ter no máximo 11 digitos.')})
+  phone: yup.string().nullable().optional()
+})
 
 export default function UpdateBookForm(dependencies: {
   updateBook: IUpdateBook
@@ -108,7 +109,6 @@ export default function UpdateBookForm(dependencies: {
       })
       .finally(() => {
         setLoading(false)
-        console.log(data)
       })
   }
 

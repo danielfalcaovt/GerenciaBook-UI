@@ -26,7 +26,8 @@ const bookSchema = yup.object().shape({
         return true
       }
     ),
-    phone: yup.string().min(9, 'O telefone deve ter no mínimo 9 dígitos.').max(11, 'O telefone deve ter no máximo 11 digitos.')})
+    phone: yup.string().nullable().optional()
+  })
 
 export default function GetBookForm(dependencies: {
   getBook: IGetBook
@@ -55,12 +56,14 @@ export default function GetBookForm(dependencies: {
     : ''
 
   useEffect(() => {
-    setData((oldValue: any) => {
-      return {
-        ...oldValue,
-        filteredBooks: filteredBooks
-      }
-    })
+    if (filteredBooks !== '') {
+      setData((oldValue: any) => {
+        return {
+          ...oldValue,
+          filteredBooks: filteredBooks
+        }
+      })
+    }
   }, [searchStudentName])
 
   async function bookSubmit(value: any) {
@@ -83,7 +86,6 @@ export default function GetBookForm(dependencies: {
         })
       })
       .catch((err) => {
-        console.log('SO SO')
         console.log(err)
         setFormError('Preencha todos os campos corretamente.')
         setErrorVisible(true)
@@ -94,13 +96,11 @@ export default function GetBookForm(dependencies: {
       })
       .finally(() => {
         setLoading(false)
-        console.log(data)
       })
   }
 
   async function invalidRequest(request: any) {
     if (!errorIsVisible) {
-      console.log(request)
       for (const pos of [
         'book_name',
         'student_name',

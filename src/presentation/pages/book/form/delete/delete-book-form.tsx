@@ -30,7 +30,7 @@ const bookSchema = yup.object().shape({
         return true
       }
     ),
-  phone: yup.string().min(9, 'O telefone deve ter no mínimo 9 dígitos.').max(11, 'O telefone deve ter no máximo 11 digitos.')
+  phone: yup.string().nullable().optional()
 })
 
 export default function DeleteBookForm(dependencies: {
@@ -81,7 +81,6 @@ export default function DeleteBookForm(dependencies: {
       })
       .finally(() => {
         setLoading(false)
-        console.log(data)
       })
   }
 
@@ -123,8 +122,8 @@ export default function DeleteBookForm(dependencies: {
         setValue(pos, data.selectedBook[pos])
       }
       const lendDay = new Date(Number(data.selectedBook.lend_day))
-        .toISOString()
-        .slice(0, 10)
+      .toISOString()
+      .slice(0, 10)
       setValue('lend_day', lendDay)
     } else {
       reset()
