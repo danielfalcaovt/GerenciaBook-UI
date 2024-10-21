@@ -4,4 +4,5 @@ export interface IBook {
   lend_day: string
   student_class: string
   id: string
+  phone?: string
 }
