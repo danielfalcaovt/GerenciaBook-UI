@@ -68,15 +68,9 @@ export default function GetBookForm(dependencies: {
 
   async function bookSubmit(value: any) {
     reset()
-    const request = value
-    if (value.lend_day) {
-      request.body.lend_day = new Date(
-        value.lend_day + 'T10:20:20.200Z'
-      ).getTime()
-    }
     setLoading(true)
     dependencies.getBook
-      .getBy(request)
+      .getBy(value)
       .then((response: IBook[]) => {
         setData((oldValue: any) => {
           return {
