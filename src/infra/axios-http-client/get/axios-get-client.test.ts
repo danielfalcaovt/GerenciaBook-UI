@@ -40,13 +40,10 @@ describe('AxiosGetClient', () => {
     const getSpy = jest.spyOn(axios, 'get')
     const expectedValue = makeFakeRequest()
     await sut.get(expectedValue)
-    expect(getSpy).toHaveBeenCalledWith(
-      expectedValue.url,
-      {
-        headers: {
-          Authorization: 'Bearer any_token'
-        }
+    expect(getSpy).toHaveBeenCalledWith(expectedValue.url, {
+      headers: {
+        Authorization: 'Bearer any_token'
       }
-    )
+    })
   })
 })

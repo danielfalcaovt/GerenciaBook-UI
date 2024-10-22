@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IHttpClientParams } from "../../../data/protocols/http/post/http-post-client"
+import { IHttpClientParams } from '../../../data/protocols/http/post/http-post-client'
 import * as faker from 'faker'
-import { AxiosDeleteClient } from "./axios-delete-client"
-import axios from "axios"
+import { AxiosDeleteClient } from './axios-delete-client'
+import axios from 'axios'
 
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>

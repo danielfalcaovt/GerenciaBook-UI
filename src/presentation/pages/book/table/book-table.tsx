@@ -4,13 +4,12 @@ import { IBook } from '../../../../domain/protocols/book/book'
 import TableRow from '../../../elements/table/table-row'
 
 export default function BookTable() {
-  const { data, setData } = useContext(DataContext)
-  const dataAtual = new Date()
+  const { data } = useContext(DataContext)
 
   return (
     <table>
       <thead>
-        <tr id='booktable-header'>
+        <tr id="booktable-header">
           <th id="tablebook_name">Livro</th>
           <th id="tablestudent_name">Estudante</th>
           <th id="tablestudent_class">Classe</th>
@@ -46,43 +45,15 @@ export default function BookTable() {
               )
               .map((book: any) => {
                 return (
-                  <tr
-                    style={
-                      data && data.selectedBook?.id === book.id
-                        ? { background: '#C2E1FF' }
-                        : new Date(Number(book.lend_day)) <
-                          new Date(
-                            dataAtual.getFullYear(),
-                            dataAtual.getMonth(),
-                            dataAtual.getDate() - 14
-                          )
-                        ? { background: '#F9CCC8' }
-                        : {}
-                    }
+                  <TableRow
+                    book_name={book.book_name}
+                    id={book.id}
+                    lend_day={book.lend_day}
+                    student_class={book.student_class}
+                    student_name={book.student_name}
                     key={book.id}
-                    onClick={() => {
-                      setData((oldValue: any) => {
-                        return {
-                          ...oldValue,
-                          selectedBook: book
-                        }
-                      })
-                    }}
-                  >
-                    <td>{book.book_name}</td>
-                    <td>{book.student_name}</td>
-                    <td>{book.student_class}</td>
-                    <td>
-                      {new Date(Number(book.lend_day)).getDate() < 10 ? 0 : ''}
-                      {new Date(Number(book.lend_day)).getDate()}/
-                      {new Date(Number(book.lend_day)).getMonth() + 1 < 10
-                        ? 0
-                        : ''}
-                      {new Date(Number(book.lend_day)).getMonth() + 1}/
-                      {new Date(Number(book.lend_day)).getFullYear()}
-                    </td>
-                    <td>{book.phone ? book.phone?.length > 9 ? `(${book.phone.slice(0,2)}) ${book.phone.slice(2, 7)} - ${book.phone.slice(7, book.phone.length)}` : `${book.phone.slice(0, 5)} - ${book.phone.slice(5, 9)}` : '---------'}</td>
-                  </tr>
+                    phone={book.phone}
+                  />
                 )
               })}
       </tbody>
