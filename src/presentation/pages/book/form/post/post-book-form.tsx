@@ -74,14 +74,10 @@ export default function PostBookForm(dependencies: {
         dia seja retornado como o anterior.
     */
     // lendDay = new Date( alterando o horário da data recebida no formato ISOString )
-    const lendDay = new Date(data.lend_day + 'T10:20:20.200Z')
-    const request = {
-      ...data,
-      lend_day: lendDay.getTime()
-    }
+
     setLoading(true)
     dependencies.addBook
-      .add(request)
+      .add(data)
       .then((response: IBook) => {
         setData((oldValue: any) => {
           const oldBooks =
