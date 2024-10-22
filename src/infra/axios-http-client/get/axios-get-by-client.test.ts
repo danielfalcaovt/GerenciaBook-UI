@@ -34,7 +34,8 @@ describe('AxiosGetByClient', () => {
       body: { book_name: 'any_name', student_name: 'any_student' }
     }
     await sut.getBy(expectedValue)
-    const expectedUrl = expectedValue.url += "?book_name=any_name&student_name=any_student"
+    const expectedUrl = (expectedValue.url +=
+      '?book_name=any_name&student_name=any_student')
     expect(getSpy).toHaveBeenCalledWith(expectedUrl, {})
   })
   it('Should return HttpResponse on axios succeed', async () => {

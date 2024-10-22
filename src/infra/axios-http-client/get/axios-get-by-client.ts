@@ -5,29 +5,26 @@ import { IHttpClientParams } from '../../../data/protocols/http/post/http-post-c
 import { HttpResponse } from '../../../presentation/protocols/http'
 
 export class AxiosGetByClient implements IHttpGetByClient {
-  constructor (private readonly token?: string) {}
+  constructor(private readonly token?: string) {}
   async getBy(params: IHttpClientParams): Promise<HttpResponse> {
-    const headers = this.token ? {
-      headers: {
-        Authorization: `Bearer ${this.token}`
-      }
-    } : {}
+    const headers = this.token
+      ? {
+          headers: {
+            Authorization: `Bearer ${this.token}`
+          }
+        }
+      : {}
     let url = params.url
     url += '?'
-    const bookParams = [
-      'book_name',
-      'student_name',
-      'student_class',
-      'phone'
-    ]
+    const bookParams = ['book_name', 'student_name', 'student_class', 'phone', 'lend_day']
     let queryLength = 0
     bookParams.forEach((pos: string) => {
       if (params.body && params.body[pos]) {
-        url += queryLength>0 ? '&' : ''
+        url += queryLength > 0 ? '&' : ''
         queryLength++
         url += `${pos}=${params.body[pos]}`
       }
-    });
+    })
     try {
       const axiosResponse = await axios.get(url, headers)
       return new Promise((resolve) =>
